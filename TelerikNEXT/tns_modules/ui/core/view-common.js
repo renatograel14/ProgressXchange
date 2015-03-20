@@ -64,10 +64,6 @@ var knownEvents;
     knownEvents.unloaded = "unloaded";
 })(knownEvents = exports.knownEvents || (exports.knownEvents = {}));
 var viewIdCounter = 0;
-exports.idProperty = new dependencyObservable.Property("id", "View", new proxy.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsStyle));
-exports.cssClassProperty = new dependencyObservable.Property("cssClass", "View", new proxy.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsStyle, onCssClassPropertyChanged));
-exports.isEnabledProperty = new dependencyObservable.Property("isEnabled", "View", new proxy.PropertyMetadata(true));
-exports.isUserInteractionEnabledProperty = new dependencyObservable.Property("isUserInteractionEnabled", "View", new proxy.PropertyMetadata(true));
 function onCssClassPropertyChanged(data) {
     var view = data.object;
     if (types.isString(data.newValue)) {
@@ -77,6 +73,10 @@ function onCssClassPropertyChanged(data) {
         view._cssClasses.length = 0;
     }
 }
+var idProperty = new dependencyObservable.Property("id", "View", new proxy.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsStyle));
+var cssClassProperty = new dependencyObservable.Property("cssClass", "View", new proxy.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsStyle, onCssClassPropertyChanged));
+var isEnabledProperty = new dependencyObservable.Property("isEnabled", "View", new proxy.PropertyMetadata(true));
+var isUserInteractionEnabledProperty = new dependencyObservable.Property("isUserInteractionEnabled", "View", new proxy.PropertyMetadata(true));
 var View = (function (_super) {
     __extends(View, _super);
     function View(options) {
@@ -217,40 +217,40 @@ var View = (function (_super) {
     });
     Object.defineProperty(View.prototype, "isEnabled", {
         get: function () {
-            return this._getValue(exports.isEnabledProperty);
+            return this._getValue(View.isEnabledProperty);
         },
         set: function (value) {
-            this._setValue(exports.isEnabledProperty, value);
+            this._setValue(View.isEnabledProperty, value);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(View.prototype, "isUserInteractionEnabled", {
         get: function () {
-            return this._getValue(exports.isUserInteractionEnabledProperty);
+            return this._getValue(View.isUserInteractionEnabledProperty);
         },
         set: function (value) {
-            this._setValue(exports.isUserInteractionEnabledProperty, value);
+            this._setValue(View.isUserInteractionEnabledProperty, value);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(View.prototype, "id", {
         get: function () {
-            return this._getValue(exports.idProperty);
+            return this._getValue(View.idProperty);
         },
         set: function (value) {
-            this._setValue(exports.idProperty, value);
+            this._setValue(View.idProperty, value);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(View.prototype, "cssClass", {
         get: function () {
-            return this._getValue(exports.cssClassProperty);
+            return this._getValue(View.cssClassProperty);
         },
         set: function (value) {
-            this._setValue(exports.cssClassProperty, value);
+            this._setValue(View.cssClassProperty, value);
         },
         enumerable: true,
         configurable: true
@@ -547,7 +547,7 @@ var View = (function (_super) {
         }
         var thatContext = this.bindingContext;
         var eachChild = function (child) {
-            child._setValue(bindable.bindingContextProperty, thatContext, dependencyObservable.ValueSource.Inherited);
+            child._setValue(bindable.Bindable.bindingContextProperty, thatContext, dependencyObservable.ValueSource.Inherited);
             return true;
         };
         this._eachChildView(eachChild);
@@ -596,7 +596,7 @@ var View = (function (_super) {
         trace.write("called _addView on view " + this._domId + " for a child " + view._domId, trace.categories.ViewHierarchy);
     };
     View.prototype._addViewCore = function (view) {
-        view._setValue(bindable.bindingContextProperty, this.bindingContext, dependencyObservable.ValueSource.Inherited);
+        view._setValue(bindable.Bindable.bindingContextProperty, this.bindingContext, dependencyObservable.ValueSource.Inherited);
         view._inheritProperties(this);
         view.style._inheritStyleProperties();
         if (!view._isAddedToNativeVisualTree) {
@@ -635,7 +635,7 @@ var View = (function (_super) {
         if (view.isLoaded) {
             view.onUnloaded();
         }
-        view._setValue(bindable.bindingContextProperty, undefined, dependencyObservable.ValueSource.Inherited);
+        view._setValue(bindable.Bindable.bindingContextProperty, undefined, dependencyObservable.ValueSource.Inherited);
         var inheritablePropertiesSetCallback = function (property) {
             if (property instanceof styling.Property || property.name === "bindingContext") {
                 return true;
@@ -699,6 +699,10 @@ var View = (function (_super) {
     View.prototype.focus = function () {
         return undefined;
     };
+    View.idProperty = idProperty;
+    View.cssClassProperty = cssClassProperty;
+    View.isEnabledProperty = isEnabledProperty;
+    View.isUserInteractionEnabledProperty = isUserInteractionEnabledProperty;
     return View;
 })(proxy.ProxyObject);
 exports.View = View;

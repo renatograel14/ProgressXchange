@@ -1,69 +1,87 @@
-﻿import observable = require("data/observable");
-
-export class AppViewModel extends observable.Observable {
-    constructor() {
-        super();
-
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var observable = require("data/observable");
+var AppViewModel = (function (_super) {
+    __extends(AppViewModel, _super);
+    function AppViewModel() {
+        _super.call(this);
+        this._search = "";
         this.selectedIndex = 0;
     }
-
-    private _sessions: Array<SessionModel>;
-    get sessions(): Array<SessionModel> {
-        return this._sessions;
-    }
-
-    get favorites(): Array<SessionModel> {
-        return this.sessions.filter(i=> { return i.favorite });
-    }
-
-    get speakers(): Array<Speakers> {
-        return speakers;
-    }
-
-    private _search = "";
-    get search(): string {
-        return this._search;
-    }
-    set search(value: string) {
-        if (this._search !== value) {
-            this._search = value;
-            this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "search", value: value });
-
-            this.filter();
-        }
-    }
-
-    private _selectedIndex;
-    get selectedIndex(): number {
-        return this._selectedIndex;
-    }
-    set selectedIndex(value: number) {
-        if (this._selectedIndex !== value) {
-            this._selectedIndex = value;
-            this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "selectedIndex", value: value });
-
-            if (this.search !== "") {
-                this.search = "";
-            } else {
+    Object.defineProperty(AppViewModel.prototype, "sessions", {
+        get: function () {
+            return this._sessions;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AppViewModel.prototype, "favorites", {
+        get: function () {
+            return this.sessions.filter(function (i) {
+                return i.favorite;
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AppViewModel.prototype, "speakers", {
+        get: function () {
+            return speakers;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AppViewModel.prototype, "search", {
+        get: function () {
+            return this._search;
+        },
+        set: function (value) {
+            if (this._search !== value) {
+                this._search = value;
+                this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "search", value: value });
                 this.filter();
             }
-        }
-    }
-
-    private filter() {
-        this._sessions = sessions.filter(s=> {
-            return s.start.getDay() === dates[this.selectedIndex].getDay()
-                && s.title.toLocaleLowerCase().indexOf(this.search.toLocaleLowerCase()) >= 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AppViewModel.prototype, "selectedIndex", {
+        get: function () {
+            return this._selectedIndex;
+        },
+        set: function (value) {
+            if (this._selectedIndex !== value) {
+                this._selectedIndex = value;
+                this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "selectedIndex", value: value });
+                if (this.search !== "") {
+                    this.search = "";
+                }
+                else {
+                    this.filter();
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AppViewModel.prototype.filter = function () {
+        var _this = this;
+        this._sessions = sessions.filter(function (s) {
+            return s.start.getDay() === dates[_this.selectedIndex].getDay() && s.title.toLocaleLowerCase().indexOf(_this.search.toLocaleLowerCase()) >= 0;
         });
-
         this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "sessions", value: this._sessions });
-    }
-}
-
-export class SessionModel extends observable.Observable implements Session {
-    constructor(source?: Session) {
-        super();
-
+    };
+    return AppViewModel;
+})(observable.Observable);
+exports.AppViewModel = AppViewModel;
+var SessionModel = (function (_super) {
+    __extends(SessionModel, _super);
+    function SessionModel(source) {
+        _super.call(this);
         if (source) {
             this._title = source.title;
             this._room = source.room;
@@ -71,53 +89,67 @@ export class SessionModel extends observable.Observable implements Session {
             this._end = source.end;
         }
     }
-
-    private _title: string;
-    private _start: Date;
-    private _end: Date;
-    private _room: string;
-    private _favorite: boolean;
-
-    get title(): string {
-        return this._title;
-    }
-
-    get room(): string {
-        return this._room;
-    }
-
-    get start(): Date {
-        return this._start;
-    }
-
-    get end(): Date {
-        return this._end;
-    }
-
-    get range(): string {
-        var startMinutes = this.start.getMinutes() + "";
-        var endMinutes = this.end.getMinutes() + "";
-
-        return this.start.getHours() + ':' + (startMinutes.length === 1 ? '0' + startMinutes : startMinutes) +
-            ' - ' + this.end.getHours() + ':' + (endMinutes.length === 1 ? '0' + endMinutes : endMinutes);
-    }
-
-    get canBeFavorited(): boolean {
-        return this.title.indexOf("Registration") === -1 && this.title.indexOf("Lunch") === -1 && this.title.indexOf("PM Break") === -1;
-    }
-
-    get favorite(): boolean {
-        return this._favorite;
-    }
-    set favorite(value: boolean) {
-        if (this._favorite !== value) {
-            this._favorite = value;
-            this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "favorite", value: this._favorite });
-        }
-    }
-}
-
-var sessions: Array<SessionModel> = [
+    Object.defineProperty(SessionModel.prototype, "title", {
+        get: function () {
+            return this._title;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SessionModel.prototype, "room", {
+        get: function () {
+            return this._room;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SessionModel.prototype, "start", {
+        get: function () {
+            return this._start;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SessionModel.prototype, "end", {
+        get: function () {
+            return this._end;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SessionModel.prototype, "range", {
+        get: function () {
+            var startMinutes = this.start.getMinutes() + "";
+            var endMinutes = this.end.getMinutes() + "";
+            return this.start.getHours() + ':' + (startMinutes.length === 1 ? '0' + startMinutes : startMinutes) + ' - ' + this.end.getHours() + ':' + (endMinutes.length === 1 ? '0' + endMinutes : endMinutes);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SessionModel.prototype, "canBeFavorited", {
+        get: function () {
+            return this.title.indexOf("Registration") === -1 && this.title.indexOf("Lunch") === -1 && this.title.indexOf("PM Break") === -1;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SessionModel.prototype, "favorite", {
+        get: function () {
+            return this._favorite;
+        },
+        set: function (value) {
+            if (this._favorite !== value) {
+                this._favorite = value;
+                this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "favorite", value: this._favorite });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return SessionModel;
+})(observable.Observable);
+exports.SessionModel = SessionModel;
+var sessions = [
     new SessionModel({
         title: "Registration",
         start: new Date(2015, 5, 3, 8, 30),
@@ -177,295 +209,334 @@ var sessions: Array<SessionModel> = [
         start: new Date(2015, 5, 3, 1, 30),
         end: new Date(2015, 5, 3, 4, 30),
         room: "Workshop Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Registration",
         start: new Date(2015, 5, 4, 7, 30),
         end: new Date(2015, 5, 4, 9, 0),
         room: ""
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Telerik Keynote",
         start: new Date(2015, 5, 4, 9, 0),
         end: new Date(2015, 5, 4, 10, 30),
         room: "General Session"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "A Lap Around NativeScript",
         start: new Date(2015, 5, 4, 10, 45),
         end: new Date(2015, 5, 4, 11, 30),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Kendo UI Building Blocks",
         start: new Date(2015, 5, 4, 10, 45),
         end: new Date(2015, 5, 4, 11, 30),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "CRUD with ASP.NET MVC, Web API, EF and Kendo UI",
         start: new Date(2015, 5, 4, 10, 45),
         end: new Date(2015, 5, 4, 11, 30),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Best Practices for Understanding and Implementing Website Project Requirements",
         start: new Date(2015, 5, 4, 10, 45),
         end: new Date(2015, 5, 4, 11, 30),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Getting Started with ScreenBuilder",
         start: new Date(2015, 5, 4, 11, 45),
         end: new Date(2015, 5, 4, 12, 30),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Getting Started with AngularJS",
         start: new Date(2015, 5, 4, 11, 45),
         end: new Date(2015, 5, 4, 12, 30),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Zero to Hipster with the M.I.K.E. Stack",
         start: new Date(2015, 5, 4, 11, 45),
         end: new Date(2015, 5, 4, 12, 30),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Content Meets Commerce, Email and Analytics to Build the New Data-Driven Marketing Machine",
         start: new Date(2015, 5, 4, 11, 45),
         end: new Date(2015, 5, 4, 12, 30),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Lunch",
         start: new Date(2015, 5, 4, 12, 30),
         end: new Date(2015, 5, 4, 1, 30),
         room: ""
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Hybrid vs Native vs Web: Which is Right for Me?",
         start: new Date(2015, 5, 4, 1, 30),
         end: new Date(2015, 5, 4, 2, 15),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "AngularJS Directives For Kendo UI",
         start: new Date(2015, 5, 4, 1, 30),
         end: new Date(2015, 5, 4, 2, 15),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Using Kendo UI in SharePoint/Office 365",
         start: new Date(2015, 5, 4, 1, 30),
         end: new Date(2015, 5, 4, 2, 15),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Develop the Next Generation of Content-Driven Mobile Apps",
         start: new Date(2015, 5, 4, 1, 30),
         end: new Date(2015, 5, 4, 2, 15),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "PM Break",
         start: new Date(2015, 5, 4, 2, 15),
         end: new Date(2015, 5, 4, 2, 30),
         room: ""
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "AppBuilder in 45 Minutes",
         start: new Date(2015, 5, 4, 2, 30),
         end: new Date(2015, 5, 4, 3, 15),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Mastering JavaScript",
         start: new Date(2015, 5, 4, 2, 30),
         end: new Date(2015, 5, 4, 3, 15),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Building Mobile Apps with Visual Studio",
         start: new Date(2015, 5, 4, 2, 30),
         end: new Date(2015, 5, 4, 3, 15),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Building a CRM Portal in 60 Minutes",
         start: new Date(2015, 5, 4, 2, 30),
         end: new Date(2015, 5, 4, 3, 15),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "NativeScript Extensibility",
         start: new Date(2015, 5, 4, 3, 30),
         end: new Date(2015, 5, 4, 4, 15),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "There's a Cordova Plugin for that!",
         start: new Date(2015, 5, 4, 3, 30),
         end: new Date(2015, 5, 4, 4, 15),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "AngularJS and Kendo UI",
         start: new Date(2015, 5, 4, 3, 30),
         end: new Date(2015, 5, 4, 4, 15),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Continuous Delivery and Telerik Sitefinity",
         start: new Date(2015, 5, 4, 3, 30),
         end: new Date(2015, 5, 4, 4, 15),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Telerik Leadership Panel - Q&A",
         start: new Date(2015, 5, 4, 4, 30),
         end: new Date(2015, 5, 4, 5, 15),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Accelerate your Agile Adoption",
         start: new Date(2015, 5, 4, 4, 30),
         end: new Date(2015, 5, 4, 5, 15),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "No Kidding, Real World Tester/Developer Collaboration",
         start: new Date(2015, 5, 4, 4, 30),
         end: new Date(2015, 5, 4, 5, 15),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Sitefinity",
         start: new Date(2015, 5, 4, 4, 30),
         end: new Date(2015, 5, 4, 5, 15),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Attendee Appreciation Party",
         start: new Date(2015, 5, 4, 7, 0),
         end: new Date(2015, 5, 4, 10, 30),
         room: ""
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Registration",
         start: new Date(2015, 5, 5, 8, 0),
         end: new Date(2015, 5, 5, 9, 0),
         room: ""
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Sitefinity Keynote",
         start: new Date(2015, 5, 5, 9, 0),
         end: new Date(2015, 5, 5, 10, 30),
         room: "General Session"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Introduction to Mobile Testing and Device Cloud",
         start: new Date(2015, 5, 5, 10, 45),
         end: new Date(2015, 5, 5, 11, 30),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Data is Beautiful with Kendo UI DataViz",
         start: new Date(2015, 5, 5, 10, 45),
         end: new Date(2015, 5, 5, 11, 30),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Mastering How to Visualize Data in ASP.NET MVC",
         start: new Date(2015, 5, 5, 10, 45),
         end: new Date(2015, 5, 5, 11, 30),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Using Sitefinity to Power Web 3.0 Experiences",
         start: new Date(2015, 5, 5, 10, 45),
         end: new Date(2015, 5, 5, 11, 30),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Building Offline-Ready Mobile Apps",
         start: new Date(2015, 5, 5, 11, 45),
         end: new Date(2015, 5, 5, 12, 30),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Kendo UI Mobile: What It Can And Can't Do For You",
         start: new Date(2015, 5, 5, 11, 45),
         end: new Date(2015, 5, 5, 12, 30),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "ASP.NET with Telerik UI!",
         start: new Date(2015, 5, 5, 11, 45),
         end: new Date(2015, 5, 5, 12, 30),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Cross-Channel Data Integration with Digital Experience Cloud",
         start: new Date(2015, 5, 5, 11, 45),
         end: new Date(2015, 5, 5, 12, 30),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Lunch",
         start: new Date(2015, 5, 5, 12, 30),
         end: new Date(2015, 5, 5, 1, 30),
         room: ""
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Performance Tuning Your Mobile Web Apps",
         start: new Date(2015, 5, 5, 1, 30),
         end: new Date(2015, 5, 5, 2, 15),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Improving Applications with Telerik Analytics",
         start: new Date(2015, 5, 5, 1, 30),
         end: new Date(2015, 5, 5, 2, 15),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Reporting vs Dashboards vs UI Data Apps",
         start: new Date(2015, 5, 5, 1, 30),
         end: new Date(2015, 5, 5, 2, 15),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Modern MVC and Front-End Development with Telerik Sitefinity",
         start: new Date(2015, 5, 5, 1, 30),
         end: new Date(2015, 5, 5, 2, 15),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "PM Break",
         start: new Date(2015, 5, 5, 2, 15),
         end: new Date(2015, 5, 5, 2, 30),
         room: ""
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Telerik Native Mobile UI for iOS and Android",
         start: new Date(2015, 5, 5, 2, 30),
         end: new Date(2015, 5, 5, 3, 15),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "IoT and the Telerik Platform",
         start: new Date(2015, 5, 5, 2, 30),
         end: new Date(2015, 5, 5, 3, 15),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Debugging with Fiddler",
         start: new Date(2015, 5, 5, 2, 30),
         end: new Date(2015, 5, 5, 3, 15),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Anticipating & Planning of Peak Online Traffic for Professional Football's Biggest Games",
         start: new Date(2015, 5, 5, 2, 30),
         end: new Date(2015, 5, 5, 3, 15),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Building a Mobile App API using MongoDB and Node.js",
         start: new Date(2015, 5, 5, 3, 30),
         end: new Date(2015, 5, 5, 4, 15),
         room: "Conference Room 1"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Advanced Kendo UI",
         start: new Date(2015, 5, 5, 3, 30),
         end: new Date(2015, 5, 5, 4, 15),
         room: "Conference Room 2"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Building Touch Apps with UI for WPF",
         start: new Date(2015, 5, 5, 3, 30),
         end: new Date(2015, 5, 5, 4, 15),
         room: "Conference Room 3"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Making the Most Out of Sitefinity Personalization",
         start: new Date(2015, 5, 5, 3, 30),
         end: new Date(2015, 5, 5, 4, 15),
         room: "Conference Room 4"
-    }), new SessionModel({
+    }),
+    new SessionModel({
         title: "Closing Keynote",
         start: new Date(2015, 5, 5, 4, 30),
         end: new Date(2015, 5, 5, 5, 15),
         room: "General Session"
-    })];
-
-var dates: Array<Date> = [new Date(2015, 5, 3), new Date(2015, 5, 4), new Date(2015, 5, 5)];
-
-interface Session {
-    title: string;
-    start: Date;
-    end: Date;
-    room: string;
-}
-
-interface Speakers {
-    name: string;
-    title: string;
-    company: string;
-    picture: string;
-}
-
-var speakers: Array<Speakers> = [
+    })
+];
+var dates = [new Date(2015, 5, 3), new Date(2015, 5, 4), new Date(2015, 5, 5)];
+var speakers = [
     {
         name: "Todd Anglin",
         title: "Vice President of Product Strategy",
@@ -525,4 +596,6 @@ var speakers: Array<Speakers> = [
         title: "Product Marketing Manager",
         company: "Telerik",
         picture: "~/app/images/svetla.png"
-    }];
+    }
+];
+//# sourceMappingURL=app-view-model.js.map

@@ -76,7 +76,9 @@ var screen = (function () {
                 mainScreenInfo = {
                     widthPixels: metrics.widthPixels,
                     heightPixels: metrics.heightPixels,
-                    scale: metrics.density
+                    scale: metrics.density,
+                    widthDIPs: metrics.widthPixels / metrics.density,
+                    heightDIPs: metrics.heightPixels / metrics.density
                 };
             }
             return mainScreenInfo;

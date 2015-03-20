@@ -1,4 +1,4 @@
 {
-    "name" : "observable-array",
-    "main" : "observable-array.js"
+	"name" : "observable-array",
+	"main" : "observable-array.js"
 }

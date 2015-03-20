@@ -14,6 +14,7 @@ var stylers = require("ui/styling/stylers");
 var styleProperty = require("ui/styling/style-property");
 var converters = require("ui/styling/converters");
 var enums = require("ui/enums");
+var imageSource = require("image-source");
 var _registeredHandlers = {};
 var _handlersCache = {};
 var noStylingClasses = {};
@@ -39,6 +40,16 @@ var Style = (function (_super) {
         },
         set: function (value) {
             this._setValue(exports.backgroundColorProperty, value, observable.ValueSource.Local);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Style.prototype, "backgroundImage", {
+        get: function () {
+            return this._getValue(exports.backgroundImageProperty);
+        },
+        set: function (value) {
+            this._setValue(exports.backgroundImageProperty, value, observable.ValueSource.Local);
         },
         enumerable: true,
         configurable: true
@@ -366,6 +377,21 @@ function getHandler(property, view) {
 }
 exports.getHandler = getHandler;
 exports.colorProperty = new styleProperty.Property("color", "color", new observable.PropertyMetadata(undefined, observable.PropertyMetadataSettings.Inheritable, undefined, undefined, color.Color.equals), converters.colorConverter);
+exports.backgroundImageProperty = new styleProperty.Property("backgroundImage", "background-image", new observable.PropertyMetadata(undefined, observable.PropertyMetadataSettings.None, onBackgroundImagePropertyChanged));
+function onBackgroundImagePropertyChanged(data) {
+    var style = data.object;
+    var pattern = /url\(('|")(.*?)\1\)/;
+    var url = data.newValue.match(pattern)[2];
+    if (imageSource.isFileOrResourcePath(url)) {
+        style._setValue(exports.backgroundImageSourceProperty, imageSource.fromFileOrResource(url), observable.ValueSource.Local);
+    }
+    else if (types.isString(url)) {
+        imageSource.fromUrl(url).then(function (r) {
+            style._setValue(exports.backgroundImageSourceProperty, r, observable.ValueSource.Local);
+        });
+    }
+}
+exports.backgroundImageSourceProperty = new styleProperty.Property("backgroundImageSource", "background-image-source", new observable.PropertyMetadata(undefined, observable.PropertyMetadataSettings.None, undefined, undefined, undefined));
 exports.backgroundColorProperty = new styleProperty.Property("backgroundColor", "background-color", new observable.PropertyMetadata(undefined, observable.PropertyMetadataSettings.None, undefined, undefined, color.Color.equals), converters.colorConverter);
 exports.fontSizeProperty = new styleProperty.Property("fontSize", "font-size", new observable.PropertyMetadata(undefined, observable.PropertyMetadataSettings.AffectsLayout | observable.PropertyMetadataSettings.Inheritable), converters.fontSizeConverter);
 exports.textAlignmentProperty = new styleProperty.Property("textAlignment", "text-align", new observable.PropertyMetadata(undefined, observable.PropertyMetadataSettings.AffectsLayout | observable.PropertyMetadataSettings.Inheritable), converters.textAlignConverter);

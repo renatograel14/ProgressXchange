@@ -11,6 +11,8 @@ var trace = require("trace");
 var builder = require("ui/builder");
 var fs = require("file-system");
 var utils = require("utils/utils");
+var platform = require("platform");
+var fileResolverModule = require("file-system/file-name-resolver");
 var frameStack = [];
 function buildEntryFromArgs(arg) {
     var entry;
@@ -61,17 +63,31 @@ function resolvePageFromEntry(entry) {
     }
     return page;
 }
+var fileNameResolver;
+function resolveFilePath(path, ext) {
+    if (!fileNameResolver) {
+        fileNameResolver = new fileResolverModule.FileNameResolver({
+            width: platform.screen.mainScreen.widthDIPs,
+            height: platform.screen.mainScreen.heightDIPs,
+            os: platform.device.os,
+            deviceType: platform.device.deviceType
+        });
+    }
+    return fileNameResolver.resolveFileName(path, ext);
+}
 function pageFromBuilder(moduleNamePath, moduleName, moduleExports) {
     var page;
     var element;
-    var fileName = moduleNamePath + ".xml";
-    if (fs.File.exists(fileName)) {
+    var fileName = resolveFilePath(moduleNamePath, "xml");
+    if (fileName) {
         trace.write("Loading XML file: " + fileName, trace.categories.Navigation);
         element = builder.load(fileName, moduleExports);
         if (element instanceof pages.Page) {
             page = element;
-            var cssFileName = moduleName + ".css";
-            page.addCssFile(cssFileName);
+            var cssFileName = resolveFilePath(moduleName, "css");
+            if (cssFileName) {
+                page.addCssFile(cssFileName);
+            }
         }
     }
     return page;

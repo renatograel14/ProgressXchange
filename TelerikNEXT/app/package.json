@@ -1,6 +1,7 @@
 {
-    "name": "TelerikNEXT",
-    "main": "app.js",
-    "version": "0.9.0",
-    "description": "TelerikNEXT by Telerik"
+	"name": "samples-TelerikNEXT",
+	"main": "app.js",
+	"version": "0.4.2",
+	"description": "NativeScript TelerikNEXT sample application",
+	"license": "BSD"
 }

@@ -1,5 +1,5 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
-  loaded="pageLoaded" xmlns:tsb="app/TelerikUI/side-bar">
+  loaded="pageLoaded" xmlns:tsb="app/TelerikNEXT/TelerikUI/side-bar">
   <tsb:SideBar title="TelerikNEXT">
     <tsb:SideBar.slideContent>
       <StackLayout style="background-color: white">
@@ -25,7 +25,7 @@
     <tsb:SideBar.mainContent>
       <GridLayout rows="auto, auto, *">
 
-        <StackLayout style="background-image: url('~/app/images/background.jpg')">
+        <StackLayout style="background-image: url('~/app/TelerikNEXT/images/background.jpg')">
           <SegmentedBar selectedIndex="{{ selectedIndex }}"  style="background-color: transparent;color: white;" selectedBackgroundColor="#fac950">
             <SegmentedBar.items>
               <SegmentedBarItem title="MAY 3" />
@@ -51,7 +51,7 @@
           <ListView.itemTemplate>
             <GridLayout columns="auto, *">
 
-              <Image src="{{ favorite ? '~/app/images/fav.png' : '~/app/images/addfav.png' }}" style.visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}"
+              <Image src="{{ favorite ? '~/app/TelerikNEXT/images/fav.png' : '~/app/TelerikNEXT/images/addfav.png' }}" style.visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}"
            tap="toggleFavorite" width="32" height="32" vertical-align="center" margin="20" />
 
               <StackLayout col="1">
