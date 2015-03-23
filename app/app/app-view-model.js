@@ -11,6 +11,7 @@ var AppViewModel = (function (_super) {
         _super.call(this);
         this._search = "";
         this.selectedIndex = 0;
+        this.selectedViewIndex = 1;
     }
     Object.defineProperty(AppViewModel.prototype, "sessions", {
         get: function () {
@@ -73,8 +74,32 @@ var AppViewModel = (function (_super) {
         this._sessions = sessions.filter(function (s) {
             return s.start.getDay() === dates[_this.selectedIndex].getDay() && s.title.toLocaleLowerCase().indexOf(_this.search.toLocaleLowerCase()) >= 0;
         });
+        
+        if(this.selectedViewIndex === 0) {
+        	this._sessions = this._sessions.filter(function (i) {
+                return i.favorite;
+            });
+        }
+        
         this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "sessions", value: this._sessions });
     };
+    
+    AppViewModel.prototype.selectView = function (args) {
+        var btn = args.object;
+        
+        if(btn.text === "My agenda") {
+          this.selectedViewIndex = 0;
+          this.filter();
+        } else if(btn.text === "All sessions") {
+          this.selectedViewIndex = 1;
+          this.filter();
+        } else if(btn.text === "About") {
+          this.selectedViewIndex = 2;
+        }
+        
+        this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "selectedViewIndex", value: this.selectedViewIndex });
+    };
+    
     return AppViewModel;
 })(observable.Observable);
 exports.AppViewModel = AppViewModel;

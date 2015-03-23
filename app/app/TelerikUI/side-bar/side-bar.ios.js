@@ -25,11 +25,23 @@ function onSlideContentPropertyChanged(data) {
     }
 }
 common.SideBar.slideContentProperty.metadata.onSetNativeValue = onSlideContentPropertyChanged;
+var SideBarContent = (function (_super) {
+    __extends(SideBarContent, _super);
+    function SideBarContent(bar) {
+        _super.call(this);
+        this._bar = bar;
+    }
+    SideBarContent.prototype.requestLayout = function () {
+        _super.prototype.requestLayout.call(this);
+        this._bar.requestLayout();
+    };
+    return SideBarContent;
+})(contentView.ContentView);
 var SideBar = (function (_super) {
     __extends(SideBar, _super);
     function SideBar() {
         _super.call(this);
-        this._mainContentHost = new contentView.ContentView();
+        this._mainContentHost = new SideBarContent(this);
         this._slideContentHost = new contentView.ContentView();
         this._ios = TKSideDrawer.alloc().initWithHostview(this._mainContentHost.ios);
         this._ios.content = this._slideContentHost.ios;

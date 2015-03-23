@@ -2,7 +2,7 @@
   loaded="pageLoaded" xmlns:tsb="app/TelerikUI/side-bar">
   <tsb:SideBar title="TelerikNEXT">
     <tsb:SideBar.slideContent>
-      <StackLayout style="background-color: white">
+      <StackLayout style="background-color: #053140">
         <Border style="background-color: gray">
           <Label>
             <Label.formattedText>
@@ -14,16 +14,22 @@
             </Label.formattedText>
           </Label>
         </Border>
+        
+        
+        
+        <Image src="~/app/images/logo.png" margin="20" />
 
-        <Button text="My agenda" horizontalAlignment="left" />
-        <Button text="Explore all sessions" horizontalAlignment="left" />
-        <Button text="About" horizontalAlignment="left"/>
+        <Button tap="{{ selectView }}" text="My agenda" horizontalAlignment="left" color="{{ selectedViewIndex === 0 ? '#e4ba4e' : 'white' }}"/>
+        <Button tap="{{ selectView }}" text="All sessions" horizontalAlignment="left" color="{{ selectedViewIndex === 1 ? '#e4ba4e' : 'white' }}" />
+        <Button tap="{{ selectView }}" text="About" horizontalAlignment="left" color="{{ selectedViewIndex === 2 ? '#e4ba4e' : 'white' }}"/>
 
       </StackLayout>
     </tsb:SideBar.slideContent>
 
     <tsb:SideBar.mainContent>
-      <GridLayout rows="auto, auto, *">
+     <GridLayout>     
+      
+      <GridLayout rows="auto, auto, *" visibility="{{ selectedViewIndex !== 2 ? 'visible' : 'collapsed' }}">
 
         <StackLayout style="background-image: url('~/app/images/background.jpg')">
           <SegmentedBar selectedIndex="{{ selectedIndex }}"  style="background-color: transparent;color: white;" selectedBackgroundColor="#fac950">
@@ -86,6 +92,12 @@
           </ListView.itemTemplate>
         </ListView>
 
+       </GridLayout>
+       
+        <Border style="background-color: #053140;" visibility="{{ selectedViewIndex === 2 ? 'visible' : 'collapsed' }}">
+         <Image src="~/app/images/logo.png" margin="20" />
+        </Border>
+       
       </GridLayout>
     </tsb:SideBar.mainContent>
   </tsb:SideBar>
