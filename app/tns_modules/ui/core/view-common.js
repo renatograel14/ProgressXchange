@@ -105,6 +105,66 @@ var View = (function (_super) {
     View.prototype.getViewById = function (id) {
         return getViewById(this, id);
     };
+    Object.defineProperty(View.prototype, "color", {
+        get: function () {
+            return this.style.color;
+        },
+        set: function (value) {
+            this.style.color = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "backgroundColor", {
+        get: function () {
+            return this.style.backgroundColor;
+        },
+        set: function (value) {
+            this.style.backgroundColor = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "fontSize", {
+        get: function () {
+            return this.style.fontSize;
+        },
+        set: function (value) {
+            this.style.fontSize = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "textAlignment", {
+        get: function () {
+            return this.style.textAlignment;
+        },
+        set: function (value) {
+            this.style.textAlignment;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "minWidth", {
+        get: function () {
+            return this.style.minWidth;
+        },
+        set: function (value) {
+            this.style.minWidth = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "minHeight", {
+        get: function () {
+            return this.style.minHeight;
+        },
+        set: function (value) {
+            this.style.minHeight = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(View.prototype, "width", {
         get: function () {
             return this.style.width;
@@ -125,42 +185,12 @@ var View = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(View.prototype, "minHeight", {
+    Object.defineProperty(View.prototype, "margin", {
         get: function () {
-            return this.style.minHeight;
+            return this.style.margin;
         },
         set: function (value) {
-            this.style.minHeight = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(View.prototype, "minWidth", {
-        get: function () {
-            return this.style.minWidth;
-        },
-        set: function (value) {
-            this.style.minWidth = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(View.prototype, "horizontalAlignment", {
-        get: function () {
-            return this.style.horizontalAlignment;
-        },
-        set: function (value) {
-            this.style.horizontalAlignment = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(View.prototype, "verticalAlignment", {
-        get: function () {
-            return this.style.verticalAlignment;
-        },
-        set: function (value) {
-            this.style.verticalAlignment = value;
+            this.style.margin = value;
         },
         enumerable: true,
         configurable: true
@@ -205,12 +235,92 @@ var View = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(View.prototype, "padding", {
+        get: function () {
+            return this.style.padding;
+        },
+        set: function (value) {
+            this.style.padding = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "paddingLeft", {
+        get: function () {
+            return this.style.paddingLeft;
+        },
+        set: function (value) {
+            this.style.paddingLeft = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "paddingTop", {
+        get: function () {
+            return this.style.paddingTop;
+        },
+        set: function (value) {
+            this.style.paddingTop = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "paddingRight", {
+        get: function () {
+            return this.style.paddingRight;
+        },
+        set: function (value) {
+            this.style.paddingRight = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "paddingBottom", {
+        get: function () {
+            return this.style.paddingBottom;
+        },
+        set: function (value) {
+            this.style.paddingBottom = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "horizontalAlignment", {
+        get: function () {
+            return this.style.horizontalAlignment;
+        },
+        set: function (value) {
+            this.style.horizontalAlignment = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "verticalAlignment", {
+        get: function () {
+            return this.style.verticalAlignment;
+        },
+        set: function (value) {
+            this.style.verticalAlignment = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(View.prototype, "visibility", {
         get: function () {
             return this.style.visibility;
         },
         set: function (value) {
             this.style.visibility = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "opacity", {
+        get: function () {
+            return this.style.opacity;
+        },
+        set: function (value) {
+            this.style.opacity = value;
         },
         enumerable: true,
         configurable: true
@@ -685,17 +795,6 @@ var View = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    View.prototype.applyXmlAttribute = function (attributeName, attributeValue) {
-        if (attributeName === "margin") {
-            this.style.margin = attributeValue;
-            return true;
-        }
-        else if (attributeName === "padding") {
-            this.style.padding = attributeValue;
-            return true;
-        }
-        return false;
-    };
     View.prototype.focus = function () {
         return undefined;
     };

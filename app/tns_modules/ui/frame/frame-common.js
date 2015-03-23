@@ -55,7 +55,7 @@ function resolvePageFromEntry(entry) {
             page = moduleExports.createPage();
         }
         else {
-            page = pageFromBuilder(moduleNamePath, entry.moduleName, moduleExports);
+            page = pageFromBuilder(moduleNamePath, moduleExports);
         }
         if (!(page && page instanceof pages.Page)) {
             throw new Error("Failed to load Page from entry.moduleName: " + entry.moduleName);
@@ -75,7 +75,7 @@ function resolveFilePath(path, ext) {
     }
     return fileNameResolver.resolveFileName(path, ext);
 }
-function pageFromBuilder(moduleNamePath, moduleName, moduleExports) {
+function pageFromBuilder(moduleNamePath, moduleExports) {
     var page;
     var element;
     var fileName = resolveFilePath(moduleNamePath, "xml");
@@ -84,7 +84,7 @@ function pageFromBuilder(moduleNamePath, moduleName, moduleExports) {
         element = builder.load(fileName, moduleExports);
         if (element instanceof pages.Page) {
             page = element;
-            var cssFileName = resolveFilePath(moduleName, "css");
+            var cssFileName = resolveFilePath(moduleNamePath, "css");
             if (cssFileName) {
                 page.addCssFile(cssFileName);
             }

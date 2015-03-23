@@ -74,32 +74,42 @@ var Style = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Style.prototype, "verticalAlignment", {
+    Object.defineProperty(Style.prototype, "minWidth", {
         get: function () {
-            return this._getValue(exports.verticalAlignmentProperty);
+            return this._getValue(exports.minWidthProperty);
         },
         set: function (value) {
-            this._setValue(exports.verticalAlignmentProperty, value, observable.ValueSource.Local);
+            this._setValue(exports.minWidthProperty, value, observable.ValueSource.Local);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Style.prototype, "horizontalAlignment", {
+    Object.defineProperty(Style.prototype, "minHeight", {
         get: function () {
-            return this._getValue(exports.horizontalAlignmentProperty);
+            return this._getValue(exports.minHeightProperty);
         },
         set: function (value) {
-            this._setValue(exports.horizontalAlignmentProperty, value, observable.ValueSource.Local);
+            this._setValue(exports.minHeightProperty, value, observable.ValueSource.Local);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Style.prototype, "padding", {
+    Object.defineProperty(Style.prototype, "width", {
         get: function () {
-            return this._getValue(exports.paddingProperty);
+            return this._getValue(exports.widthProperty);
         },
         set: function (value) {
-            this._setValue(exports.paddingProperty, value, observable.ValueSource.Local);
+            this._setValue(exports.widthProperty, value, observable.ValueSource.Local);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Style.prototype, "height", {
+        get: function () {
+            return this._getValue(exports.heightProperty);
+        },
+        set: function (value) {
+            this._setValue(exports.heightProperty, value, observable.ValueSource.Local);
         },
         enumerable: true,
         configurable: true
@@ -154,6 +164,16 @@ var Style = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Style.prototype, "padding", {
+        get: function () {
+            return this._getValue(exports.paddingProperty);
+        },
+        set: function (value) {
+            this._setValue(exports.paddingProperty, value, observable.ValueSource.Local);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Style.prototype, "paddingLeft", {
         get: function () {
             return this._getValue(exports.paddingLeftProperty);
@@ -194,42 +214,22 @@ var Style = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Style.prototype, "width", {
+    Object.defineProperty(Style.prototype, "horizontalAlignment", {
         get: function () {
-            return this._getValue(exports.widthProperty);
+            return this._getValue(exports.horizontalAlignmentProperty);
         },
         set: function (value) {
-            this._setValue(exports.widthProperty, value, observable.ValueSource.Local);
+            this._setValue(exports.horizontalAlignmentProperty, value, observable.ValueSource.Local);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Style.prototype, "height", {
+    Object.defineProperty(Style.prototype, "verticalAlignment", {
         get: function () {
-            return this._getValue(exports.heightProperty);
+            return this._getValue(exports.verticalAlignmentProperty);
         },
         set: function (value) {
-            this._setValue(exports.heightProperty, value, observable.ValueSource.Local);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Style.prototype, "minWidth", {
-        get: function () {
-            return this._getValue(exports.minWidthProperty);
-        },
-        set: function (value) {
-            this._setValue(exports.minWidthProperty, value, observable.ValueSource.Local);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Style.prototype, "minHeight", {
-        get: function () {
-            return this._getValue(exports.minHeightProperty);
-        },
-        set: function (value) {
-            this._setValue(exports.minHeightProperty, value, observable.ValueSource.Local);
+            this._setValue(exports.verticalAlignmentProperty, value, observable.ValueSource.Local);
         },
         enumerable: true,
         configurable: true

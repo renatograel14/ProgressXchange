@@ -79,6 +79,15 @@ var UITableViewDelegateImpl = (function (_super) {
         if (indexPath.row === this._owner.items.length - 1) {
             this._owner.notify({ eventName: LOADMOREITEMS, object: this._owner });
         }
+        if (cell.separatorInset) {
+            cell.separatorInset = UIEdgeInsetsZero;
+        }
+        if (cell.preservesSuperviewLayoutMargins) {
+            cell.preservesSuperviewLayoutMargins = false;
+        }
+        if (cell.layoutMargins) {
+            cell.layoutMargins = UIEdgeInsetsZero;
+        }
     };
     UITableViewDelegateImpl.prototype.tableViewWillSelectRowAtIndexPath = function (tableView, indexPath) {
         var cell = tableView.cellForRowAtIndexPath(indexPath);
