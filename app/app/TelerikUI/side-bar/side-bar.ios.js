@@ -74,6 +74,11 @@ var SideBar = (function (_super) {
         _super.prototype.onLoaded.call(this);
         this.ios.viewController = frame.topmost().currentPage.ios;
     };
+    SideBar.prototype.onUnloaded = function () {
+        this.parent._removeView(this._mainContentHost);
+        this._removeView(this._slideContentHost);
+        _super.prototype.onUnloaded.call(this);
+    };
     SideBar.prototype._onBindingContextChanged = function (oldValue, newValue) {
         _super.prototype._onBindingContextChanged.call(this, oldValue, newValue);
         if (this._mainContentHost instanceof view.View) {
@@ -103,3 +108,4 @@ var SideBar = (function (_super) {
     return SideBar;
 })(common.SideBar);
 exports.SideBar = SideBar;
+//# sourceMappingURL=side-bar.ios.js.map
