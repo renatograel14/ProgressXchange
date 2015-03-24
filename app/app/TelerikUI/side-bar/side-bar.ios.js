@@ -103,4 +103,3 @@ var SideBar = (function (_super) {
     return SideBar;
 })(common.SideBar);
 exports.SideBar = SideBar;
-//# sourceMappingURL=side-bar.ios.js.map

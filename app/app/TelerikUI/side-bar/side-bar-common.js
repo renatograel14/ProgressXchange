@@ -74,4 +74,3 @@ var SideBar = (function (_super) {
     return SideBar;
 })(view.View);
 exports.SideBar = SideBar;
-//# sourceMappingURL=side-bar-common.js.map
