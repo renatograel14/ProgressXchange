@@ -46,7 +46,7 @@ function onItemsPropertyChanged(data) {
             }));
             view.android.addTab(tab);
         }
-        if (view.android.getCurrentTab() !== view.selectedIndex) {
+        if (types.isNumber(view.selectedIndex) && view.android.getCurrentTab() !== view.selectedIndex) {
             view.android.setCurrentTab(view.selectedIndex);
         }
         view.android.setOnTabChangedListener(null);
@@ -88,7 +88,7 @@ var SegmentedBar = (function (_super) {
     }
     SegmentedBar.prototype._createUI = function () {
         this._android = new OurTabHost(this._context, null);
-        if (this._android.getCurrentTab() !== this.selectedIndex) {
+        if (types.isNumber(this.selectedIndex) && this._android.getCurrentTab() !== this.selectedIndex) {
             this._android.setCurrentTab(this.selectedIndex);
         }
         var that = new WeakRef(this);
