@@ -91,6 +91,9 @@ var TextBase = (function (_super) {
         }
     };
     TextBase.prototype._onFormattedTextPropertyChanged = function (data) {
+        if (data.newValue) {
+            data.newValue.parent = this;
+        }
         this.setFormattedTextPropertyToNative(data.newValue);
     };
     TextBase.prototype.onLayout = function (left, top, right, bottom) {
