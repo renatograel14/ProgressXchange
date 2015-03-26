@@ -1,19 +1,19 @@
 /* Page */
-Page{
+Page {
     background-color: white;
 }
 
-.action-bar-offset{
+.action-bar-offset {
     padding-top: 48;
 }
 
 
 /* Slide-out */
-.slide-out-img{
+.slide-out-img {
     margin: 16 0 30 16;
 }
 
-.slide-out-btn{
+.slide-out-btn {
     color: #e4ba4e;
     background-color: #053140;
     font-size: 14;
@@ -21,7 +21,7 @@ Page{
     horizontal-align: left;
 }
 
-.slide-out-btn-selected{
+.slide-out-btn-selected {
     color: white;
     background-color: #053140;
     font-size: 14;
@@ -30,7 +30,7 @@ Page{
 }
 
 
-.page-header{
+.page-header {
     background-image: url('~/app/images/background.jpg');
 }
 
@@ -39,30 +39,30 @@ Page{
     color: #fac950;
 }
 
-.session-page-title{
+.session-page-title {
     font-size: 20;
     color: #fac950;
 }
 
-.session-page-subtitle{
+.session-page-subtitle {
     font-size: 13;
     color: #A17201;
 }
 
 
-.favourite-image{
-   margin: 0 36 0 0;
-   vertical-align: center;
-   horizontal-align: left;
+.favourite-image {
+    margin: 0 36 0 0;
+    vertical-align: center;
+    horizontal-align: left;
 }
 
-.favourite-image-session{
-   margin: 0 36 0 16;
-   vertical-align: center;
-   horizontal-align: left;
+.favourite-image-session {
+    margin: 0 36 0 16;
+    vertical-align: center;
+    horizontal-align: left;
 }
 
-.search{
+.search {
     font-size: 14;
     background-color: #fac950;
     color: #fac950;
@@ -81,6 +81,11 @@ Page{
 .info-orange {
     font-size: 12;
     color: #A17201;
+}
+
+.description {
+    font-size: 14;
+    color: #555555;
 }
 
 .section-header {

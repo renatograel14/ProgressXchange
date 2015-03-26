@@ -42,15 +42,14 @@ Page{
 }
 
 .session-page-title{
-    font-size: 20;
+    font-size: 17;
     color: #fac950;
 }
 
 .session-page-subtitle{
-    font-size: 13;
+    font-size: 12;
     color: #A17201;
 }
-
 
 .favourite-image{
    margin: 0 36 0 0;
@@ -59,7 +58,7 @@ Page{
 }
 
 .favourite-image-session{
-   margin: 0 36 0 16;
+   margin: 0 36 0 12;
    vertical-align: center;
    horizontal-align: left;
 }
@@ -77,12 +76,19 @@ Page{
 
 .info-bigger {
     color: #555555;
-    font-size: 16;
+    font-size: 17;
+    margin: 0;
 }
 
 .info-orange {
     font-size: 12;
     color: #A17201;
+    margin: 0;
+}
+
+.description {
+    font-size: 15;
+    color: #555555;
 }
 
 .section-header {
@@ -98,14 +104,14 @@ Page{
 
 /* List rows */
 .break-row {
-    padding: 12 16;
+    padding: 12;
     background-color: #FFFBF0;
 }
 
 .list-view-row {
-    padding: 12 16;
+    padding: 12;
 }
 
 .speakers-row {
-    padding-top: 16;
+    padding-top: 12;
 }
