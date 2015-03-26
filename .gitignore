@@ -1,4 +1,12 @@
 */bin
 */obj
 
+*.js
+*.dat
+*.suo
+
+!*/tns_modules/*.*
+!bootstrap.js
+!everlive.js
+
 /platforms/
