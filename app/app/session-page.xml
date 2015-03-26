@@ -1,13 +1,13 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
-      xmlns:tsb="app/TelerikNEXT/TelerikNEXT/TelerikUI/side-bar"
-      navigatedTo="pageNavigatedTo">
+  xmlns:tsb="app/TelerikNEXT/TelerikNEXT/TelerikUI/side-bar"
+  navigatedTo="pageNavigatedTo">
 
   <GridLayout rows="auto, *">
     <!-- HEADER -->
-    <GridLayout columns="70, *" style="background-image: url('~/app/TelerikNEXT/images/background.jpg')">
-      <StackLayout col="1" margin="15 5">
-        <Label text="{{ title }}" textWrap="true" cssClass="page-title"/>
-        <Label cssClass="info-orange">
+    <GridLayout columns="auto, *" style="background-image: url('~/app/images/background.jpg')" cssClass="action-bar-offset">
+      <StackLayout margin="16 16 16 72">
+        <Label text="{{ title }}" textWrap="true" cssClass="session-page-title"/>
+        <Label cssClass="session-page-subtitle">
           <Label.formattedText>
             <FormattedString>
               <FormattedString.spans>
@@ -19,26 +19,25 @@
           </Label.formattedText>
         </Label>
       </StackLayout>
-      <Image tap="toggleFavorite" cssClass="favourite-image"
-        src="{{ favorite ? '~/app/TelerikNEXT/images/fav.png' : '~/app/TelerikNEXT/images/addfav.png' }}"
+      <Image stretch="none" tap="toggleFavorite" cssClass="favourite-image-session"
+        src="{{ favorite ? 'res://ic_add_to_fav_1' : 'res://ic_add_to_fav' }}"
         visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}" />
-    </GridLayout>
+      </GridLayout>
 
-    <!-- Scrollable content -->
-    <ScrollView row="1">
-      <GridLayout rows="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto" columns="70, *" >
+      <!-- Content -->
+      <GridLayout row="1" rows="auto, auto, auto, *" columns="56, *" margin="0 16" >
         <!-- Description -->
-        <Label cssClass="info" textWrap="true" col="1" margin="10 5 5 5"
-               text="TODO: Put description here." />
+        <Label cssClass="info" textWrap="true" col="1" margin="16 0" text="TODO: Put description here. Put description here. Put description here. Put description here. Put description here. Put description here. Put description here." />
 
-        <!-- Line -->
-        <StackLayout cssClass="horizontal-line"  row="1" col="1"/>
+         <!-- Line -->
+         <StackLayout cssClass="horizontal-line" row="1" col="1"/>
 
-        <!-- Speakers -->
-        <Label text="Speakers" cssClass="section-header" row="2" col="1" />
-        <ListView items="{{ speakers }}" row="3" colSpan="2" height="{{ speakers.length * 72 }}" selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">
+         <!-- Speakers -->
+         <Label text="Speakers" cssClass="section-header" row="2" col="1" />
+
+         <ListView items="{{ speakers }}" row="3" colSpan="2" selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">
           <ListView.itemTemplate>
-            <GridLayout columns="65, *" cssClass="list-view-row">
+            <GridLayout columns="56, *" cssClass="speakers-row">
               <Image src="{{ '~/app/TelerikNEXT/images/' + picture }}" verticalAlignment="top"/>
 
               <StackLayout col="1">
@@ -66,18 +65,6 @@
             </GridLayout>
           </ListView.itemTemplate>
         </ListView>
-
-        <!-- Line -->
-        <StackLayout cssClass="horizontal-line" row="4" col="1"/>
-
-        <!-- More -->
-        <Label text="More" cssClass="section-header" row="5" col="1"/>
-
-        <Label text="LEAVE FEEDBACK" row="6" col="1"/>
-
-        <Label text="WATCH VIDEOS" row="7" col="1"/>
-
       </GridLayout>
-    </ScrollView>
-  </GridLayout>
-</Page>
+    </GridLayout>
+  </Page>

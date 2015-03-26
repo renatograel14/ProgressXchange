@@ -2,10 +2,10 @@
 <resources>
 
     <!-- Application theme. -->
-    <color name="bgColor">#44000000</color>
+    <color name="bgColor">#00000000</color>
     
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <item name="android:windowActionBarOverlay">true</item>
+    <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
         <item name="android:actionMenuTextColor">#fff</item>
         <item name="android:windowContentOverlay">@null</item>
