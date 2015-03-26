@@ -1,5 +1,16 @@
+/* Page */
 Page{
     background-color: white;
+}
+
+.action-bar-offset{
+    padding-top: 48;
+}
+
+
+/* Slide-out */
+.slide-out-img{
+    margin: 16 0 30 16;
 }
 
 .slide-out-btn{
@@ -18,9 +29,7 @@ Page{
     horizontal-align: left;
 }
 
-.action-bar-offset{
-    padding-top: 48;
-}
+
 .page-header{
     background-image: url('~/app/images/background.jpg');
 }
@@ -74,6 +83,18 @@ Page{
     color: #A17201;
 }
 
+.section-header {
+    color: #A17201;
+    margin-top: 12;
+}
+
+.horizontal-line {
+    height: 1;
+    background-color: #FAC950;
+}
+
+
+/* List rows */
 .break-row {
     padding: 12 16;
     background-color: #FFFBF0;
@@ -85,14 +106,4 @@ Page{
 
 .speakers-row {
     padding-top: 16;
-}
-
-.section-header {
-    color: #A17201;
-    margin-top: 12;
-}
-
-.horizontal-line {
-    height: 1;
-    background-color: #FAC950;
 }

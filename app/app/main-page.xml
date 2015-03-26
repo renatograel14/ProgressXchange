@@ -3,8 +3,7 @@
   <tsb:SideBar>
     <tsb:SideBar.slideContent>
       <StackLayout style="background-color: #053140;">
-        
-        <Image src="res://logo" style="margin: 16 0 30 16;" stretch="none" />
+        <Image src="res://logo" cssClass="slide-out-img" stretch="none" />
         <Button tap="{{ selectView }}" cssClass="{{ selectedViewIndex === 0 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="My agenda" />
         <Button tap="{{ selectView }}" cssClass="{{ selectedViewIndex === 1 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="All sessions" />
         <Button tap="{{ selectView }}" cssClass="{{ selectedViewIndex === 2 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="About" />

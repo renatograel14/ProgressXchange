@@ -1,0 +1,111 @@
+/* Page */
+Page{
+    background-color: white;
+}
+
+.action-bar-offset{
+    /* Nothing to do here in iOS */
+}
+
+
+/* Slide-out */
+.slide-out-img{
+    margin: 20 0 30 12;
+}
+
+.slide-out-btn{
+    color: #e4ba4e;
+    background-color: #053140;
+    font-size: 19;
+    height: 44;
+    horizontal-align: left;
+    margin:  0 0 0 12;
+}
+
+.slide-out-btn-selected{
+    color: white;
+    background-color: #053140;
+    font-size: 19;
+    height: 44;
+    horizontal-align: left;
+    margin: 0 0 0 12;
+}
+
+
+.page-header{
+    background-image: url('~/app/images/background.jpg');
+}
+
+.page-title {
+    font-size: 14;
+    color: #fac950;
+}
+
+.session-page-title{
+    font-size: 20;
+    color: #fac950;
+}
+
+.session-page-subtitle{
+    font-size: 13;
+    color: #A17201;
+}
+
+
+.favourite-image{
+   margin: 0 36 0 0;
+   vertical-align: center;
+   horizontal-align: left;
+}
+
+.favourite-image-session{
+   margin: 0 36 0 16;
+   vertical-align: center;
+   horizontal-align: left;
+}
+
+.search{
+    font-size: 14;
+    background-color: #fac950;
+    color: #fac950;
+}
+
+.info {
+    font-size: 14;
+    color: #555555;
+}
+
+.info-bigger {
+    color: #555555;
+    font-size: 16;
+}
+
+.info-orange {
+    font-size: 12;
+    color: #A17201;
+}
+
+.section-header {
+    color: #A17201;
+    margin-top: 12;
+}
+
+.horizontal-line {
+    height: 1;
+    background-color: #FAC950;
+}
+
+
+/* List rows */
+.break-row {
+    padding: 12 16;
+    background-color: #FFFBF0;
+}
+
+.list-view-row {
+    padding: 12 16;
+}
+
+.speakers-row {
+    padding-top: 16;
+}
