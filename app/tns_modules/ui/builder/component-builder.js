@@ -29,9 +29,12 @@ var MODULES = {
     "WebView": "ui/web-view",
     "SegmentedBar": "ui/segmented-bar",
     "SegmentedBarItem": "ui/segmented-bar",
+    "ToolBar": "ui/tool-bar",
+    "ToolBarItem": "ui/tool-bar",
     "TimePicker": "ui/time-picker",
     "DatePicker": "ui/date-picker",
     "ListPicker": "ui/list-picker",
+    "MenuItem": "ui/page",
 };
 var ROW = "row";
 var COL = "col";
@@ -51,7 +54,7 @@ function getComponentModule(elementName, namespace, attributes, exports) {
         instance = new instanceType();
     }
     catch (ex) {
-        throw new Error("Cannot create module " + moduleId + ". " + ex);
+        throw new Error("Cannot create module " + moduleId + ". " + ex + ". StackTrace: " + ex.stack);
     }
     if (instance && instanceModule) {
         var bindings = new Array();

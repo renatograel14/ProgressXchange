@@ -86,6 +86,18 @@ var AutocapitalizationType;
     AutocapitalizationType.sentences = "sentences";
     AutocapitalizationType.allCharacters = "allCharacters";
 })(AutocapitalizationType = exports.AutocapitalizationType || (exports.AutocapitalizationType = {}));
+var NavigationBarVisibility;
+(function (NavigationBarVisibility) {
+    NavigationBarVisibility.auto = "auto";
+    NavigationBarVisibility.never = "never";
+    NavigationBarVisibility.always = "always";
+})(NavigationBarVisibility = exports.NavigationBarVisibility || (exports.NavigationBarVisibility = {}));
+var MenuItemPosition;
+(function (MenuItemPosition) {
+    MenuItemPosition.actionBar = "actionBar";
+    MenuItemPosition.actionBarIfRoom = "actionBarIfRoom";
+    MenuItemPosition.popup = "popup";
+})(MenuItemPosition = exports.MenuItemPosition || (exports.MenuItemPosition = {}));
 var ImageFormat;
 (function (ImageFormat) {
     ImageFormat.png = "png";

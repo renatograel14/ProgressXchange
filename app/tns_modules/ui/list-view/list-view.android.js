@@ -85,7 +85,7 @@ var ListView = (function (_super) {
         if (!this._android || !this._android.Adapter) {
             return;
         }
-        this.android.Adapter.notifyDataSetChanged();
+        this.android.getAdapter().notifyDataSetChanged();
     };
     ListView.prototype._onDetached = function (force) {
         _super.prototype._onDetached.call(this, force);

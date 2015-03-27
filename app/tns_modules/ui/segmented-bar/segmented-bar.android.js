@@ -75,9 +75,9 @@ var SegmentedBarColorDrawable = (function (_super) {
     }
     SegmentedBarColorDrawable.prototype.draw = function (canvas) {
         var p = new android.graphics.Paint();
-        p.setColor(this.Color);
+        p.setColor(this.getColor());
         p.setStyle(android.graphics.Paint.Style.FILL);
-        canvas.drawRect(0, this.Bounds.height() - 15, this.Bounds.width(), this.Bounds.height(), p);
+        canvas.drawRect(0, this.getBounds().height() - 15, this.getBounds().width(), this.getBounds().height(), p);
     };
     return SegmentedBarColorDrawable;
 })(android.graphics.drawable.ColorDrawable);

@@ -214,7 +214,7 @@ var Frame = (function (_super) {
     });
     Object.defineProperty(Frame.prototype, "backStack", {
         get: function () {
-            return this._backStack;
+            return this._backStack.slice();
         },
         enumerable: true,
         configurable: true
@@ -306,6 +306,8 @@ var Frame = (function (_super) {
     };
     Frame.prototype._removeViewFromNativeVisualTree = function (child) {
         child._isAddedToNativeVisualTree = false;
+    };
+    Frame.prototype._invalidateOptionsMenu = function () {
     };
     Frame.defaultAnimatedNavigation = true;
     return Frame;
