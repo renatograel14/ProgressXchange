@@ -17,7 +17,7 @@
           <!-- Header -->
           <StackLayout cssClass="page-header">
             <GridLayout style="background-color: #55000000" cssClass="action-bar-offset">
-              <SegmentedBar selectedIndex="{{ selectedIndex }}"  style="background-color: transparent;color: white;">
+              <SegmentedBar selectedBackgroundColor="#fac950" selectedIndex="{{ selectedIndex }}"  style="background-color: transparent;color: white;">
                 <SegmentedBar.items>
                   <SegmentedBarItem title="MAY 3" />
                   <SegmentedBarItem title="MAY 4" />
