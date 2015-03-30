@@ -1,3 +1,0 @@
-# view res/layout/tooltip_container.xml #generated:2
--keep class com.telerik.android.primitives.widget.tooltip.containers.PointerLayout { <init>(...); }
-
