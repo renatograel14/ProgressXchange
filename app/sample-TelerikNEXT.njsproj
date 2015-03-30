@@ -20,7 +20,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <TypeScriptSourceMap>False</TypeScriptSourceMap>
     <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
     <EnableTypeScript>true</EnableTypeScript>
@@ -33,11 +33,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="app\" />
-    <Folder Include="app\images\" />
-    <Folder Include="app\lib\" />
-    <Folder Include="app\TelerikUI\" />
-    <Folder Include="app\TelerikUI\side-bar\" />
     <Folder Include="App_Resources\" />
     <Folder Include="App_Resources\Android\" />
     <Folder Include="App_Resources\Android\drawable-hdpi\" />
@@ -50,6 +45,9 @@
     <Folder Include="App_Resources\Android\values-v21\" />
     <Folder Include="App_Resources\Android\values\" />
     <Folder Include="App_Resources\iOS\" />
+    <Folder Include="images\" />
+    <Folder Include="TelerikUI\" />
+    <Folder Include="TelerikUI\side-bar\" />
     <Folder Include="tns_modules\" />
     <Folder Include="tns_modules\application\" />
     <Folder Include="tns_modules\camera\" />
@@ -118,16 +116,8 @@
     <Folder Include="tns_modules\xml\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\app.android.css" />
-    <Content Include="app\app.ios.css" />
-    <Content Include="app\images\addfav.png" />
-    <Content Include="app\images\background.jpg" />
-    <Content Include="app\images\fav.png" />
-    <Content Include="app\images\logo.png" />
-    <Content Include="app\main-page.xml" />
-    <Content Include="app\package.json" />
-    <Content Include="app\session-page.xml" />
-    <Content Include="app\TelerikUI\side-bar\package.json" />
+    <Content Include="app.android.css" />
+    <Content Include="app.ios.css" />
     <Content Include="App_Resources\Android\drawable-hdpi\icon.png" />
     <Content Include="App_Resources\Android\drawable-hdpi\ic_add_to_fav.png" />
     <Content Include="App_Resources\Android\drawable-hdpi\ic_add_to_fav_1.png" />
@@ -213,6 +203,11 @@
     <Content Include="App_Resources\iOS\share%402x.png" />
     <Content Include="App_Resources\iOS\share%403x.png" />
     <Content Include="App_Resources\iOS\share.png" />
+    <Content Include="images\background.jpg" />
+    <Content Include="main-page.xml" />
+    <Content Include="package.json" />
+    <Content Include="session-page.xml" />
+    <Content Include="TelerikUI\side-bar\package.json" />
     <Content Include="tns_modules\application\package.json" />
     <Content Include="tns_modules\camera\package.json" />
     <Content Include="tns_modules\color\package.json" />
@@ -275,8 +270,9 @@
     <Content Include="tns_modules\xml\package.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="app\bootstrap.js" />
-    <Compile Include="app\lib\everlive.js" />
+    <Compile Include="TelerikUI\side-bar\side-bar-common.js" />
+    <Compile Include="TelerikUI\side-bar\side-bar.android.js" />
+    <Compile Include="TelerikUI\side-bar\side-bar.ios.js" />
     <Compile Include="tns_modules\application\application-common.js" />
     <Compile Include="tns_modules\application\application.android.js" />
     <Compile Include="tns_modules\application\application.ios.js" />
@@ -454,15 +450,15 @@
     <Compile Include="tns_modules\xml\xml.js" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app\app-view-model.ts" />
-    <TypeScriptCompile Include="app\app.ts" />
-    <TypeScriptCompile Include="app\everlive-upload.ts" />
-    <TypeScriptCompile Include="app\main-page.ts" />
-    <TypeScriptCompile Include="app\session-page.ts" />
-    <TypeScriptCompile Include="app\TelerikUI\side-bar\side-bar-common.ts" />
-    <TypeScriptCompile Include="app\TelerikUI\side-bar\side-bar.android.ts" />
-    <TypeScriptCompile Include="app\TelerikUI\side-bar\side-bar.d.ts" />
-    <TypeScriptCompile Include="app\TelerikUI\side-bar\side-bar.ios.ts" />
+    <TypeScriptCompile Include="app-view-model.ts" />
+    <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="everlive-upload.ts" />
+    <TypeScriptCompile Include="main-page.ts" />
+    <TypeScriptCompile Include="session-page.ts" />
+    <TypeScriptCompile Include="TelerikUI\side-bar\side-bar-common.ts" />
+    <TypeScriptCompile Include="TelerikUI\side-bar\side-bar.android.ts" />
+    <TypeScriptCompile Include="TelerikUI\side-bar\side-bar.d.ts" />
+    <TypeScriptCompile Include="TelerikUI\side-bar\side-bar.ios.ts" />
     <TypeScriptCompile Include="tns_modules\android17.d.ts" />
     <TypeScriptCompile Include="tns_modules\application\application.d.ts" />
     <TypeScriptCompile Include="tns_modules\camera\camera.d.ts" />

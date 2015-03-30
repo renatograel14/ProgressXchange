@@ -1,2 +1,2 @@
-D:\Work\GitHub\Telerik\TelerikNEXT\lib\Android\Primitives\bin\AndroidManifest.xml : \
-D:\Work\GitHub\Telerik\TelerikNEXT\lib\Android\Primitives\AndroidManifest.xml \
+C:\Work\GitHub\sample-TelerikNEXT\lib\Android\primitives\bin\AndroidManifest.xml : \
+C:\Work\GitHub\sample-TelerikNEXT\lib\Android\primitives\AndroidManifest.xml \

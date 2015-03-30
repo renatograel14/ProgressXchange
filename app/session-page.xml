@@ -1,0 +1,70 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd"
+  xmlns:tsb="TelerikNEXT/TelerikNEXT/TelerikUI/side-bar"
+  navigatedTo="pageNavigatedTo">
+
+  <GridLayout rows="auto, *">
+    <!-- HEADER -->
+    <GridLayout columns="auto, *" style="background-image: url('~/images/background.jpg')" cssClass="action-bar-offset">
+      <StackLayout margin="16 16 16 72">
+        <Label text="{{ title }}" textWrap="true" cssClass="session-page-title"/>
+        <Label cssClass="session-page-subtitle">
+          <Label.formattedText>
+            <FormattedString>
+              <FormattedString.spans>
+                <Span text="{{ range}}" fontAttributes="Bold" />
+                <Span text=", " fontAttributes="Bold" />
+                <Span text="{{ room }}" fontAttributes="Bold" />
+              </FormattedString.spans>
+            </FormattedString>
+          </Label.formattedText>
+        </Label>
+      </StackLayout>
+      <Image stretch="none" tap="toggleFavorite" cssClass="favourite-image-session"
+        src="{{ favorite ? 'res://ic_add_to_fav_1' : 'res://ic_add_to_fav' }}"
+        visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}" />
+      </GridLayout>
+
+      <!-- Content -->
+      <GridLayout row="1" rows="auto, auto, auto, *" columns="56, *" margin="0 16" >
+        <!-- Description -->
+        <Label cssClass="description" textWrap="true" col="1" margin="16 0" text="TODO: Put description here. Put description here. Put description here. Put description here. Put description here. Put description here. Put description here." />
+
+         <!-- Line -->
+         <StackLayout cssClass="horizontal-line" row="1" col="1"/>
+
+         <!-- Speakers -->
+         <Label text="Speakers" cssClass="section-header" row="2" col="1" />
+
+         <ListView items="{{ speakers }}" row="3" colSpan="2" selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">
+          <ListView.itemTemplate>
+            <GridLayout columns="56, *" cssClass="speakers-row">
+              <Image src="{{ '~/TelerikNEXT/images/' + picture }}" verticalAlignment="top"/>
+
+              <StackLayout col="1">
+                <Label cssClass="info">
+                  <Label.formattedText>
+                    <FormattedString>
+                      <FormattedString.spans>
+                        <Span text="{{ name }}" fontAttributes="Bold" />
+                      </FormattedString.spans>
+                    </FormattedString>
+                  </Label.formattedText>
+                </Label>
+                <Label cssClass="info">
+                  <Label.formattedText>
+                    <FormattedString>
+                      <FormattedString.spans>
+                        <Span text="{{ title }}" fontAttributes="Italic" />
+                      </FormattedString.spans>
+                    </FormattedString>
+                  </Label.formattedText>
+                </Label>
+                <Label text="{{ company }}" cssClass="info"/>
+              </StackLayout>
+
+            </GridLayout>
+          </ListView.itemTemplate>
+        </ListView>
+      </GridLayout>
+    </GridLayout>
+  </Page>
