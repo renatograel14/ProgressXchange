@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Contains the DependencyObservable class, which represents an extended Observable object that uses Property instances for value backing mechanism.
  */
 declare module "ui/core/dependency-observable" {

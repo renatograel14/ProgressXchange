@@ -370,59 +370,10 @@ declare module "ui/core/view" {
 
         _addView(view: View);
         _removeView(view: View);
+        _context: android.content.Context;
 
         // TODO: Implement logic for stripping these lines out
-        //@private
-        _domId: number;
-        _cssClasses: Array<string>;
-
-        _isAddedToNativeVisualTree: boolean;
-
-        /**
-         * Performs the core logic of adding a child view to the native visual tree. Returns true if the view's native representation has been successfully added, false otherwise.
-         */
-        _addViewToNativeVisualTree(view: View): boolean;
-        _removeViewFromNativeVisualTree(view: View): void;
-
-        _eachChildView(callback: (child: View) => boolean);
-        _childrenCount: number;
-
-        _context: android.content.Context;
-        _onAttached(context: android.content.Context): void;
-        _onContextChanged(): void;
-        _onDetached(force?: boolean): void;
-        _createUI(): void;
-
-        _prepareNativeView(view: UIView);
-
-        _checkMetadataOnPropertyChanged(metadata: dependencyObservable.PropertyMetadata);
-
-        _updateLayout(): void;
-
-        /**
-         * Called my measure method to cache measureSpecs.
-         */
-        _setCurrentMeasureSpecs(widthMeasureSpec: number, heightMeasureSpec: number): boolean;
-
-        /**
-         * Returns view measureSpecs.
-         */
-        _getCurrentMeasureSpecs(): { widthMeasureSpec: number; heightMeasureSpec: number };
-
-        /**
-         * Called my layout method to cache view bounds.
-         */
-        _setCurrentLayoutBounds(left: number, top: number, right: number, bottom: number): void;
-
-        /**
-         * Return view bounds.
-         */
-        _getCurrentLayoutBounds(): { left: number; top: number; right: number; bottom: number };
-
-        _goToVisualState(state: string);
-        _nativeView: any;
-        _isVisible: boolean;
-        //@endprivate
+        
     }
 
     /**
@@ -431,12 +382,7 @@ declare module "ui/core/view" {
     export class CustomLayoutView extends View {
     }
 
-    //@private
-    export class NativeViewGroup extends android.view.ViewGroup {
-        constructor(context: android.content.Context);
-        public setOwner(view: View);
-    }
-    //@endprivate
+    
 
     /**
      * Defines an interface for adding arrays declared in xml.

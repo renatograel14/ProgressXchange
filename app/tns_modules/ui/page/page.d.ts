@@ -6,6 +6,9 @@ declare module "ui/page" {
     import view = require("ui/core/view");
     import contentView = require("ui/content-view");
     import frame = require("ui/frame");
+    import dependencyObservable = require("ui/core/dependency-observable");
+    import bindable = require("ui/core/bindable");
+
     
 
     /**
@@ -28,10 +31,14 @@ declare module "ui/page" {
         export var navigatedTo: string;
     }
 
+    export module knownCollections {
+        export var optionsMenu: string;
+    }
+
     /**
      * Represents a logical unit for navigation (inside Frame).
      */
-    export class Page extends contentView.ContentView {
+    export class Page extends contentView.ContentView implements view.AddArrayFromBuilder {
 
         constructor(options?: Options)
 
@@ -63,6 +70,11 @@ declare module "ui/page" {
         frame: frame.Frame;
 
         /**
+         * Gets the OptionsMenu for this page.
+         */
+        optionsMenu: OptionsMenu;
+
+        /**
          * A method called before navigating to the page.
          * @param context - The data passed to the page through the NavigationEntry.context property.
          */
@@ -85,14 +97,19 @@ declare module "ui/page" {
          */
         onNavigatedFrom(isBackNavigation: boolean): void;
 
-        
-
+        /**
+         * Raised when navigation to the page is finished.
+         */
         on(event: string, callback: (data: observable.EventData) => void);
 
         /**
          * Raised when navigation to the page is finished.
          */
         on(event: "navigatedTo", callback: (args: NavigatedData) => void);
+
+        _addArrayFromBuilder(name: string, value: Array<any>): void;
+
+        
     }
 
     /**
@@ -114,4 +131,42 @@ declare module "ui/page" {
          */
         exports?: any;
     }
-} 
+
+    export class OptionsMenu {
+        addItem(item: MenuItem): void;
+        removeItem(item: MenuItem): void;
+        getItems(): Array<MenuItem>;
+        getItemAt(index: number): MenuItem;
+    }
+
+    export class MenuItem extends bindable.Bindable {
+
+        /**
+         * Represents the observable property backing the text property.
+         */
+        public static textProperty: dependencyObservable.Property;
+
+        /**
+         * Represents the observable property backing the icon property.
+         */
+        public static iconProperty: dependencyObservable.Property;
+
+        text: string;
+        icon: string;
+        android: AndroidMenuItemOptions;
+        on(event: string, callback: (data: observable.EventData) => void);
+        on(event: "tap", callback: (args: observable.EventData) => void);
+
+        
+    }
+
+    interface AndroidMenuItemOptions {
+
+        /**
+         * Specify if android menuItem should appear in the actionBar or in the popup.
+         * Use values from enums MenuItemPosition.
+         * Changes after menuItem is created are not supported.
+         */
+        position: string;
+    }
+}

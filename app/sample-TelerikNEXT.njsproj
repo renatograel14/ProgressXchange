@@ -112,6 +112,7 @@
     <Folder Include="tns_modules\ui\text-field\" />
     <Folder Include="tns_modules\ui\text-view\" />
     <Folder Include="tns_modules\ui\time-picker\" />
+    <Folder Include="tns_modules\ui\tool-bar\" />
     <Folder Include="tns_modules\ui\web-view\" />
     <Folder Include="tns_modules\utils\" />
     <Folder Include="tns_modules\xml\" />
@@ -269,6 +270,7 @@
     <Content Include="tns_modules\ui\text-field\package.json" />
     <Content Include="tns_modules\ui\text-view\package.json" />
     <Content Include="tns_modules\ui\time-picker\package.json" />
+    <Content Include="tns_modules\ui\tool-bar\package.json" />
     <Content Include="tns_modules\ui\web-view\package.json" />
     <Content Include="tns_modules\xml\package.json" />
   </ItemGroup>
@@ -312,8 +314,11 @@
     <Compile Include="tns_modules\local-settings\local-settings-common.js" />
     <Compile Include="tns_modules\local-settings\local-settings.android.js" />
     <Compile Include="tns_modules\local-settings\local-settings.ios.js" />
+    <Compile Include="tns_modules\location\location-common.js" />
     <Compile Include="tns_modules\location\location-manager.android.js" />
     <Compile Include="tns_modules\location\location-manager.ios.js" />
+    <Compile Include="tns_modules\location\location.android.js" />
+    <Compile Include="tns_modules\location\location.ios.js" />
     <Compile Include="tns_modules\location\location.js" />
     <Compile Include="tns_modules\platform\platform.android.js" />
     <Compile Include="tns_modules\platform\platform.ios.js" />
@@ -432,6 +437,9 @@
     <Compile Include="tns_modules\ui\time-picker\time-picker-common.js" />
     <Compile Include="tns_modules\ui\time-picker\time-picker.android.js" />
     <Compile Include="tns_modules\ui\time-picker\time-picker.ios.js" />
+    <Compile Include="tns_modules\ui\tool-bar\tool-bar-common.js" />
+    <Compile Include="tns_modules\ui\tool-bar\tool-bar.android.js" />
+    <Compile Include="tns_modules\ui\tool-bar\tool-bar.ios.js" />
     <Compile Include="tns_modules\ui\web-view\web-view-common.js" />
     <Compile Include="tns_modules\ui\web-view\web-view.android.js" />
     <Compile Include="tns_modules\ui\web-view\web-view.ios.js" />
@@ -529,6 +537,7 @@
     <TypeScriptCompile Include="tns_modules\ui\text-field\text-field.d.ts" />
     <TypeScriptCompile Include="tns_modules\ui\text-view\text-view.d.ts" />
     <TypeScriptCompile Include="tns_modules\ui\time-picker\time-picker.d.ts" />
+    <TypeScriptCompile Include="tns_modules\ui\tool-bar\tool-bar.d.ts" />
     <TypeScriptCompile Include="tns_modules\ui\web-view\web-view.d.ts" />
     <TypeScriptCompile Include="tns_modules\utils\containers.d.ts" />
     <TypeScriptCompile Include="tns_modules\utils\types.d.ts" />

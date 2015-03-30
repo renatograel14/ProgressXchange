@@ -1,6 +1,5 @@
-﻿declare module "ui/styling/css-selector" {
+declare module "ui/styling/css-selector" {
     import view = require("ui/core/view");
-    import observable = require("ui/core/dependency-observable");
     import cssParser = require("js-libs/reworkcss");
     import styleProperty = require("ui/styling/style-property");
 
@@ -9,7 +8,7 @@
 
         expression: string;
 
-        declarations: Array<{ property: string; value: any }>;
+        declarations(): Array<{ property: string; value: any }>;
 
         specificity: number;
 
@@ -46,12 +45,12 @@
         matches(view: view.View): boolean;
     }
 
-    function createSelector(expression: string, declarations: cssParser.Declaration[]): CssSelector;
+    export function createSelector(expression: string, declarations: cssParser.Declaration[]): CssSelector;
 
     class InlineStyleSelector extends CssSelector {
         constructor(declarations: cssParser.Declaration[]);
         apply(view: view.View);
     }
 
-    function applyInlineSyle(view: view.View, declarations: cssParser.Declaration[]);
+    export function applyInlineSyle(view: view.View, declarations: cssParser.Declaration[]);
 }

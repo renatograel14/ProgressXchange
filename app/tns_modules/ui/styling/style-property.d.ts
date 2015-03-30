@@ -1,4 +1,4 @@
-﻿declare module "ui/styling/style-property" {
+declare module "ui/styling/style-property" {
     import definition = require("ui/styling");
     import observable = require("ui/core/dependency-observable");
 

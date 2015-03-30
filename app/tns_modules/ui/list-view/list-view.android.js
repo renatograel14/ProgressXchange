@@ -82,7 +82,7 @@ var ListView = (function (_super) {
         configurable: true
     });
     ListView.prototype.refresh = function () {
-        if (!this._android || !this._android.Adapter) {
+        if (!this._android || !this._android.getAdapter()) {
             return;
         }
         this.android.getAdapter().notifyDataSetChanged();

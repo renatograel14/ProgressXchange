@@ -1,4 +1,4 @@
-﻿declare module "ui/core/bindable" {
+declare module "ui/core/bindable" {
     import dependencyObservable = require("ui/core/dependency-observable");
 
     /**
@@ -67,8 +67,6 @@
 
         _onBindingContextChanged(oldValue: any, newValue: any);
 
-        //@private
-        _updateTwoWayBinding(propertyName: string, value: any);
-        //@endprivate
+        
     }
 }
