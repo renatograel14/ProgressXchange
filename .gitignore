@@ -4,7 +4,6 @@
 *.js
 *.dat
 *.suo
-*local.proprties
 
 !*/tns_modules/*.*
 !bootstrap.js
