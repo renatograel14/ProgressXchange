@@ -9,5 +9,7 @@
 !bootstrap.js
 !everlive.js
 
-/platforms/
+/platforms/**/*.*
 /lib/
+
+!platforms/android/AndroidManifest.xml
