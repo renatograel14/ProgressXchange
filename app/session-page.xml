@@ -4,11 +4,14 @@
   <Page.optionsMenu>
     <MenuItem text="share" tap="shareTap" icon="ic_share" />
   </Page.optionsMenu>
-  
+
   <GridLayout rows="auto, *">
     <!-- HEADER -->
-    <GridLayout columns="auto, *" style="background-image: url('~/images/background.jpg')" cssClass="action-bar-offset">
-      <StackLayout margin="16 16 16 72">
+    <GridLayout columns="auto, *" rows="auto, auto" style="background-image: url('~/images/background.jpg')">
+      <GridLayout cssClass="action-bar">
+        
+      </GridLayout>
+      <StackLayout margin="16 16 16 72" row="1">
         <Label text="{{ title }}" textWrap="true" cssClass="session-page-title"/>
         <Label cssClass="session-page-subtitle">
           <Label.formattedText>
@@ -22,23 +25,27 @@
           </Label.formattedText>
         </Label>
       </StackLayout>
-      <Image stretch="none" tap="toggleFavorite" cssClass="favourite-image-session"
+      <Image stretch="none" tap="toggleFavorite" cssClass="favourite-image-session" row="1"
         src="{{ favorite ? 'res://ic_add_to_fav_1' : 'res://ic_add_to_fav' }}"
         visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}" />
-      </GridLayout>
+    </GridLayout>
 
-      <!-- Content -->
-      <GridLayout row="1" rows="auto, auto, auto, *" columns="56, *" margin="0 16" >
+    <!-- Content -->
+    <ScrollView row="1" id="scroll">
+    <GridLayout row="1" rows="auto, auto, auto, auto, *" columns="56, *" margin="0 16" >
         <!-- Description -->
-        <Label cssClass="description" textWrap="true" col="1" margin="16 0" text="TODO: Put description here. Put description here. Put description here. Put description here. Put description here. Put description here. Put description here." />
+        <Label cssClass="description" textWrap="true" col="1" id="txtDescription" text="{{ descriptionShort }}" />
 
-         <!-- Line -->
-         <StackLayout cssClass="horizontal-line" row="1" col="1"/>
+        <!-- Button -->
+        <Button text="MORE" tap="toogleDescritpion"  cssClass="more-button" row="1" col="1"/>
 
-         <!-- Speakers -->
-         <Label text="Speakers" cssClass="section-header" row="2" col="1" />
+        <!-- Line -->
+        <StackLayout cssClass="horizontal-line" row="2" col="1"/>
 
-         <ListView items="{{ speakers }}" row="3" colSpan="2" selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">
+        <!-- Speakers -->
+        <Label text="Speakers" cssClass="section-header" row="3" col="1" />
+
+        <ListView items="{{ speakers }}" row="4" colSpan="2" selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">
           <ListView.itemTemplate>
             <GridLayout columns="56, *" cssClass="speakers-row">
               <Image src="{{ '~/TelerikNEXT/images/' + picture }}" verticalAlignment="top"/>
@@ -69,5 +76,6 @@
           </ListView.itemTemplate>
         </ListView>
       </GridLayout>
-    </GridLayout>
-  </Page>
+    </ScrollView>
+  </GridLayout>
+</Page>

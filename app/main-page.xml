@@ -16,6 +16,10 @@
         <GridLayout rows="auto, auto, *" visibility="{{ selectedViewIndex !== 2 ? 'visible' : 'collapsed' }}">
           <!-- Header -->
           <StackLayout cssClass="page-header">
+            <GridLayout cssClass="action-bar" style="background-color: #55000000">
+              <Label text="{{ actionBarTitle }}" cssClass="action-bar-title" />
+            </GridLayout>
+            
             <GridLayout style="background-color: #55000000" cssClass="action-bar-offset">
               <SegmentedBar selectedBackgroundColor="#fac950" selectedIndex="{{ selectedIndex }}"  style="background-color: transparent;color: white;">
                 <SegmentedBar.items>

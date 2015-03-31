@@ -4,6 +4,10 @@ import gestures = require("ui/gestures");
 import platform = require("platform");
 import utils = require("utils/utils");
 import frame = require("ui/frame");
+import button = require("ui/button");
+import label = require("ui/label");
+import view = require("ui/core/view");
+import scrollView = require("ui/scroll-view");
 import appViewModel = require("./app-view-model");
 
 export function pageNavigatedTo(args: observable.EventData) {
@@ -16,7 +20,6 @@ export function toggleFavorite(args: gestures.GestureEventData) {
     var item = <appViewModel.SessionModel>args.view.bindingContext;
     item.toggleFavorite();
 }
-
 
 export function shareTap(args: observable.EventData) {
     var item = <appViewModel.SessionModel>(<pages.MenuItem>args.object).bindingContext;
@@ -37,5 +40,24 @@ export function shareTap(args: observable.EventData) {
         var controller = new UIActivityViewController(utils.ios.collections.jsArrayToNSArray([text]), null);
 
         (<UIViewController>currentPage.ios).presentViewControllerAnimatedCompletion(controller, true, null);
+    }
+}
+
+export function toogleDescritpion(args: observable.EventData) {
+    var btn = <button.Button>args.object;
+    var page = view.getAncestor(btn, "Page");
+
+    var txtDesc = <label.Label>page.getViewById("txtDescription");
+    var scroll = <scrollView.ScrollView>page.getViewById("scroll");
+    var item = <appViewModel.SessionModel>page.bindingContext;
+
+    if (btn.text === "MORE") {
+        btn.text = "LESS";
+        txtDesc.text = item.description;
+    }
+    else {
+        btn.text = "MORE";
+        txtDesc.text = item.descriptionShort;
+        scroll.scrollToVerticalOffset(0, false);
     }
 }

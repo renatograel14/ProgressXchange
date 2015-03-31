@@ -3,11 +3,6 @@ Page {
     background-color: white;
 }
 
-.action-bar-offset {
-    padding-top: 48;
-}
-
-
 /* Slide-out */
 .slide-out-img {
     margin: 16 0 30 16;
@@ -29,6 +24,17 @@ Page {
     horizontal-align: left;
 }
 
+.action-bar{
+    height: 48;
+}
+
+.action-bar-title{
+    margin: 0 0 0 72;
+    horizontal-align: left;
+    vertical-align: center;
+    font-size: 20;
+    color: white;
+}
 
 .page-header {
     background-image: url('~/images/background.jpg');
@@ -48,7 +54,6 @@ Page {
     font-size: 13;
     color: #A17201;
 }
-
 
 .favourite-image {
     margin: 0 36 0 0;
@@ -84,8 +89,17 @@ Page {
 }
 
 .description {
+    margin-top: 16;
     font-size: 14;
     color: #555555;
+}
+
+.more-button {
+    margin: 0 0 16 -12;
+    font-size: 14;
+    color: #555555;
+    horizontal-align: left;
+    background-color: white;
 }
 
 .section-header {

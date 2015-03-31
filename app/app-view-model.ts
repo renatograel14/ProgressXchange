@@ -26,6 +26,8 @@ interface Session {
     end: Date;
     room: string;
     speakers: Array<Speaker>;
+    description: string;
+    descriptionShort: string;
     calendarEventId: string;
 }
 
@@ -34,6 +36,8 @@ var conferenceDays: Array<ConferenceDay> = [
     { title: "CONFERENCE DAY 1", date: new Date(2015, 5, 4) },
     { title: "CONFERENCE DAY 2", date: new Date(2015, 5, 5) }
 ];
+var pageTitles: Array<string> = ["My agenda", "All sessions", "About"];
+
 var sessions: Array<SessionModel> = new Array<SessionModel>();
 
 var FAVOURITES = "FAVOURITES";
@@ -91,7 +95,7 @@ function addToFavourites(session: SessionModel) {
         store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
             if (!granted) {
                 return;
-            }
+}
 
             var event = EKEvent.eventWithEventStore(store);
             event.title = session.title;
@@ -121,7 +125,7 @@ function removeFromFavourites(session: SessionModel) {
         store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
             if (!granted) {
                 return;
-            }
+}
 
             var eventToRemove = store.eventWithIdentifier(session.calendarEventId);
             if (eventToRemove) {
@@ -160,7 +164,7 @@ el.data('NextSessions').expand(expandExp).get().then(
     }, function (error) {
         dialogs.alert("Could not load sessions. Error: " + error);
     }
-    );
+);
 
 export class AppViewModel extends observable.Observable {
     public selectedViewIndex: number;
@@ -171,6 +175,7 @@ export class AppViewModel extends observable.Observable {
 
         this.selectedIndex = 0;
         this.selectedViewIndex = 1;
+        this.set("actionBarTitle", pageTitles[this.selectedViewIndex]);
         this.set("isLoading", true);
     }
 
@@ -235,15 +240,17 @@ export class AppViewModel extends observable.Observable {
     public selectView(args: observable.EventData) {
         var btn = <button.Button>args.object;
 
-        if (btn.text === "My agenda") {
+        if (btn.text === pageTitles[0]) {
             this.selectedViewIndex = 0;
             this.filter();
-        } else if (btn.text === "All sessions") {
+        } else if (btn.text === pageTitles[1]) {
             this.selectedViewIndex = 1;
             this.filter();
-        } else if (btn.text === "About") {
+        } else if (btn.text === pageTitles[2]) {
             this.selectedViewIndex = 2;
         }
+
+        this.set("actionBarTitle", pageTitles[this.selectedViewIndex]);
 
         this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "selectedViewIndex", value: this.selectedViewIndex });
     }
@@ -318,6 +325,19 @@ export class SessionModel extends observable.Observable implements Session {
         if (this._favorite !== value) {
             this._favorite = value;
             this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "favorite", value: this._favorite });
+        }
+    }
+
+    get description(): string {
+        return "TODO: Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.";
+    }
+
+    get descriptionShort(): string {
+        if (this.description.length > 160) {
+            return this.description.substr(0, 160) + "...";
+        }
+        else {
+            return this.description;
         }
     }
 
