@@ -3,6 +3,8 @@ import dialogs = require("ui/dialogs");
 import localSettings = require("local-settings");
 import button = require("ui/button");
 var everlive = require("./lib/everlive");
+import platform = require("platform");
+import appModule = require("application");
 
 interface ConferenceDay {
     date: Date;
@@ -24,6 +26,7 @@ interface Session {
     end: Date;
     room: string;
     speakers: Array<Speaker>;
+    calendarEventId: string;
 }
 
 var conferenceDays: Array<ConferenceDay> = [
@@ -41,13 +44,66 @@ try {
 catch (error) {
     console.log("Error while retrieveing favourites: " + error);
     favourites = new Array<string>();
-    updateFavourites()
+    updateFavourites();
 }
 
 function addToFavourites(session: SessionModel) {
     if (favourites.indexOf(session.Id) < 0) {
         favourites.push(session.Id);
         updateFavourites();
+    }
+
+    if (platform.device.os === platform.platformNames.android) {
+        /*
+        var eventUriString = "content://com.android.calendar/events";
+        var eventValues = new android.content.ContentValues();
+
+        eventValues.put("calendar_id", java.lang.Integer.valueOf(1));
+
+        eventValues.put("title", session.title);
+        eventValues.put("description", "");
+        eventValues.put("eventLocation", session.room);
+        eventValues.put("eventTimezone", java.util.TimeZone.getDefault().getID())
+
+        var startDate = session.start.getTime() / 1000;
+        var endDate = session.end.getTime() / 1000;
+
+        eventValues.put("dtstart", java.lang.Integer.valueOf(startDate));
+        eventValues.put("dtend", java.lang.Integer.valueOf(endDate));
+
+        eventValues.put("eventStatus", java.lang.Integer.valueOf(1));
+        eventValues.put("hasAlarm", java.lang.Integer.valueOf(1));
+
+        var eventUri = appModule.android.foregroundActivity.getApplicationContext().getContentResolver().insert(android.net.Uri.parse(eventUriString), eventValues);
+        var eventID = java.lang.Long.parseLong(eventUri.getLastPathSegment());
+
+        var reminderUriString = "content://com.android.calendar/reminders";
+        var reminderValues = new android.content.ContentValues();
+
+        reminderValues.put("event_id", java.lang.Long.valueOf(eventID));
+        reminderValues.put("minutes", java.lang.Integer.valueOf(5));
+        reminderValues.put("method", java.lang.Integer.valueOf(1));
+
+        var reminderUri = appModule.android.foregroundActivity.getApplicationContext().getContentResolver().insert(android.net.Uri.parse(reminderUriString), reminderValues);
+        */
+    } else if (platform.device.os === platform.platformNames.ios) {
+        var store = EKEventStore.new()
+        store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
+            if (!granted) {
+                return;
+            }
+
+            var event = EKEvent.eventWithEventStore(store);
+            event.title = session.title;
+            event.startDate = NSDate.dateWithTimeIntervalSince1970(session.start.getTime() / 1000);
+            event.endDate = NSDate.dateWithTimeIntervalSince1970(session.end.getTime() / 1000);
+            event.calendar = store.defaultCalendarForNewEvents;
+
+            var err: NSError;
+            var result = store.saveEventSpanCommitError(event, EKSpan.EKSpanThisEvent, true, err);
+
+            session.calendarEventId = event.eventIdentifier;
+        });
     }
 }
 
@@ -56,6 +112,24 @@ function removeFromFavourites(session: SessionModel) {
     if (index >= 0) {
         favourites.splice(index, 1);
         updateFavourites();
+    }
+
+    if (platform.device.os === platform.platformNames.android) {
+        //
+    } else if (platform.device.os === platform.platformNames.ios) {
+        var store = EKEventStore.new()
+        store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
+            if (!granted) {
+                return;
+            }
+
+            var eventToRemove = store.eventWithIdentifier(session.calendarEventId);
+            if (eventToRemove) {
+                var err: NSError;
+                store.removeEventSpanCommitError(eventToRemove, EKSpan.EKSpanThisEvent, true, err);
+                session.calendarEventId = undefined;
+            }
+        });
     }
 }
 
@@ -86,7 +160,7 @@ el.data('NextSessions').expand(expandExp).get().then(
     }, function (error) {
         dialogs.alert("Could not load sessions. Error: " + error);
     }
-);
+    );
 
 export class AppViewModel extends observable.Observable {
     public selectedViewIndex: number;
@@ -197,6 +271,7 @@ export class SessionModel extends observable.Observable implements Session {
     private _end: Date;
     private _room: string;
     private _favorite: boolean;
+    private _calendarEventId: string;
 
     get Id(): string {
         return this._id;
@@ -253,6 +328,16 @@ export class SessionModel extends observable.Observable implements Session {
         }
         else {
             removeFromFavourites(this);
+        }
+    }
+
+    get calendarEventId(): string {
+        return this._calendarEventId;
+    }
+    set calendarEventId(value: string) {
+        if (this._calendarEventId !== value) {
+            this._calendarEventId = value;
+            this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "calendarEventId", value: this._calendarEventId });
         }
     }
 }
