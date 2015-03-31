@@ -226,7 +226,7 @@ export class AppViewModel extends observable.Observable {
         });
 
         if (this.selectedViewIndex === 0) {
-            this._sessions = this._sessions.filter(i=> { return i.favorite });
+            this._sessions = this._sessions.filter(i=> { return i.favorite || !i.canBeFavorited; });
         }
 
         this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "sessions", value: this._sessions });

@@ -24,11 +24,11 @@ Page {
     horizontal-align: left;
 }
 
-.action-bar{
+.action-bar {
     height: 48;
 }
 
-.action-bar-title{
+.action-bar-title {
     margin: 0 0 0 72;
     horizontal-align: left;
     vertical-align: center;
@@ -53,6 +53,12 @@ Page {
 .session-page-subtitle {
     font-size: 13;
     color: #A17201;
+}
+
+.back-image {
+    margin-left: 16;
+    vertical-align: center;
+    horizontal-align: left;
 }
 
 .favourite-image {
@@ -97,7 +103,7 @@ Page {
 .more-button {
     margin: 0 0 16 -12;
     font-size: 14;
-    color: #555555;
+    color: #05303F;
     horizontal-align: left;
     background-color: white;
 }

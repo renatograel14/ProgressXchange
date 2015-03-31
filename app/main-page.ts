@@ -23,13 +23,17 @@ export function pageLoaded(args: observable.EventData) {
 }
 
 export function selectSession(args: listView.ItemEventData) {
-    frame.topmost().navigate({
-        moduleName: "session-page",
-        context: args.view.bindingContext
-    });
+    var session = <appViewModel.SessionModel>args.view.bindingContext;
+
+    if (session.canBeFavorited) {
+        frame.topmost().navigate({
+            moduleName: "session-page",
+            context: session
+        });
+    }
 }
 
 export function toggleFavorite(args: gestures.GestureEventData) {
-    var item = <appViewModel.SessionModel>args.view.bindingContext;
-    item.toggleFavorite();
+    var session = <appViewModel.SessionModel>args.view.bindingContext;
+    session.toggleFavorite();
 }

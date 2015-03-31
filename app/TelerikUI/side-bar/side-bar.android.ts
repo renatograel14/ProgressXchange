@@ -49,6 +49,18 @@ export class SideBar extends common.SideBar {
         }
     }
 
+    public onUnloaded() {
+        super.onUnloaded();
+
+        if (this.mainContent instanceof view.View) {
+            this._removeView(this.mainContent);
+        }
+
+        if (this.slideContent instanceof view.View) {
+            this._removeView(this.slideContent);
+        }
+    }
+
     private _android: any;
     get android(): any {
         return this._android;
