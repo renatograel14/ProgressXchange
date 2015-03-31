@@ -59,6 +59,22 @@ var device = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(device, "uuid", {
+        get: function () {
+            var userDefaults = NSUserDefaults.standardUserDefaults();
+            var uuid_key = "TNSUUID";
+            var app_uuid = userDefaults.stringForKey(uuid_key);
+            if (!app_uuid) {
+                var uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+                app_uuid = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+                userDefaults.setObjectForKey(app_uuid, uuid_key);
+                userDefaults.synchronize();
+            }
+            return app_uuid;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return device;
 })();
 exports.device = device;

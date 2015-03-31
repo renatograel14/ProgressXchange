@@ -10,7 +10,6 @@ var observable = require("data/observable");
 var utils = require("utils/utils");
 var view = require("ui/core/view");
 var application = require("application");
-var imageSource = require("image-source");
 var enums = require("ui/enums");
 require("utils/module-merge").merge(frameCommon, exports);
 var TAG = "_fragmentTag";
@@ -112,9 +111,12 @@ var PageFragmentBody = (function (_super) {
             var item = items[i];
             var menuItem = menu.add(android.view.Menu.NONE, i, android.view.Menu.NONE, item.text);
             if (item.icon) {
-                var img = imageSource.fromResource(item.icon);
-                var drawable = new android.graphics.drawable.BitmapDrawable(img.android);
-                menuItem.setIcon(drawable);
+                var androidApp = application.android;
+                var res = androidApp.context.getResources();
+                var id = res.getIdentifier(item.icon, 'drawable', androidApp.packageName);
+                if (id) {
+                    menuItem.setIcon(id);
+                }
             }
             var showAsAction = PageFragmentBody.getShowAsAction(item);
             menuItem.setShowAsAction(showAsAction);

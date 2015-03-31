@@ -1,7 +1,10 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
   xmlns:tsb="TelerikNEXT/TelerikNEXT/TelerikUI/side-bar"
   navigatedTo="pageNavigatedTo">
-
+  <Page.optionsMenu>
+    <MenuItem text="share" tap="shareTap" icon="ic_share" />
+  </Page.optionsMenu>
+  
   <GridLayout rows="auto, *">
     <!-- HEADER -->
     <GridLayout columns="auto, *" style="background-image: url('~/images/background.jpg')" cssClass="action-bar-offset">

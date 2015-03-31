@@ -185,7 +185,15 @@ var OptionsMenu = (function () {
         return this._items[index];
     };
     OptionsMenu.prototype.setItems = function (items) {
-        this._items = items;
+        if (this._items === items) {
+            return;
+        }
+        while (this._items.length > 0) {
+            this.removeItem(this._items[this._items.length - 1]);
+        }
+        for (var i = 0; i < items.length; i++) {
+            this.addItem(items[i]);
+        }
         this.invalidate();
     };
     OptionsMenu.prototype.invalidate = function () {
