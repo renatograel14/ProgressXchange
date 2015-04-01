@@ -58,38 +58,19 @@ function addToFavourites(session: SessionModel) {
     }
 
     if (platform.device.os === platform.platformNames.android) {
-        /*
-        var eventUriString = "content://com.android.calendar/events";
-        var eventValues = new android.content.ContentValues();
+        var startDate = session.start.getTime();
+        var endDate = session.end.getTime();
 
-        eventValues.put("calendar_id", java.lang.Integer.valueOf(1));
+        var values = new android.content.ContentValues();
+        values.put("dtstart", java.lang.Integer.valueOf(startDate));
+        values.put("dtend", java.lang.Integer.valueOf(endDate));
+        values.put("title", session.title);
+        values.put("calendar_id", java.lang.Integer.valueOf(1));
+        values.put("eventTimezone", java.util.TimeZone.getTimeZone("UTC-05:00").getID());
+        var uri = appModule.android.foregroundActivity.getApplicationContext().getContentResolver().insert(android.provider.CalendarContract.Events.CONTENT_URI, values);
 
-        eventValues.put("title", session.title);
-        eventValues.put("description", "");
-        eventValues.put("eventLocation", session.room);
-        eventValues.put("eventTimezone", java.util.TimeZone.getDefault().getID())
+        session.calendarEventId = java.lang.Long.parseLong(uri.getLastPathSegment());
 
-        var startDate = session.start.getTime() / 1000;
-        var endDate = session.end.getTime() / 1000;
-
-        eventValues.put("dtstart", java.lang.Integer.valueOf(startDate));
-        eventValues.put("dtend", java.lang.Integer.valueOf(endDate));
-
-        eventValues.put("eventStatus", java.lang.Integer.valueOf(1));
-        eventValues.put("hasAlarm", java.lang.Integer.valueOf(1));
-
-        var eventUri = appModule.android.foregroundActivity.getApplicationContext().getContentResolver().insert(android.net.Uri.parse(eventUriString), eventValues);
-        var eventID = java.lang.Long.parseLong(eventUri.getLastPathSegment());
-
-        var reminderUriString = "content://com.android.calendar/reminders";
-        var reminderValues = new android.content.ContentValues();
-
-        reminderValues.put("event_id", java.lang.Long.valueOf(eventID));
-        reminderValues.put("minutes", java.lang.Integer.valueOf(5));
-        reminderValues.put("method", java.lang.Integer.valueOf(1));
-
-        var reminderUri = appModule.android.foregroundActivity.getApplicationContext().getContentResolver().insert(android.net.Uri.parse(reminderUriString), reminderValues);
-        */
     } else if (platform.device.os === platform.platformNames.ios) {
         var store = EKEventStore.new()
         store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
@@ -120,7 +101,8 @@ function removeFromFavourites(session: SessionModel) {
     }
 
     if (platform.device.os === platform.platformNames.android) {
-        //
+        var deleteUri = android.content.ContentUris.withAppendedId(android.provider.CalendarContract.Events.CONTENT_URI, parseInt(session.calendarEventId));
+        appModule.android.foregroundActivity.getApplicationContext().getContentResolver().delete(deleteUri, null, null);
     } else if (platform.device.os === platform.platformNames.ios) {
         var store = EKEventStore.new()
         store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
