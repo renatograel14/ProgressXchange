@@ -7,7 +7,7 @@
     <GridLayout columns="auto, *" rows="auto, auto" style="background-image: url('~/images/background.jpg')">
       <GridLayout cssClass="action-bar" colSpan="2">
         <StackLayout tap="backTap" orientation="horizontal">
-          <Image stretch="none"  cssClass="back-image" src="res://ic_arrow_back"/>
+          <Image stretch="none" cssClass="action-left-image" src="res://ic_arrow_back"/>
           <Label text="Back" cssClass="back-text" />
         </StackLayout>
 

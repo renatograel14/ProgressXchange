@@ -77,4 +77,12 @@ export class SideBar extends common.SideBar {
             this.slideContent.bindingContext = this.bindingContext;
         }
     }
+
+    public openSlideContent(): void {
+        this.android.setIsOpen(true);
+    }
+
+    public closeSlideContent(): void {
+        this.android.setIsOpen(false);
+    }
 }

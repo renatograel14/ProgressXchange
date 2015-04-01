@@ -1,6 +1,6 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
   loaded="pageLoaded" xmlns:tsb="TelerikUI/side-bar">
-  <tsb:SideBar>
+  <tsb:SideBar id="sideBar">
     <tsb:SideBar.slideContent>
       <StackLayout style="background-color: #053140;">
         <Image src="res://logo" cssClass="slide-out-img" stretch="none" />
@@ -17,6 +17,7 @@
           <!-- Header -->
           <StackLayout cssClass="page-header">
             <GridLayout cssClass="action-bar" style="background-color: #55000000">
+              <Image stretch="none" cssClass="action-left-image" src="res://ic_menu" tap="showSlideout"/>
               <Label text="{{ actionBarTitle }}" cssClass="action-bar-title" />
             </GridLayout>
 

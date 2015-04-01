@@ -60,7 +60,7 @@ SegmentedBar{
     color: #A17201;
 }
 
-.back-image {
+.action-left-image {
     margin-left: 16;
     vertical-align: center;
     horizontal-align: left;
@@ -131,6 +131,7 @@ SegmentedBar{
 
 .section-header {
     color: #A17201;
+    margin-top: 12;
 }
 
 .horizontal-line {
