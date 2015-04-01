@@ -41,6 +41,10 @@ SegmentedBar{
     color: white;
 }
 
+.android-darker{
+    background-color: #55000000;
+}
+
 .page-header {
     background-image: url('~/images/background.jpg');
 }
