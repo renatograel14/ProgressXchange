@@ -73,6 +73,12 @@ Page {
     horizontal-align: left;
 }
 
+.share-image{
+    margin-right: 16;
+    vertical-align: center;
+    horizontal-align: right;
+}
+
 .search {
     font-size: 14;
     background-color: #fac950;

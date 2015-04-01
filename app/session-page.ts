@@ -21,8 +21,8 @@ export function toggleFavorite(args: gestures.GestureEventData) {
     item.toggleFavorite();
 }
 
-export function shareTap(args: observable.EventData) {
-    var item = <appViewModel.SessionModel>(<pages.MenuItem>args.object).bindingContext;
+export function shareTap(args: gestures.GestureEventData) {
+    var item = <appViewModel.SessionModel>args.view.bindingContext;
     var text = item.title + " at #telerikNEXT";
 
     if (platform.device.os === platform.platformNames.android) {
@@ -60,4 +60,9 @@ export function toogleDescritpion(args: observable.EventData) {
         txtDesc.text = item.descriptionShort;
         scroll.scrollToVerticalOffset(0, false);
     }
+}
+
+export function backTap(args: gestures.GestureEventData) {
+    console.log("going back");
+    frame.topmost().goBack();
 }

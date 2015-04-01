@@ -8,8 +8,9 @@
   <GridLayout rows="auto, *">
     <!-- HEADER -->
     <GridLayout columns="auto, *" rows="auto, auto" style="background-image: url('~/images/background.jpg')">
-      <GridLayout cssClass="action-bar">
-        
+      <GridLayout cssClass="action-bar" colSpan="2">
+        <Image stretch="none" tap="shareTap" cssClass="share-image" src="res://ic_share"/>
+        <Image stretch="none" tap="backTap" cssClass="favourite-image-session" src="res://ic_arrow_back"/>
       </GridLayout>
       <StackLayout margin="16 16 16 72" row="1">
         <Label text="{{ title }}" textWrap="true" cssClass="session-page-title"/>
