@@ -1,16 +1,18 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
   xmlns:tsb="TelerikNEXT/TelerikNEXT/TelerikUI/side-bar"
   navigatedTo="pageNavigatedTo">
-  <Page.optionsMenu>
-    <MenuItem text="share" tap="shareTap" icon="ic_share" />
-  </Page.optionsMenu>
 
   <GridLayout rows="auto, *">
     <!-- HEADER -->
     <GridLayout columns="auto, *" rows="auto, auto" style="background-image: url('~/images/background.jpg')">
       <GridLayout cssClass="action-bar" colSpan="2">
+        <StackLayout tap="backTap" orientation="horizontal">
+          <Image stretch="none"  cssClass="back-image" src="res://ic_arrow_back"/>
+          <Label text="Back" cssClass="back-text" />
+        </StackLayout>
+
         <Image stretch="none" tap="shareTap" cssClass="share-image" src="res://ic_share"/>
-        <Image stretch="none" tap="backTap" cssClass="favourite-image-session" src="res://ic_arrow_back"/>
+
       </GridLayout>
       <StackLayout margin="16 16 16 72" row="1">
         <Label text="{{ title }}" textWrap="true" cssClass="session-page-title"/>
@@ -33,7 +35,7 @@
 
     <!-- Content -->
     <ScrollView row="1" id="scroll">
-    <GridLayout row="1" rows="auto, auto, auto, auto, *" columns="56, *" margin="0 16" >
+      <GridLayout row="1" rows="auto, auto, auto, auto, *" columns="56, *" margin="0 16" >
         <!-- Description -->
         <Label cssClass="description" textWrap="true" col="1" id="txtDescription" text="{{ descriptionShort }}" />
 

@@ -10,13 +10,7 @@ export function pageLoaded(args: observable.EventData) {
 
     var iosFrame = frame.topmost().ios;
     if (iosFrame) {
-        // TODO: make use of action bar settings if possible
-        var navBar = iosFrame.controller.navigationBar;
-        navBar.setBackgroundImageForBarMetrics(new UIImage(), UIBarMetrics.UIBarMetricsDefault);
-        navBar.shadowImage = new UIImage();
-        navBar.translucent = true;
-        navBar.backgroundColor = UIColor.clearColor();
-        iosFrame.controller.view.backgroundColor = UIColor.clearColor();
+        iosFrame.navBarVisibility = "never";
     }
 
     page.bindingContext = appViewModel.appModel;

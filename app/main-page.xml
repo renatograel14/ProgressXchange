@@ -19,9 +19,9 @@
             <GridLayout cssClass="action-bar" style="background-color: #55000000">
               <Label text="{{ actionBarTitle }}" cssClass="action-bar-title" />
             </GridLayout>
-            
+
             <GridLayout style="background-color: #55000000" cssClass="action-bar-offset">
-              <SegmentedBar selectedBackgroundColor="#fac950" selectedIndex="{{ selectedIndex }}"  style="background-color: transparent;color: white;">
+              <SegmentedBar selectedBackgroundColor="#fac950" selectedIndex="{{ selectedIndex }}">
                 <SegmentedBar.items>
                   <SegmentedBarItem title="MAY 3" />
                   <SegmentedBarItem title="MAY 4" />
@@ -48,12 +48,12 @@
             <ListView.itemTemplate>
               <GridLayout columns="auto, *" cssClass="{{ canBeFavorited ? 'list-view-row' : 'break-row' }}">
 
-                <Image stretch="none" tap="toggleFavorite" cssClass="favourite-image" 
+                <Image stretch="none" tap="toggleFavorite" cssClass="favourite-image"
                   src="{{ favorite ? 'res://ic_add_to_fav_1' : 'res://ic_add_to_fav' }}"
                   visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}"
                  />
 
-                 <StackLayout col="1">
+                <StackLayout col="1">
 
                   <Label cssClass="info-orange">
                     <Label.formattedText>
@@ -86,7 +86,4 @@
       </GridLayout>
     </tsb:SideBar.mainContent>
   </tsb:SideBar>
-
-
-
 </Page>

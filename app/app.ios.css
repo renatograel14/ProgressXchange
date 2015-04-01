@@ -3,6 +3,12 @@ Page{
     background-color: white;
 }
 
+SegmentedBar{
+    background-color: transparent;
+    color: white;
+    margin: 0 12;
+}
+
 /* Slide-out */
 .slide-out-img{
     margin: 20 0 30 12;
@@ -31,8 +37,7 @@ Page{
 }
 
 .action-bar-title {
-    margin: 0 0 0 72;
-    horizontal-align: left;
+    horizontal-align: center;
     vertical-align: center;
     font-size: 20;
     color: white;
@@ -75,6 +80,18 @@ Page{
     horizontal-align: right;
 }
 
+.back-image{
+    margin-left:12;
+    margin-right: 2;
+    vertical-align: center;
+    horizontal-align: left;
+}
+
+.back-text{
+    color:white;
+    font-size:17;
+}
+
 .search{
     font-size: 14;
     background-color: #fac950;
@@ -99,12 +116,13 @@ Page{
 }
 
 .description {
+    margin-top: 12;
     font-size: 15;
     color: #555555;
 }
 
 .more-button {
-    margin: 0 0 16 -12;
+    margin: 0 0 12 0;
     font-size: 14;
     color: #05303F;
     horizontal-align: left;
@@ -113,7 +131,7 @@ Page{
 
 .section-header {
     color: #A17201;
-    margin-top: 12;
+    margin-top: 8;
 }
 
 .horizontal-line {

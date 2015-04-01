@@ -3,6 +3,11 @@ Page {
     background-color: white;
 }
 
+SegmentedBar{
+    background-color: transparent;
+    color: white;
+}
+
 /* Slide-out */
 .slide-out-img {
     margin: 16 0 30 16;
@@ -79,6 +84,16 @@ Page {
     horizontal-align: right;
 }
 
+.back-image{
+    margin-left:16;
+    vertical-align: center;
+    horizontal-align: left;
+}
+
+.back-text{
+    visibility: collapsed;
+}
+
 .search {
     font-size: 14;
     background-color: #fac950;
@@ -116,7 +131,6 @@ Page {
 
 .section-header {
     color: #A17201;
-    margin-top: 12;
 }
 
 .horizontal-line {
