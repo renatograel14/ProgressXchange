@@ -95,10 +95,11 @@ function addToFavourites(session: SessionModel) {
         store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
             if (!granted) {
                 return;
-}
+            }
 
             var event = EKEvent.eventWithEventStore(store);
             event.title = session.title;
+            event.timeZone = NSTimeZone.alloc().initWithName("UTC-05:00");
             event.startDate = NSDate.dateWithTimeIntervalSince1970(session.start.getTime() / 1000);
             event.endDate = NSDate.dateWithTimeIntervalSince1970(session.end.getTime() / 1000);
             event.calendar = store.defaultCalendarForNewEvents;
@@ -125,7 +126,7 @@ function removeFromFavourites(session: SessionModel) {
         store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
             if (!granted) {
                 return;
-}
+            }
 
             var eventToRemove = store.eventWithIdentifier(session.calendarEventId);
             if (eventToRemove) {
@@ -164,7 +165,7 @@ el.data('NextSessions').expand(expandExp).get().then(
     }, function (error) {
         dialogs.alert("Could not load sessions. Error: " + error);
     }
-);
+    );
 
 export class AppViewModel extends observable.Observable {
     public selectedViewIndex: number;
