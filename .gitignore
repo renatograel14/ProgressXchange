@@ -9,7 +9,12 @@
 !bootstrap.js
 !everlive.js
 
-/platforms/**/*.*
 /lib/
 
+/platforms/android/*
 !platforms/android/AndroidManifest.xml
+
+platforms/ios/*
+!platforms/ios/Sample-TelerikNext
+platforms/ios/Sample-TelerikNext/*
+!platforms/ios/Sample-TelerikNext/Images.xcassets
