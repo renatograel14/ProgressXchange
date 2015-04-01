@@ -120,7 +120,6 @@ SegmentedBar{
 }
 
 .description {
-    margin-top: 16;
     font-size: 14;
     color: #555555;
 }
@@ -156,4 +155,8 @@ SegmentedBar{
 
 .speakers-row {
     padding-top: 16;
+}
+
+.content{
+    margin: 16;
 }

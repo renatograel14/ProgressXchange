@@ -11,41 +11,41 @@
     </tsb:SideBar.slideContent>
 
     <tsb:SideBar.mainContent>
-      <GridLayout>
+      <GridLayout rows="auto, *">
+        <!-- Header -->
+        <StackLayout cssClass="page-header">
+          <GridLayout cssClass="action-bar android-darker">
+            <Image stretch="none" cssClass="action-left-image" src="res://ic_menu" tap="showSlideout"/>
+            <Label text="{{ actionBarTitle }}" cssClass="action-bar-title" />
+          </GridLayout>
 
-        <GridLayout rows="auto, auto, *" visibility="{{ selectedViewIndex !== 2 ? 'visible' : 'collapsed' }}">
-          <!-- Header -->
-          <StackLayout cssClass="page-header">
-            <GridLayout cssClass="action-bar android-darker">
-              <Image stretch="none" cssClass="action-left-image" src="res://ic_menu" tap="showSlideout"/>
-              <Label text="{{ actionBarTitle }}" cssClass="action-bar-title" />
-            </GridLayout>
+          <GridLayout cssClass="android-darker" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
+            <SegmentedBar selectedBackgroundColor="#fac950" selectedIndex="{{ selectedIndex }}">
+              <SegmentedBar.items>
+                <SegmentedBarItem title="MAY 3" />
+                <SegmentedBarItem title="MAY 4" />
+                <SegmentedBarItem title="MAY 5" />
+              </SegmentedBar.items>
+            </SegmentedBar>
+          </GridLayout>
+          <Label cssClass="page-title" horizontalAlignment="center" margin="15" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="{{ dayHeader }}" fontAttributes="Bold" />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
+        </StackLayout>
 
-            <GridLayout cssClass="android-darker">
-              <SegmentedBar selectedBackgroundColor="#fac950" selectedIndex="{{ selectedIndex }}">
-                <SegmentedBar.items>
-                  <SegmentedBarItem title="MAY 3" />
-                  <SegmentedBarItem title="MAY 4" />
-                  <SegmentedBarItem title="MAY 5" />
-                </SegmentedBar.items>
-              </SegmentedBar>
-            </GridLayout>
-            <Label cssClass="page-title" horizontalAlignment="center" margin="15">
-              <Label.formattedText>
-                <FormattedString>
-                  <FormattedString.spans>
-                    <Span text="{{ dayHeader }}" fontAttributes="Bold" />
-                  </FormattedString.spans>
-                </FormattedString>
-              </Label.formattedText>
-            </Label>
-          </StackLayout>
-
+        <!-- Sessions Views -->
+        <GridLayout  rows="auto, *" row="1" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
           <!-- Search -->
-          <SearchBar text="{{ search }}" hint="Search" cssClass="search" textFieldBackgroundColor="white" row="1" />
+          <SearchBar text="{{ search }}" hint="Search" cssClass="search" textFieldBackgroundColor="white"/>
 
           <!-- List -->
-          <ListView items="{{ sessions }}" row="2" separatorColor="#fac950" itemTap="selectSession">
+          <ListView items="{{ sessions }}" row="1" separatorColor="#fac950" itemTap="selectSession">
             <ListView.itemTemplate>
               <GridLayout columns="auto, *" cssClass="{{ canBeFavorited ? 'list-view-row' : 'break-row' }}">
 
@@ -76,14 +76,14 @@
             </ListView.itemTemplate>
           </ListView>
 
-          <ActivityIndicator busy="{{ isLoading }}" row="2" horizontalAlignment="center" verticalAlignment="center" />
-
+          <ActivityIndicator busy="{{ isLoading }}" row="1" horizontalAlignment="center" verticalAlignment="center" />
         </GridLayout>
 
-        <Border style="background-color: #053140;" visibility="{{ selectedViewIndex === 2 ? 'visible' : 'collapsed' }}">
-          <Image src="res://logo" stretch="none" verticalAlignment="center" horizontalAlignment="center" />
-        </Border>
-
+        <!-- About View -->
+        <GridLayout row="1" textWrap="true" visibility="{{ isAboutPage ? 'visible' : 'collapsed'}}" cssClass="content">
+          <Label cssClass="info-bigger" textWrap="true" 
+                 text="TelerikNEXT is a gathering dedicated to equipping customers, partners and the broader community with success-fueling Telerik insight." />
+        </GridLayout>
       </GridLayout>
     </tsb:SideBar.mainContent>
   </tsb:SideBar>
