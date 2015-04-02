@@ -62,6 +62,7 @@ function addToFavourites(session: SessionModel) {
     if (platform.device.os === platform.platformNames.android) {
         var projection = java.lang.reflect.Array.newInstance(java.lang.String.class, 1);
         projection[0] = "_id";
+
         var calendars = android.net.Uri.parse("content://com.android.calendar/calendars");
         var contentResolver = appModule.android.foregroundActivity.getApplicationContext().getContentResolver();
         var managedCursor = contentResolver.query(calendars, projection, null, null, null);
@@ -73,14 +74,16 @@ function addToFavourites(session: SessionModel) {
             managedCursor.close();
         }
 
+        var timeZone = java.util.TimeZone.getTimeZone("GMT-05:00");
+
         var startDate = session.start.getTime();
         var endDate = session.end.getTime();
 
         var values = new android.content.ContentValues();
         values.put("calendar_id", calID);
-        values.put("eventTimezone", java.util.TimeZone.getTimeZone("GMT-05:00").getID());
-        values.put("dtstart", java.lang.Integer.valueOf(startDate));
-        values.put("dtend", java.lang.Integer.valueOf(endDate));
+        values.put("eventTimezone", timeZone.getID());
+        values.put("dtstart", java.lang.Long.valueOf(startDate));
+        values.put("dtend", java.lang.Long.valueOf(endDate));
         values.put("title", session.title);
         var uri = contentResolver.insert(android.provider.CalendarContract.Events.CONTENT_URI, values);
 
