@@ -85,6 +85,7 @@ function addToFavourites(session: SessionModel) {
         values.put("dtstart", java.lang.Long.valueOf(startDate));
         values.put("dtend", java.lang.Long.valueOf(endDate));
         values.put("title", session.title);
+        values.put("eventLocation", session.room);
         var uri = contentResolver.insert(android.provider.CalendarContract.Events.CONTENT_URI, values);
 
         session.calendarEventId = java.lang.Long.parseLong(uri.getLastPathSegment());
@@ -101,6 +102,7 @@ function addToFavourites(session: SessionModel) {
             event.startDate = NSDate.dateWithTimeIntervalSince1970(session.start.getTime() / 1000);
             event.endDate = NSDate.dateWithTimeIntervalSince1970(session.end.getTime() / 1000);
             event.calendar = store.defaultCalendarForNewEvents;
+            event.location = session.room;
 
             var err: NSError;
             var result = store.saveEventSpanCommitError(event, EKSpan.EKSpanThisEvent, true, err);
