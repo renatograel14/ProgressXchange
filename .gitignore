@@ -10,6 +10,7 @@
 !everlive.js
 
 /lib/
+/.metadata/
 
 /platforms/android/*
 !platforms/android/AndroidManifest.xml
