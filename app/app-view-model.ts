@@ -1,11 +1,13 @@
 ﻿import observable = require("data/observable");
 import dialogs = require("ui/dialogs");
+import view = require("ui/core/view");
 import localSettings = require("local-settings");
 import button = require("ui/button");
-var everlive = require("./lib/everlive");
 import platform = require("platform");
 import appModule = require("application");
 
+
+var everlive = require("./lib/everlive");
 interface ConferenceDay {
     date: Date;
     title: string;
@@ -172,6 +174,7 @@ export class AppViewModel extends observable.Observable {
         this.selectedViewIndex = 1;
         this.set("actionBarTitle", pageTitles[this.selectedViewIndex]);
         this.set("isLoading", true);
+        this.set("isAboutPage", false);
     }
 
     private _sessions: Array<SessionModel>;
@@ -234,6 +237,9 @@ export class AppViewModel extends observable.Observable {
 
     public selectView(args: observable.EventData) {
         var btn = <button.Button>args.object;
+        var page = view.getAncestor(btn, "Page");
+        var slideBar = <any>page.getViewById("sideBar");
+        slideBar.closeSlideContent();
 
         if (btn.text === pageTitles[0]) {
             this.selectedViewIndex = 0;
@@ -248,6 +254,7 @@ export class AppViewModel extends observable.Observable {
         this.set("actionBarTitle", pageTitles[this.selectedViewIndex]);
 
         this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "selectedViewIndex", value: this.selectedViewIndex });
+        this.set("isAboutPage", this.selectedViewIndex === 2);
     }
 }
 
