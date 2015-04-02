@@ -58,19 +58,31 @@ function addToFavourites(session: SessionModel) {
     }
 
     if (platform.device.os === platform.platformNames.android) {
+        var projection = java.lang.reflect.Array.newInstance(java.lang.String.class, 1);
+        projection[0] = "_id";
+        var calendars = android.net.Uri.parse("content://com.android.calendar/calendars");
+        var contentResolver = appModule.android.foregroundActivity.getApplicationContext().getContentResolver();
+        var managedCursor = contentResolver.query(calendars, projection, null, null, null);
+        var calID;
+
+        if (managedCursor.moveToFirst()) {
+            var idCol = managedCursor.getColumnIndex(projection[0]);
+            calID = managedCursor.getString(idCol);
+            managedCursor.close();
+        }
+
         var startDate = session.start.getTime();
         var endDate = session.end.getTime();
 
         var values = new android.content.ContentValues();
+        values.put("calendar_id", calID);
+        values.put("eventTimezone", java.util.TimeZone.getTimeZone("GMT-05:00").getID());
         values.put("dtstart", java.lang.Integer.valueOf(startDate));
         values.put("dtend", java.lang.Integer.valueOf(endDate));
         values.put("title", session.title);
-        values.put("calendar_id", java.lang.Integer.valueOf(1));
-        values.put("eventTimezone", java.util.TimeZone.getTimeZone("UTC-05:00").getID());
-        var uri = appModule.android.foregroundActivity.getApplicationContext().getContentResolver().insert(android.provider.CalendarContract.Events.CONTENT_URI, values);
+        var uri = contentResolver.insert(android.provider.CalendarContract.Events.CONTENT_URI, values);
 
         session.calendarEventId = java.lang.Long.parseLong(uri.getLastPathSegment());
-
     } else if (platform.device.os === platform.platformNames.ios) {
         var store = EKEventStore.new()
         store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
