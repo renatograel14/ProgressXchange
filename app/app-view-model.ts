@@ -19,6 +19,7 @@ interface Speaker {
     title: string;
     company: string;
     picture: string;
+    twitterName: string;
 }
 
 interface Session {
@@ -148,25 +149,44 @@ var el = new everlive("mzacGkKPFlZUfbMq");
 var expandExp = {
     "speakers": true
 };
-el.data('NextSessions').expand(expandExp).get().then(
-    function (data) {
-        //console.log("Sessions are[" + data.result[1].Data + "]")
-        var sessionsFromEvelive: Array<Session> = <Array<Session>> data.result;
-
-        for (var i = 0; i < sessionsFromEvelive.length; i++) {
-            var newSession = new SessionModel(sessionsFromEvelive[i]);
-            if (favourites.indexOf(newSession.Id) >= 0) {
-                newSession.favorite = true;
-            }
-            sessions.push(newSession);
+function pushSessions(sessionsFromEvelive: Array<Session>) {
+    for (var i = 0; i < sessionsFromEvelive.length; i++) {
+        var newSession = new SessionModel(sessionsFromEvelive[i]);
+        if (favourites.indexOf(newSession.Id) >= 0) {
+            newSession.favorite = true;
         }
-
-        appModel.onDataLoaded();
-
-    }, function (error) {
-        dialogs.alert("Could not load sessions. Error: " + error);
+        sessions.push(newSession);
     }
-    );
+}
+
+function loadFirstChunk() {
+    var query = new everlive.Query();
+    query.order("start").take(50).expand(expandExp);
+
+    el.data('Sessions').get(query).then(
+        function (data) {
+            pushSessions(<Array<Session>> data.result);
+            loadSecondChunk();
+
+        }, function (error) {
+            console.log("Could not load sessions. Error: " + error);
+        });
+}
+
+function loadSecondChunk() {
+    var query = new everlive.Query();
+    query.order("start").skip(50).take(50).expand(expandExp);
+
+    el.data('Sessions').get(query).then(
+        function (data) {
+            pushSessions(<Array<Session>> data.result);
+            appModel.onDataLoaded();
+        }, function (error) {
+            console.log("Could not load sessions. Error: " + error);
+        });
+}
+
+loadFirstChunk();
 
 export class AppViewModel extends observable.Observable {
     public selectedViewIndex: number;
@@ -276,6 +296,7 @@ export class SessionModel extends observable.Observable implements Session {
             this._start = source.start;
             this._end = source.end;
             this._speakers = source.speakers;
+            this._description = source.description;
         }
     }
     private _id: string;
@@ -285,6 +306,7 @@ export class SessionModel extends observable.Observable implements Session {
     private _end: Date;
     private _room: string;
     private _favorite: boolean;
+    private _description: string;
     private _calendarEventId: string;
 
     get Id(): string {
@@ -336,7 +358,7 @@ export class SessionModel extends observable.Observable implements Session {
     }
 
     get description(): string {
-        return "TODO: Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.Put description here.";
+        return this._description;
     }
 
     get descriptionShort(): string {

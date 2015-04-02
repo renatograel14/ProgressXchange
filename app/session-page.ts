@@ -23,13 +23,27 @@ export function toggleFavorite(args: gestures.GestureEventData) {
 
 export function shareTap(args: gestures.GestureEventData) {
     var item = <appViewModel.SessionModel>args.view.bindingContext;
-    var text = item.title + " at #telerikNEXT";
+
+    var shareText = item.title + " ";
+
+    if (item.speakers) {
+        var speakerNames = "";
+        var byStr = item.speakers.forEach((sp, i, arr) => {
+            if (sp.twitterName) {
+                speakerNames += sp.twitterName + " ";
+            }
+        });
+
+        if (speakerNames) {
+            shareText += "by " + speakerNames;
+        }
+    }
 
     if (platform.device.os === platform.platformNames.android) {
         var intent = new android.content.Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "subject");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, text);
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
 
         var activity = frame.topmost().android.activity;
         activity.startActivity(android.content.Intent.createChooser(intent, "share"));
@@ -37,7 +51,7 @@ export function shareTap(args: gestures.GestureEventData) {
     else if (platform.device.os === platform.platformNames.ios) {
         var currentPage = frame.topmost().currentPage;
 
-        var controller = new UIActivityViewController(utils.ios.collections.jsArrayToNSArray([text]), null);
+        var controller = new UIActivityViewController(utils.ios.collections.jsArrayToNSArray([shareText]), null);
 
         (<UIViewController>currentPage.ios).presentViewControllerAnimatedCompletion(controller, true, null);
     }

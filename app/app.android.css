@@ -157,6 +157,12 @@ SegmentedBar{
     padding-top: 16;
 }
 
+.speaker-image{
+    horizontal-align: left;
+    vertical-align: top;
+    margin-right: 12;
+}
+
 .content{
     margin: 16;
 }
