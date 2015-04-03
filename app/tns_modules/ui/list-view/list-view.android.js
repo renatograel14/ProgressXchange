@@ -32,6 +32,7 @@ var ListView = (function (_super) {
     }
     ListView.prototype._createUI = function () {
         this._android = new android.widget.ListView(this._context);
+        this._android.setCacheColorHint(0);
         if (!this._androidViewId) {
             this._androidViewId = android.view.View.generateViewId();
         }
