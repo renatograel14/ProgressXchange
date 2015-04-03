@@ -55,6 +55,7 @@ export class SideBar extends common.SideBar {
         this._slideContentHost = new contentView.ContentView();
 
         this._ios = TKSideDrawer.alloc().initWithHostview(this._mainContentHost.ios);
+        this._ios.style.blurType = 0
         this._ios.content = this._slideContentHost.ios
         this._ios.headerView = null;
         this._ios.footerView = null;
