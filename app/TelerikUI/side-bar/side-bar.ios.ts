@@ -75,7 +75,15 @@ export class SideBar extends common.SideBar {
     }
 
     public closeSlideContent(): void {
+        // Workaround for strange overlapping issue with TKSideDrawer when dismiss method is called.
+        this._slideContentHost.visibility = "collapsed";
+
         this.ios.dismiss();
+
+        var that = this;
+        setTimeout(function () {
+            that._slideContentHost.visibility = "visible";
+        }, 1000);
     }
 
     public onLoaded() {
@@ -93,7 +101,7 @@ export class SideBar extends common.SideBar {
 
         super.onUnloaded();
     }
-    
+
     public _onBindingContextChanged(oldValue: any, newValue: any) {
         super._onBindingContextChanged(oldValue, newValue);
 
