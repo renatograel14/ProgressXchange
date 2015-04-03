@@ -3,7 +3,7 @@ Page {
     background-color: white;
 }
 
-SegmentedBar{
+SegmentedBar {
     background-color: transparent;
     color: white;
 }
@@ -41,7 +41,7 @@ SegmentedBar{
     color: white;
 }
 
-.android-darker{
+.android-darker {
     background-color: #55000000;
 }
 
@@ -65,36 +65,29 @@ SegmentedBar{
 }
 
 .action-left-image {
-    margin-left: 16;
     vertical-align: center;
     horizontal-align: left;
 }
 
-.favourite-image {
-    margin: 0 36 0 0;
+.action-wrap {
+    padding-left: 16;
+    padding-right: 16;
+}
+
+.favourite-wrap {
+    horizontal-align: left;
+    padding: 16;
+    width: 52;
+    height: 52;
+    margin-right: 20;
+}
+
+.icon-image {
     vertical-align: center;
     horizontal-align: left;
 }
 
-.favourite-image-session {
-    margin: 0 36 0 16;
-    vertical-align: center;
-    horizontal-align: left;
-}
-
-.share-image{
-    margin-right: 16;
-    vertical-align: center;
-    horizontal-align: right;
-}
-
-.back-image{
-    margin-left:16;
-    vertical-align: center;
-    horizontal-align: left;
-}
-
-.back-text{
+.back-text {
     visibility: collapsed;
 }
 
@@ -150,19 +143,19 @@ SegmentedBar{
 }
 
 .list-view-row {
-    padding: 12 16;
+    padding: 12 16 12 0;
 }
 
 .speakers-row {
     padding-top: 16;
 }
 
-.speaker-image{
+.speaker-image {
     horizontal-align: left;
     vertical-align: top;
     margin-right: 12;
 }
 
-.content{
+.content {
     margin: 16;
 }

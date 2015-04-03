@@ -15,7 +15,9 @@
         <!-- Header -->
         <StackLayout cssClass="page-header">
           <GridLayout cssClass="action-bar android-darker">
-            <Image stretch="none" cssClass="action-left-image" src="res://ic_menu" tap="showSlideout"/>
+            <GridLayout cssClass="action-wrap" tap="showSlideout" columns="auto" horizontalAlignment="left">
+              <Image stretch="none" cssClass="icon-image" src="res://ic_menu"/>
+            </GridLayout>
             <Label text="{{ actionBarTitle }}" cssClass="action-bar-title" />
           </GridLayout>
 
@@ -40,7 +42,7 @@
         </StackLayout>
 
         <!-- Sessions Views -->
-        <GridLayout  rows="auto, *" row="1" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
+        <GridLayout  rows="auto, *" row="1" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}" id="sessionsContent">
           <!-- Search -->
           <SearchBar text="{{ search }}" hint="Search" cssClass="search" textFieldBackgroundColor="white"/>
 
@@ -49,10 +51,11 @@
             <ListView.itemTemplate>
               <GridLayout columns="auto, *" cssClass="{{ canBeFavorited ? 'list-view-row' : 'break-row' }}">
 
-                <Image stretch="none" tap="toggleFavorite" cssClass="favourite-image"
-                  src="{{ favorite ? 'res://ic_add_to_fav_1' : 'res://ic_add_to_fav' }}"
-                  visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}"
-                 />
+                <GridLayout visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}"
+                  cssClass="favourite-wrap" tap="toggleFavorite" columns="auto" rows="auto">
+                  <Image stretch="none" cssClass="icon-image"
+                    src="{{ favorite ? 'res://ic_add_to_fav_1' : 'res://ic_add_to_fav' }}" />
+                </GridLayout>
 
                 <StackLayout col="1">
 
@@ -81,7 +84,7 @@
 
         <!-- About View -->
         <GridLayout row="1" textWrap="true" visibility="{{ isAboutPage ? 'visible' : 'collapsed'}}" cssClass="content">
-          <Label cssClass="info-bigger" textWrap="true" 
+          <Label cssClass="info-bigger" textWrap="true"
                  text="TelerikNEXT is a gathering dedicated to equipping customers, partners and the broader community with success-fueling Telerik insight." />
         </GridLayout>
       </GridLayout>

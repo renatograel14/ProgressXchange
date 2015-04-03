@@ -14,6 +14,14 @@ export function pageLoaded(args: observable.EventData) {
         iosFrame.navBarVisibility = "never";
     }
 
+    var content = page.getViewById("sessionsContent");
+    if (content.android) {
+        console.log("HEREEEE");
+        // Prevent keyboard form showing.
+        content.android.setClickable(true);
+        content.android.setFocusableInTouchMode(true);
+    }
+
     page.bindingContext = appViewModel.appModel;
 }
 

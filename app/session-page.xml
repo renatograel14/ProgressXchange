@@ -6,16 +6,24 @@
     <!-- HEADER -->
     <GridLayout columns="auto, *" rows="auto, auto" style="background-image: url('~/images/background.jpg')">
       <GridLayout cssClass="action-bar" colSpan="2">
-        <StackLayout tap="backTap" orientation="horizontal">
-          <Image stretch="none" cssClass="action-left-image" src="res://ic_arrow_back"/>
+        <StackLayout tap="backTap" orientation="horizontal" cssClass="action-wrap" horizontalAlignment="left">
+          <Image stretch="none" cssClass="icon-image" src="res://ic_arrow_back"/>
           <Label text="Back" cssClass="back-text" />
         </StackLayout>
-
-        <Image stretch="none" tap="shareTap" cssClass="share-image" src="res://ic_share"/>
-
+        <GridLayout cssClass="action-wrap" tap="shareTap" columns="auto" horizontalAlignment="right">
+          <Image stretch="none" cssClass="icon-image" src="res://ic_share"/>
+        </GridLayout>
       </GridLayout>
-      <StackLayout margin="16 16 16 72" row="1">
-        <Label text="{{ title }}" textWrap="true" cssClass="session-page-title"/>
+
+      <GridLayout row="1" visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}"
+                  tap="toggleFavorite" columns="auto"
+                  cssClass="favourite-wrap" horizontalAlignment="left">
+        <Image stretch="none" cssClass="icon-image"
+          src="{{ favorite ? 'res://ic_add_to_fav_1' : 'res://ic_add_to_fav' }}" />
+      </GridLayout>
+
+      <StackLayout margin="16 16 16 0" row="1" col="1">
+        <Label text="{{ title }}" textWrap="true" cssClass="session-page-title" />
         <Label cssClass="session-page-subtitle">
           <Label.formattedText>
             <FormattedString>
@@ -28,9 +36,7 @@
           </Label.formattedText>
         </Label>
       </StackLayout>
-      <Image stretch="none" tap="toggleFavorite" cssClass="favourite-image-session" row="1"
-        src="{{ favorite ? 'res://ic_add_to_fav_1' : 'res://ic_add_to_fav' }}"
-        visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}" />
+
     </GridLayout>
 
     <!-- Content -->

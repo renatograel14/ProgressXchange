@@ -33,7 +33,7 @@ SegmentedBar {
 }
 
 .action-bar {
-    height: 48;
+    height: 44;
 }
 
 .action-bar-title {
@@ -62,29 +62,21 @@ SegmentedBar {
     color: #A17201;
 }
 
-.favourite-image {
-    margin: 0 36 0 0;
+.icon-image {
     vertical-align: center;
     horizontal-align: left;
 }
 
-.favourite-image-session {
-    margin: 0 36 0 12;
-    vertical-align: center;
-    horizontal-align: left;
+.action-wrap {
+    padding-left: 12;
+    padding-right: 12;
 }
 
-.share-image {
-    margin-right: 12;
-    vertical-align: center;
-    horizontal-align: right;
-}
-
-.action-left-image {
-    margin-left: 12;
-    margin-right: 2;
-    vertical-align: center;
+.favourite-wrap {
     horizontal-align: left;
+    vertical-align: top;
+    padding: 12;
+    margin-right: 16;
 }
 
 .back-text {
@@ -146,7 +138,7 @@ SegmentedBar {
 }
 
 .list-view-row {
-    padding: 12;
+    padding: 12 12 12 0;
 }
 
 .speakers-row {
