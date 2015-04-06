@@ -84,6 +84,7 @@ SegmentedBar {
 .back-text {
     color: white;
     font-size: 17;
+    margin-left: 2;
 }
 
 .search {

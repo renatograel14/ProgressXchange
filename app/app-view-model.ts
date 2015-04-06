@@ -32,6 +32,7 @@ interface Session {
     description: string;
     descriptionShort: string;
     calendarEventId: string;
+    isBreak: boolean;
 }
 
 var conferenceDays: Array<ConferenceDay> = [
@@ -249,7 +250,7 @@ export class AppViewModel extends observable.Observable {
         });
 
         if (this.selectedViewIndex === 0) {
-            this._sessions = this._sessions.filter(i=> { return i.favorite || !i.canBeFavorited; });
+            this._sessions = this._sessions.filter(i=> { return i.favorite || i.isBreak; });
         }
 
         this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "sessions", value: this._sessions });
@@ -297,6 +298,7 @@ export class SessionModel extends observable.Observable implements Session {
             this._end = source.end;
             this._speakers = source.speakers;
             this._description = source.description;
+            this._isBreak = source.isBreak;
         }
     }
     private _id: string;
@@ -308,6 +310,8 @@ export class SessionModel extends observable.Observable implements Session {
     private _favorite: boolean;
     private _description: string;
     private _calendarEventId: string;
+    private _isBreak: boolean;
+
 
     get Id(): string {
         return this._id;
@@ -343,15 +347,15 @@ export class SessionModel extends observable.Observable implements Session {
             ' - ' + this.end.getHours() + ':' + (endMinutes.length === 1 ? '0' + endMinutes : endMinutes) + endAM;
     }
 
-    get canBeFavorited(): boolean {
-        return this.title.indexOf("Registration") === -1 && this.title.indexOf("Lunch") === -1 && this.title.indexOf("PM Break") === -1;
+    get isBreak(): boolean {
+        return this._isBreak;
     }
 
     get favorite(): boolean {
         return this._favorite;
     }
     set favorite(value: boolean) {
-        if (this._favorite !== value) {
+        if (this._favorite !== value && !this._isBreak) {
             this._favorite = value;
             this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "favorite", value: this._favorite });
         }

@@ -15,7 +15,7 @@
         </GridLayout>
       </GridLayout>
 
-      <GridLayout row="1" visibility="{{ canBeFavorited ? 'visible' : 'collapsed' }}"
+      <GridLayout row="1" visibility="{{ isBreak ? 'collapsed' : 'visible' }}"
                   tap="toggleFavorite" columns="auto"
                   cssClass="favourite-wrap" horizontalAlignment="left">
         <Image stretch="none" cssClass="icon-image"
@@ -54,23 +54,25 @@
         <!-- Speakers -->
         <Label text="Speakers" cssClass="section-header" row="3" col="1" />
 
-        <ListView id="sepakers-list" items="{{ speakers }}" row="4" colSpan="2" height="{{ speakers.length * 72 }}"
+        <ListView id="sepakers-list" items="{{ speakers }}" row="4" colSpan="2" height="{{ speakers.length * 72 + 40 }}"
                   selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">
           <ListView.itemTemplate>
             <GridLayout columns="56, *" cssClass="speakers-row">
-              <Image src="{{ picture }}" cssClass="speaker-image" stretch="aspectFit"/>
+              <Image src="{{ picture }}" cssClass="speaker-image" stretch="aspectFit" rowSpan="2"/>
 
-              <StackLayout col="1">
-                <Label cssClass="info">
+              <StackLayout col="1" >
+                <Label cssClass="info" col="1">
                   <Label.formattedText>
                     <FormattedString>
                       <FormattedString.spans>
                         <Span text="{{ name }}" fontAttributes="Bold" />
+                        <Span text="{{ twitterName ? ' (@' + twitterName + ')' : '' }}" foregroundColor="#A17201" />
                       </FormattedString.spans>
                     </FormattedString>
                   </Label.formattedText>
                 </Label>
-                <Label cssClass="info">
+
+                <Label cssClass="info" textWrap="true">
                   <Label.formattedText>
                     <FormattedString>
                       <FormattedString.spans>
@@ -79,9 +81,8 @@
                     </FormattedString>
                   </Label.formattedText>
                 </Label>
-                <Label text="{{ company }}" cssClass="info"/>
+                
               </StackLayout>
-
             </GridLayout>
           </ListView.itemTemplate>
         </ListView>

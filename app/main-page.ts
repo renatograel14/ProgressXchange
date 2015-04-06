@@ -28,7 +28,7 @@ export function pageLoaded(args: observable.EventData) {
 export function selectSession(args: listView.ItemEventData) {
     var session = <appViewModel.SessionModel>args.view.bindingContext;
 
-    if (session.canBeFavorited) {
+    if (!session.isBreak) {
         frame.topmost().navigate({
             moduleName: "session-page",
             context: session
