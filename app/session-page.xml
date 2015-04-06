@@ -1,5 +1,4 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
-  xmlns:tsb="TelerikNEXT/TelerikNEXT/TelerikUI/side-bar"
   navigatedTo="pageNavigatedTo">
 
   <GridLayout rows="auto, *">
@@ -10,9 +9,16 @@
           <Image stretch="none" cssClass="icon-image" src="res://ic_arrow_back"/>
           <Label text="Back" cssClass="back-text" />
         </StackLayout>
-        <GridLayout cssClass="action-wrap" tap="shareTap" columns="auto" horizontalAlignment="right">
-          <Image stretch="none" cssClass="icon-image" src="res://ic_share"/>
-        </GridLayout>
+
+        <StackLayout orientation="horizontal" horizontalAlignment="right">
+          <GridLayout cssClass="action-wrap" tap="showMapTap" columns="auto" horizontalAlignment="right">
+            <Image stretch="none" cssClass="icon-image" src="res://ic_menu"/>
+          </GridLayout>
+        
+          <GridLayout cssClass="action-wrap" tap="shareTap" columns="auto" horizontalAlignment="right">
+            <Image stretch="none" cssClass="icon-image" src="res://ic_share"/>
+          </GridLayout>
+        </StackLayout>
       </GridLayout>
 
       <GridLayout row="1" visibility="{{ isBreak ? 'collapsed' : 'visible' }}"

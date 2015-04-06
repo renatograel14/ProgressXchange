@@ -94,6 +94,14 @@ export function toogleDescritpion(args: observable.EventData) {
 }
 
 export function backTap(args: gestures.GestureEventData) {
-    console.log("going back");
     frame.topmost().goBack();
+}
+
+export function showMapTap(args: gestures.GestureEventData) {
+    var session = <appViewModel.SessionModel>args.view.bindingContext;
+
+    frame.topmost().navigate({
+        moduleName: "map-page",
+        context: session
+    });
 }
