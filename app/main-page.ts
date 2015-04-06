@@ -4,22 +4,22 @@ import gestures = require("ui/gestures");
 import listView = require("ui/list-view");
 import frame = require("ui/frame");
 import view = require("ui/core/view");
+import search = require("ui/search-bar");
 import appViewModel = require("./app-view-model");
+
 
 export function pageLoaded(args: observable.EventData) {
     var page = <pages.Page>args.object;
 
+    var searchBar = <search.SearchBar>page.getViewById("search");
+    if (searchBar.android) {
+        // Prevent keyboard showing everytime the page loads.
+        searchBar.android.clearFocus();
+    }
+
     var iosFrame = frame.topmost().ios;
     if (iosFrame) {
         iosFrame.navBarVisibility = "never";
-    }
-
-    var content = page.getViewById("sessionsContent");
-    if (content.android) {
-        console.log("HEREEEE");
-        // Prevent keyboard form showing.
-        content.android.setClickable(true);
-        content.android.setFocusableInTouchMode(true);
     }
 
     page.bindingContext = appViewModel.appModel;

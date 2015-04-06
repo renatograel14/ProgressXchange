@@ -42,9 +42,9 @@
         </StackLayout>
 
         <!-- Sessions Views -->
-        <GridLayout  rows="auto, *" row="1" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}" id="sessionsContent">
+        <GridLayout  rows="auto, *" row="1" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
           <!-- Search -->
-          <SearchBar text="{{ search }}" hint="Search" cssClass="search" textFieldBackgroundColor="white"/>
+          <SearchBar text="{{ search }}" hint="Search" cssClass="search" textFieldBackgroundColor="white" id="search"/>
 
           <!-- List -->
           <ListView items="{{ sessions }}" row="1" separatorColor="#fac950" itemTap="selectSession">
