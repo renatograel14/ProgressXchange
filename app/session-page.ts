@@ -7,6 +7,7 @@ import frame = require("ui/frame");
 import button = require("ui/button");
 import label = require("ui/label");
 import view = require("ui/core/view");
+import list = require("ui/list-view");
 import scrollView = require("ui/scroll-view");
 import appViewModel = require("./app-view-model");
 
@@ -14,6 +15,22 @@ export function pageNavigatedTo(args: observable.EventData) {
     var page = <pages.Page>args.object;
 
     page.bindingContext = page.navigationContext;
+
+    disableScroll(<list.ListView>page.getViewById("sepakers-list"));
+
+}
+
+function disableScroll(listView: list.ListView) {
+    if (listView.android) {
+        listView.android.setOnTouchListener(new android.view.View.OnTouchListener({
+            onTouch: function (view: android.view.View, motionEvent: android.view.MotionEvent) {
+                return (motionEvent.getAction() === android.view.MotionEvent.ACTION_MOVE);
+            }
+        }));
+    }
+    if (listView.ios) {
+        listView.ios.scrollEnabled = false;
+    }
 }
 
 export function toggleFavorite(args: gestures.GestureEventData) {

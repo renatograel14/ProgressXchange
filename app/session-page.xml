@@ -54,7 +54,7 @@
         <!-- Speakers -->
         <Label text="Speakers" cssClass="section-header" row="3" col="1" />
 
-        <ListView items="{{ speakers }}" row="4" colSpan="2" height="{{ speakers.length * 72 }}"
+        <ListView id="sepakers-list" items="{{ speakers }}" row="4" colSpan="2" height="{{ speakers.length * 72 }}"
                   selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">
           <ListView.itemTemplate>
             <GridLayout columns="56, *" cssClass="speakers-row">
