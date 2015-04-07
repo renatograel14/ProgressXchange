@@ -294,13 +294,18 @@ export class SessionModel extends observable.Observable implements Session {
             this._id = source.Id;
             this._title = source.title;
             this._room = source.room;
-            this._start = source.start;
-            this._end = source.end;
+            this._start = this.fixDate(source.start);
+            this._end = this.fixDate(source.end);
             this._speakers = source.speakers;
             this._description = source.description;
             this._isBreak = source.isBreak;
         }
     }
+
+    private fixDate(date: Date): Date {
+        return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); 
+    }
+
     private _id: string;
     private _speakers: Array<Speaker>;
     private _title: string;
