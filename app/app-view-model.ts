@@ -5,7 +5,7 @@ import localSettings = require("local-settings");
 import button = require("ui/button");
 import platform = require("platform");
 import appModule = require("application");
-
+import types = require("utils/types");
 
 var everlive = require("./lib/everlive");
 interface ConferenceDay {
@@ -35,6 +35,11 @@ interface Session {
     isBreak: boolean;
 }
 
+interface FavouriteSession {
+    sessionId: string;
+    calendarEventId: string;
+}
+
 var conferenceDays: Array<ConferenceDay> = [
     { title: "WORKSHOPS", date: new Date(2015, 5, 3) },
     { title: "CONFERENCE DAY 1", date: new Date(2015, 5, 4) },
@@ -45,20 +50,29 @@ var pageTitles: Array<string> = ["My agenda", "All sessions", "About"];
 var sessions: Array<SessionModel> = new Array<SessionModel>();
 
 var FAVOURITES = "FAVOURITES";
-var favourites: Array<string>;
+var favourites: Array<FavouriteSession>;
 try {
-    favourites = <Array<string>>JSON.parse(localSettings.getString(FAVOURITES, "[]"));
+    favourites = <Array<FavouriteSession>>JSON.parse(localSettings.getString(FAVOURITES, "[]"));
 }
 catch (error) {
     console.log("Error while retrieveing favourites: " + error);
-    favourites = new Array<string>();
+    favourites = new Array<FavouriteSession>();
     updateFavourites();
 }
 
+function findSessionIndexInFavourites(sessionId: string): number {
+    for (var i = 0; i < favourites.length; i++) {
+        if (favourites[i].sessionId === sessionId) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 function addToFavourites(session: SessionModel) {
-    if (favourites.indexOf(session.Id) < 0) {
-        favourites.push(session.Id);
-        updateFavourites();
+    if (findSessionIndexInFavourites(session.Id) >= 0) {
+        // Sesson already added to favourites.
+        return;
     }
 
     if (platform.device.os === platform.platformNames.android) {
@@ -74,6 +88,11 @@ function addToFavourites(session: SessionModel) {
             var idCol = managedCursor.getColumnIndex(projection[0]);
             calID = managedCursor.getString(idCol);
             managedCursor.close();
+        }
+
+        if (types.isUndefined(calID)) {
+            // No caledndar to add to
+            return;
         }
 
         var timeZone = java.util.TimeZone.getTimeZone("GMT-05:00");
@@ -112,37 +131,46 @@ function addToFavourites(session: SessionModel) {
             session.calendarEventId = event.eventIdentifier;
         });
     }
+
+    favourites.push({
+        sessionId: session.Id,
+        calendarEventId: session.calendarEventId
+    });
+    updateFavourites();
 }
 
 function removeFromFavourites(session: SessionModel) {
-    var index = favourites.indexOf(session.Id);
+    var index = findSessionIndexInFavourites(session.Id);
     if (index >= 0) {
         favourites.splice(index, 1);
         updateFavourites();
     }
 
-    if (platform.device.os === platform.platformNames.android) {
-        var deleteUri = android.content.ContentUris.withAppendedId(android.provider.CalendarContract.Events.CONTENT_URI, parseInt(session.calendarEventId));
-        appModule.android.foregroundActivity.getApplicationContext().getContentResolver().delete(deleteUri, null, null);
-    } else if (platform.device.os === platform.platformNames.ios) {
-        var store = EKEventStore.new()
-        store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
-            if (!granted) {
-                return;
-            }
+    if (session.calendarEventId) {
+        if (platform.device.os === platform.platformNames.android) {
+            var deleteUri = android.content.ContentUris.withAppendedId(android.provider.CalendarContract.Events.CONTENT_URI, parseInt(session.calendarEventId));
+            appModule.android.foregroundActivity.getApplicationContext().getContentResolver().delete(deleteUri, null, null);
+        } else if (platform.device.os === platform.platformNames.ios) {
+            var store = EKEventStore.new()
+            store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
+                if (!granted) {
+                    return;
+                }
 
-            var eventToRemove = store.eventWithIdentifier(session.calendarEventId);
-            if (eventToRemove) {
-                var err: NSError;
-                store.removeEventSpanCommitError(eventToRemove, EKSpan.EKSpanThisEvent, true, err);
-                session.calendarEventId = undefined;
-            }
-        });
+                var eventToRemove = store.eventWithIdentifier(session.calendarEventId);
+                if (eventToRemove) {
+                    var err: NSError;
+                    store.removeEventSpanCommitError(eventToRemove, EKSpan.EKSpanThisEvent, true, err);
+                    session.calendarEventId = undefined;
+                }
+            });
+        }
     }
 }
 
 function updateFavourites() {
     var newValue = JSON.stringify(favourites);
+    console.log("favourites: " + newValue);
     localSettings.setString(FAVOURITES, newValue);
 }
 
@@ -153,8 +181,10 @@ var expandExp = {
 function pushSessions(sessionsFromEvelive: Array<Session>) {
     for (var i = 0; i < sessionsFromEvelive.length; i++) {
         var newSession = new SessionModel(sessionsFromEvelive[i]);
-        if (favourites.indexOf(newSession.Id) >= 0) {
+        var indexInFavs = findSessionIndexInFavourites(newSession.Id);
+        if (indexInFavs >= 0) {
             newSession.favorite = true;
+            newSession.calendarEventId = favourites[indexInFavs].calendarEventId;
         }
         sessions.push(newSession);
     }
@@ -303,7 +333,7 @@ export class SessionModel extends observable.Observable implements Session {
     }
 
     private fixDate(date: Date): Date {
-        return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); 
+        return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
     }
 
     private _id: string;
@@ -316,7 +346,6 @@ export class SessionModel extends observable.Observable implements Session {
     private _description: string;
     private _calendarEventId: string;
     private _isBreak: boolean;
-
 
     get Id(): string {
         return this._id;
