@@ -12,7 +12,7 @@
 
         <StackLayout orientation="horizontal" horizontalAlignment="right">
           <GridLayout cssClass="action-wrap" tap="showMapTap" columns="auto" horizontalAlignment="right">
-            <Image stretch="none" cssClass="icon-image" src="res://ic_menu"/>
+            <Image stretch="none" cssClass="icon-image" src="res://ic_map"/>
           </GridLayout>
         
           <GridLayout cssClass="action-wrap" tap="shareTap" columns="auto" horizontalAlignment="right">
@@ -60,7 +60,7 @@
         <!-- Speakers -->
         <Label text="Speakers" cssClass="section-header" row="3" col="1" />
 
-        <ListView id="sepakers-list" items="{{ speakers }}" row="4" colSpan="2" height="{{ speakers.length * 72 + 40 }}"
+        <ListView id="sepakers-list" items="{{ speakers }}" row="4" colSpan="2" height="{{ speakers.length * 72 + 46 }}"
                   selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">
           <ListView.itemTemplate>
             <GridLayout columns="56, *" cssClass="speakers-row">
