@@ -49,6 +49,7 @@ var pageTitles: Array<string> = ["My agenda", "All sessions", "About"];
 
 var sessions: Array<SessionModel> = new Array<SessionModel>();
 
+var REMIDER_MINUTES = 5;
 var FAVOURITES = "FAVOURITES";
 var favourites: Array<FavouriteSession>;
 try {
@@ -74,62 +75,76 @@ function addToFavourites(session: SessionModel) {
         // Sesson already added to favourites.
         return;
     }
+    try {
 
-    if (platform.device.os === platform.platformNames.android) {
-        var projection = java.lang.reflect.Array.newInstance(java.lang.String.class, 1);
-        projection[0] = "_id";
+        if (platform.device.os === platform.platformNames.android) {
+            var projection = java.lang.reflect.Array.newInstance(java.lang.String.class, 1);
+            projection[0] = "_id";
 
-        var calendars = android.net.Uri.parse("content://com.android.calendar/calendars");
-        var contentResolver = appModule.android.foregroundActivity.getApplicationContext().getContentResolver();
-        var managedCursor = contentResolver.query(calendars, projection, null, null, null);
-        var calID;
+            var calendars = android.net.Uri.parse("content://com.android.calendar/calendars");
+            var contentResolver = appModule.android.foregroundActivity.getApplicationContext().getContentResolver();
+            var managedCursor = contentResolver.query(calendars, projection, null, null, null);
+            var calID;
 
-        if (managedCursor.moveToFirst()) {
-            var idCol = managedCursor.getColumnIndex(projection[0]);
-            calID = managedCursor.getString(idCol);
-            managedCursor.close();
-        }
+            if (managedCursor.moveToFirst()) {
+                var idCol = managedCursor.getColumnIndex(projection[0]);
+                calID = managedCursor.getString(idCol);
+                managedCursor.close();
+            }
 
-        if (types.isUndefined(calID)) {
-            // No caledndar to add to
-            return;
-        }
-
-        var timeZone = java.util.TimeZone.getTimeZone("GMT-05:00");
-
-        var startDate = session.start.getTime();
-        var endDate = session.end.getTime();
-
-        var values = new android.content.ContentValues();
-        values.put("calendar_id", calID);
-        values.put("eventTimezone", timeZone.getID());
-        values.put("dtstart", java.lang.Long.valueOf(startDate));
-        values.put("dtend", java.lang.Long.valueOf(endDate));
-        values.put("title", session.title);
-        values.put("eventLocation", session.room);
-        var uri = contentResolver.insert(android.provider.CalendarContract.Events.CONTENT_URI, values);
-
-        session.calendarEventId = java.lang.Long.parseLong(uri.getLastPathSegment());
-    } else if (platform.device.os === platform.platformNames.ios) {
-        var store = EKEventStore.new()
-        store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
-            if (!granted) {
+            if (types.isUndefined(calID)) {
+                // No caledndar to add to
                 return;
             }
 
-            var event = EKEvent.eventWithEventStore(store);
-            event.title = session.title;
-            event.timeZone = NSTimeZone.alloc().initWithName("UTC-05:00");
-            event.startDate = NSDate.dateWithTimeIntervalSince1970(session.start.getTime() / 1000);
-            event.endDate = NSDate.dateWithTimeIntervalSince1970(session.end.getTime() / 1000);
-            event.calendar = store.defaultCalendarForNewEvents;
-            event.location = session.room;
+            var timeZone = java.util.TimeZone.getTimeZone("GMT-05:00");
 
-            var err: NSError;
-            var result = store.saveEventSpanCommitError(event, EKSpan.EKSpanThisEvent, true, err);
+            var startDate = session.start.getTime();
+            var endDate = session.end.getTime();
 
-            session.calendarEventId = event.eventIdentifier;
-        });
+            var values = new android.content.ContentValues();
+            values.put("calendar_id", calID);
+            values.put("eventTimezone", timeZone.getID());
+            values.put("dtstart", java.lang.Long.valueOf(startDate));
+            values.put("dtend", java.lang.Long.valueOf(endDate));
+            values.put("title", session.title);
+            values.put("eventLocation", session.room);
+            var uri = contentResolver.insert(android.provider.CalendarContract.Events.CONTENT_URI, values);
+
+            session.calendarEventId = eventId;
+            var eventId = uri.getLastPathSegment();
+
+            var reminderValues = new android.content.ContentValues();
+            reminderValues.put("event_id", java.lang.Long.valueOf(java.lang.Long.parseLong(eventId)));
+            reminderValues.put("method", java.lang.Long.valueOf(1)); // METHOD_ALERT
+            reminderValues.put("minutes", java.lang.Long.valueOf(REMIDER_MINUTES));
+            contentResolver.insert(android.provider.CalendarContract.Reminders.CONTENT_URI, reminderValues);
+
+        } else if (platform.device.os === platform.platformNames.ios) {
+            var store = EKEventStore.new()
+            store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
+                if (!granted) {
+                    return;
+                }
+
+                var event = EKEvent.eventWithEventStore(store);
+                event.title = session.title;
+                event.timeZone = NSTimeZone.alloc().initWithName("UTC-05:00");
+                event.startDate = NSDate.dateWithTimeIntervalSince1970(session.start.getTime() / 1000);
+                event.endDate = NSDate.dateWithTimeIntervalSince1970(session.end.getTime() / 1000);
+                event.calendar = store.defaultCalendarForNewEvents;
+                event.location = session.room;
+                event.addAlarm(EKAlarm.alarmWithRelativeOffset(-REMIDER_MINUTES * 60));
+
+                var err: NSError;
+                var result = store.saveEventSpanCommitError(event, EKSpan.EKSpanThisEvent, true, err);
+
+                session.calendarEventId = event.eventIdentifier;
+            });
+        }
+    }
+    catch (error) {
+        console.log("Error while creating calendar event: " + error);
     }
 
     favourites.push({
