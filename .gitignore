@@ -19,3 +19,4 @@ platforms/ios/*
 !platforms/ios/Sample-TelerikNext
 platforms/ios/Sample-TelerikNext/*
 !platforms/ios/Sample-TelerikNext/Images.xcassets
+!platforms/ios/Sample-TelerikNext/Sample-TelerikNext-Info.plist
