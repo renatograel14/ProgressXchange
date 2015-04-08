@@ -14,14 +14,14 @@
       <GridLayout rows="auto, *">
         <!-- Header -->
         <StackLayout cssClass="page-header">
-          <GridLayout cssClass="action-bar android-darker">
+          <GridLayout cssClass="action-bar darker">
             <GridLayout cssClass="action-wrap" tap="showSlideout" columns="auto" horizontalAlignment="left">
               <Image stretch="none" cssClass="icon-image" src="res://ic_menu"/>
             </GridLayout>
             <Label text="{{ actionBarTitle }}" cssClass="action-bar-title" />
           </GridLayout>
 
-          <GridLayout cssClass="android-darker" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
+          <GridLayout cssClass="darker" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
             <SegmentedBar selectedBackgroundColor="#fac950" selectedIndex="{{ selectedIndex }}">
               <SegmentedBar.items>
                 <SegmentedBarItem title="MAY 3" />

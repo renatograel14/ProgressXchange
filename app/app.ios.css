@@ -6,7 +6,7 @@ Page {
 SegmentedBar {
     background-color: transparent;
     color: #fac950;
-    margin: 0 12;
+    margin: 12 12;
 }
 
 /* Slide-out */
@@ -43,6 +43,10 @@ SegmentedBar {
     vertical-align: center;
     font-size: 20;
     color: white;
+}
+
+.darker {
+    background-color: #55000000;
 }
 
 .page-header {
