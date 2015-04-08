@@ -13,7 +13,7 @@ interface ConferenceDay {
     title: string;
 }
 
-interface Speaker {
+export interface Speaker {
     //Id: string;
     name: string;
     title: string;
@@ -22,12 +22,20 @@ interface Speaker {
     twitterName: string;
 }
 
-interface Session {
+export interface RoomInfo {
+    roomId: string;
+    name: string;
+    url: string;
+    theme: string;
+}
+
+export interface Session {
     Id: string;
     title: string;
     start: Date;
     end: Date;
     room: string;
+    roomInfo: RoomInfo;
     speakers: Array<Speaker>;
     description: string;
     descriptionShort: string;
@@ -35,7 +43,7 @@ interface Session {
     isBreak: boolean;
 }
 
-interface FavouriteSession {
+export interface FavouriteSession {
     sessionId: string;
     calendarEventId: string;
 }
@@ -191,7 +199,8 @@ function updateFavourites() {
 
 var el = new everlive("mzacGkKPFlZUfbMq");
 var expandExp = {
-    "speakers": true
+    "speakers": true,
+    "roomInfo": true
 };
 function pushSessions(sessionsFromEvelive: Array<Session>) {
     for (var i = 0; i < sessionsFromEvelive.length; i++) {
@@ -339,6 +348,7 @@ export class SessionModel extends observable.Observable implements Session {
             this._id = source.Id;
             this._title = source.title;
             this._room = source.room;
+            this._roomInfo = source.roomInfo;
             this._start = this.fixDate(source.start);
             this._end = this.fixDate(source.end);
             this._speakers = source.speakers;
@@ -357,6 +367,7 @@ export class SessionModel extends observable.Observable implements Session {
     private _start: Date;
     private _end: Date;
     private _room: string;
+    private _roomInfo: RoomInfo;
     private _favorite: boolean;
     private _description: string;
     private _calendarEventId: string;
@@ -371,7 +382,19 @@ export class SessionModel extends observable.Observable implements Session {
     }
 
     get room(): string {
-        return this._room;
+        if (this._room) {
+            return this._room;
+        }
+
+        if (this._roomInfo) {
+            return this._roomInfo.name
+        }
+
+        return null;
+    }
+
+    get roomInfo(): RoomInfo {
+        return this._roomInfo;
     }
 
     get start(): Date {

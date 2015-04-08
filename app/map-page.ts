@@ -3,20 +3,31 @@ import gestures = require("ui/gestures");
 import utils = require("utils/utils");
 import frame = require("ui/frame");
 import observable = require("data/observable");
-
+import appViewModel = require("./app-view-model");
 import rndApi = require("./lib/officeRnDApi");
 
 export function pageNavigatedTo(args: observable.EventData) {
     var page = <pages.Page>args.object;
+    var roomInfo: appViewModel.RoomInfo;
+    
+    if (page && page.navigationContext) {
+        roomInfo = <appViewModel.RoomInfo>page.navigationContext.roomInfo;
+    }
 
     var vm = new observable.Observable();
-    vm.set("name", page.navigationContext.room);
-    vm.set("isLoading", true);
+    if (roomInfo) {
+        vm.set("name", roomInfo.name);
+        vm.set("isLoading", true);
 
-    rndApi.getRoomImage(0, function (roomName, imageSource) {
-        vm.set("image", imageSource);
-        vm.set("isLoading", false);
-    });
+        rndApi.getRoomImage(roomInfo, function (imageSource) {
+            vm.set("image", imageSource);
+            vm.set("isLoading", false);
+        });
+    }
+    else {
+        vm.set("name", "No map ifno");
+        vm.set("image", rndApi.defaultNotFoundImageSource);
+    }
 
     page.bindingContext = vm;
 }

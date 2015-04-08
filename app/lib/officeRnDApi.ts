@@ -1,18 +1,12 @@
 ﻿import http = require("http");
 import imageSource = require("image-source");
 import imageCache = require("ui/image-cache");
+import appViewModel = require("../app-view-model");
+
 
 var officeRnDApi = "https://www.officernd.com/api/v1/";
 var cache = new imageCache.Cache();
-var defaultNotFoundImageSource = imageSource.fromFile("~/images/no-map.png");
-
-var config = {
-    rooms: [{
-        roomName: "Skyline Ballroom", // TODO: Take this from the server
-        roomId: "5512e51e5f21568a0f16b3db",
-        theme: "professional"
-    }]
-};
+export var defaultNotFoundImageSource = imageSource.fromFile("~/images/no-map.png");
 
 cache.invalid = defaultNotFoundImageSource;
 cache.maxRequests = 5;
@@ -35,13 +29,14 @@ function getImage(uri, done) {
     }
 }
 
-export function getRoomImage(roomIndex, update) {
-    var getRoomImageUri, roomConfig, imageModel;
-
-    roomIndex = roomIndex || 0;
-    roomConfig = config.rooms[roomIndex];
-
-    getRoomImageUri = officeRnDApi + "rooms/" + roomConfig.roomId + "/export-uri?theme=" + roomConfig.theme;
+export function getRoomImage(info: appViewModel.RoomInfo, update: (image: imageSource.ImageSource) => void ) {
+    var getRoomImageUri;
+    if (info.url) {
+        getRoomImageUri = info.url;
+    }
+    else {
+        getRoomImageUri = officeRnDApi + "rooms/" + info.roomId + "/export-uri?theme=" + info.theme;
+    }
 
     console.log("Loading: " + getRoomImageUri);
     http.getJSON(getRoomImageUri)
@@ -51,10 +46,10 @@ export function getRoomImage(roomIndex, update) {
             console.log("Loading image: " + uri);
             getImage(uri, function (image) {
                 console.log("Image downloaded");
-                update(roomConfig.roomName, image);
+                update(image);
             });
         }, function (err) {
             console.log("ERROR: " + err);
-            update(roomConfig.roomName, defaultNotFoundImageSource);
+            update(defaultNotFoundImageSource);
         });
 }

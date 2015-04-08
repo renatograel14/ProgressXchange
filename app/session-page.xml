@@ -11,7 +11,7 @@
         </StackLayout>
 
         <StackLayout orientation="horizontal" horizontalAlignment="right">
-          <GridLayout cssClass="action-wrap" tap="showMapTap" columns="auto" horizontalAlignment="right">
+          <GridLayout cssClass="action-wrap" tap="showMapTap" columns="auto" horizontalAlignment="right"  visibility="{{ room ? 'visible' : 'collapsed' }}">
             <Image stretch="none" cssClass="icon-image" src="res://ic_map"/>
           </GridLayout>
         
