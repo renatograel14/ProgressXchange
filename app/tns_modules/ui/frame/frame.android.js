@@ -502,7 +502,7 @@ var AndroidFrame = (function (_super) {
         if (!this._activity) {
             return false;
         }
-        return this._activity.getIntent().Action !== android.content.Intent.ACTION_MAIN;
+        return this._activity.getIntent().getAction() !== android.content.Intent.ACTION_MAIN;
     };
     AndroidFrame.prototype.reset = function () {
         delete this.rootViewGroup[OWNER];
@@ -551,6 +551,6 @@ function findPageForFragment(fragment, frame) {
 }
 function startActivity(activity, entry) {
     var intent = new android.content.Intent(activity, com.tns.NativeScriptActivity.class);
-    intent.Action = android.content.Intent.ACTION_DEFAULT;
+    intent.setAction(android.content.Intent.ACTION_DEFAULT);
     activity.startActivity(intent);
 }

@@ -198,7 +198,6 @@ var UINavigationControllerImpl = (function (_super) {
         var newPage = newEntry.resolvedPage;
         if (!newPage.parent) {
             if (!frame._currentEntry) {
-                // First navigation
                 frame._currentEntry = newEntry;
             }
             else {
