@@ -185,9 +185,6 @@ var OptionsMenu = (function () {
         return this._items[index];
     };
     OptionsMenu.prototype.setItems = function (items) {
-        if (this._items === items) {
-            return;
-        }
         while (this._items.length > 0) {
             this.removeItem(this._items[this._items.length - 1]);
         }

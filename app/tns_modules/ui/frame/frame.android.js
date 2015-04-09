@@ -141,7 +141,7 @@ var PageFragmentBody = (function (_super) {
             menuItem._raiseTap();
             return true;
         }
-        _super.prototype.onOptionsItemSelected.call(this, item);
+        return _super.prototype.onOptionsItemSelected.call(this, item);
     };
     return PageFragmentBody;
 })(android.app.Fragment);
