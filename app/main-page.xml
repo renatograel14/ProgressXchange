@@ -159,7 +159,7 @@ Space is limited, so be sure to pick up your entry pass by stopping by at the Re
               </FormattedString>
             </Label.formattedText>
           </Label>
-          <Label cssClass="info" textWrap="true" text="Some info here"  marginBottom="16"/>
+          <Label cssClass="info" textWrap="true" text="{{ info_raffle }}"  marginBottom="16"/>
 
           <StackLayout cssClass="horizontal-line"/>
           <Label cssClass="info-orange">
@@ -171,7 +171,7 @@ Space is limited, so be sure to pick up your entry pass by stopping by at the Re
               </FormattedString>
             </Label.formattedText>
           </Label>
-          <Label cssClass="info" textWrap="true" text="Some info here" marginBottom="16"/>
+          <Label cssClass="info" textWrap="true"  text="{{ info_certification }}" marginBottom="16"/>
 
           <StackLayout cssClass="horizontal-line"/>
           <Label cssClass="info-orange">

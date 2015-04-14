@@ -243,8 +243,11 @@ function loadSecondChunk() {
 loadFirstChunk();
 
 export class AppViewModel extends observable.Observable {
-    public selectedViewIndex: number;
     private _selectedIndex;
+    private _search = "";
+    private _sessions: Array<SessionModel>;
+
+    public selectedViewIndex: number;
 
     constructor() {
         super();
@@ -256,7 +259,6 @@ export class AppViewModel extends observable.Observable {
         this.set("isSessionsPage", true);
     }
 
-    private _sessions: Array<SessionModel>;
     get sessions(): Array<SessionModel> {
         return this._sessions;
     }
@@ -265,7 +267,6 @@ export class AppViewModel extends observable.Observable {
         return this.sessions.filter(i=> { return i.favorite });
     }
 
-    private _search = "";
     get search(): string {
         return this._search;
     }
@@ -330,8 +331,6 @@ export class AppViewModel extends observable.Observable {
         this.set("isSessionsPage", this.selectedViewIndex < 2);
     }
 }
-
-export var appModel = new AppViewModel();
 
 export class SessionModel extends observable.Observable implements Session {
     constructor(source?: Session) {
@@ -459,3 +458,18 @@ export class SessionModel extends observable.Observable implements Session {
         }
     }
 }
+
+export var appModel = new AppViewModel();
+
+// load other info
+el.data('Info').get().then(
+    function (data) {
+        for (var i = 0; i < data.result.length; i++) {
+            var item = data.result[i];
+            appModel.set("info_" + item.key, item.value);
+        }
+    }, function (error) {
+        console.log("Could not load Info. Error: " + error);
+    });
+
+
