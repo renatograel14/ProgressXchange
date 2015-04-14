@@ -304,9 +304,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="lib\everlive.js" />
-    <Compile Include="TelerikUI\side-bar\side-bar-common.js" />
-    <Compile Include="TelerikUI\side-bar\side-bar.android.js" />
-    <Compile Include="TelerikUI\side-bar\side-bar.ios.js" />
     <Compile Include="tns_modules\application\application-common.js" />
     <Compile Include="tns_modules\application\application.android.js" />
     <Compile Include="tns_modules\application\application.ios.js" />

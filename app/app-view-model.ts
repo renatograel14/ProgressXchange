@@ -53,7 +53,6 @@ var conferenceDays: Array<ConferenceDay> = [
     { title: "CONFERENCE DAY 1", date: new Date(2015, 5, 4) },
     { title: "CONFERENCE DAY 2", date: new Date(2015, 5, 5) }
 ];
-var pageTitles: Array<string> = ["My agenda", "All sessions", "About"];
 
 var sessions: Array<SessionModel> = new Array<SessionModel>();
 
@@ -252,9 +251,9 @@ export class AppViewModel extends observable.Observable {
 
         this.selectedIndex = 0;
         this.selectedViewIndex = 1;
-        this.set("actionBarTitle", pageTitles[this.selectedViewIndex]);
+        this.set("actionBarTitle", "All sessions");
         this.set("isLoading", true);
-        this.set("isAboutPage", false);
+        this.set("isSessionsPage", true);
     }
 
     private _sessions: Array<SessionModel>;
@@ -321,20 +320,14 @@ export class AppViewModel extends observable.Observable {
         var slideBar = <any>page.getViewById("sideBar");
         slideBar.closeSlideContent();
 
-        if (btn.text === pageTitles[0]) {
-            this.selectedViewIndex = 0;
+
+        this.selectedViewIndex = parseInt((<any>btn).tag);
+        if (this.selectedViewIndex < 2) {
             this.filter();
-        } else if (btn.text === pageTitles[1]) {
-            this.selectedViewIndex = 1;
-            this.filter();
-        } else if (btn.text === pageTitles[2]) {
-            this.selectedViewIndex = 2;
         }
-
-        this.set("actionBarTitle", pageTitles[this.selectedViewIndex]);
-
         this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "selectedViewIndex", value: this.selectedViewIndex });
-        this.set("isAboutPage", this.selectedViewIndex === 2);
+        this.set("actionBarTitle", btn.text);
+        this.set("isSessionsPage", this.selectedViewIndex < 2);
     }
 }
 

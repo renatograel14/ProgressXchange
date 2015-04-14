@@ -7,7 +7,6 @@ import view = require("ui/core/view");
 import search = require("ui/search-bar");
 import appViewModel = require("./app-view-model");
 
-
 export function pageLoaded(args: observable.EventData) {
     var page = <pages.Page>args.object;
 

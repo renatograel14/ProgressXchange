@@ -2,5 +2,8 @@
 	"id": "org.nativescript.TelerikNEXT",
 	"tns-ios": {
 		"version": "0.9.1"
+	},
+	"tns-android": {
+		"version": "0.10.0"
 	}
 }

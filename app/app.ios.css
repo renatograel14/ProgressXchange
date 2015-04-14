@@ -63,6 +63,10 @@ SegmentedBar {
     color: #fac950;
 }
 
+.info-page-header {
+    font-size: 17;
+}
+
 .session-page-subtitle {
     font-size: 12;
     color: #A17201;
@@ -137,7 +141,6 @@ SegmentedBar {
     background-color: #FAC950;
 }
 
-
 /* List rows */
 .break-row {
     padding: 12;
@@ -159,5 +162,9 @@ SegmentedBar {
 }
 
 .content {
+    margin: 12;
+}
+
+.content-offset {
     margin: 12;
 }

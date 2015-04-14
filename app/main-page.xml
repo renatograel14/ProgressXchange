@@ -4,9 +4,11 @@
     <tsb:SideBar.slideContent>
       <StackLayout style="background-color: #053140;">
         <Image src="res://logo" cssClass="slide-out-img" stretch="none" />
-        <Button tap="{{ selectView }}" cssClass="{{ selectedViewIndex === 0 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="My agenda" />
-        <Button tap="{{ selectView }}" cssClass="{{ selectedViewIndex === 1 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="All sessions" />
-        <Button tap="{{ selectView }}" cssClass="{{ selectedViewIndex === 2 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="About" />
+        <Button tap="{{ selectView }}" tag="0" cssClass="{{ selectedViewIndex === 0 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="My agenda" />
+        <Button tap="{{ selectView }}" tag="1" cssClass="{{ selectedViewIndex === 1 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="All sessions" />
+        <Button tap="{{ selectView }}" tag="2" cssClass="{{ selectedViewIndex === 2 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="Workshop Hackaton" />
+        <Button tap="{{ selectView }}" tag="3" cssClass="{{ selectedViewIndex === 3 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="What's NEXT" />
+        <Button tap="{{ selectView }}" tag="4" cssClass="{{ selectedViewIndex === 4 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="Sponsors" />
       </StackLayout>
     </tsb:SideBar.slideContent>
 
@@ -21,7 +23,7 @@
             <Label text="{{ actionBarTitle }}" cssClass="action-bar-title" />
           </GridLayout>
 
-          <GridLayout cssClass="darker" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
+          <GridLayout cssClass="darker" visibility="{{ isSessionsPage ? 'visible' : 'collapsed' }}">
             <SegmentedBar selectedBackgroundColor="#fac950" selectedIndex="{{ selectedIndex }}">
               <SegmentedBar.items>
                 <SegmentedBarItem title="MAY 3" />
@@ -30,7 +32,7 @@
               </SegmentedBar.items>
             </SegmentedBar>
           </GridLayout>
-          <Label cssClass="page-title" horizontalAlignment="center" margin="15" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
+          <Label cssClass="page-title" horizontalAlignment="center" margin="15" visibility="{{ isSessionsPage ? 'visible' : 'collapsed' }}">
             <Label.formattedText>
               <FormattedString>
                 <FormattedString.spans>
@@ -42,7 +44,7 @@
         </StackLayout>
 
         <!-- Sessions Views -->
-        <GridLayout  rows="auto, *" row="1" visibility="{{ isAboutPage ? 'collapsed' : 'visible' }}">
+        <GridLayout  rows="auto, *" row="1" visibility="{{ isSessionsPage ? 'visible' : 'collapsed' }}">
           <!-- Search -->
           <SearchBar text="{{ search }}" hint="Search" cssClass="search" textFieldBackgroundColor="white" id="search"/>
 
@@ -82,10 +84,58 @@
           <ActivityIndicator busy="{{ isLoading }}" row="1" horizontalAlignment="center" verticalAlignment="center" />
         </GridLayout>
 
-        <!-- About View -->
-        <GridLayout row="1" textWrap="true" visibility="{{ isAboutPage ? 'visible' : 'collapsed'}}" cssClass="content">
-          <Label cssClass="info-bigger" textWrap="true"
-                 text="TelerikNEXT is a gathering dedicated to equipping customers, partners and the broader community with success-fueling Telerik insight." />
+        <!-- Workshop View -->
+        <StackLayout row="1" visibility="{{ selectedViewIndex === 2 ? 'visible' : 'collapsed'}}" cssClass="content-offset">
+          <Label cssClass="info-page-header" textWrap="true" text="Come check out the TelerikNEXT Mobile Hackath" />
+          <Label cssClass="info-orange" textWrap="true" >
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="Sunday, May 3rd from 6:30pm-10:30pm" fontAttributes="Bold" />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
+
+          <Label cssClass="info" textWrap="true" >
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="
+As always, we'll make it worth your while. You will:
+                        
+1) Build your first (or tenth) mobile app and have fun doing it
+
+2) Enjoy free food, drinks and software licenses, all while learning new skills
+
+3) Get prizes, with" />
+                  <Span text=" winners every 20 minutes" fontAttributes="Bold"/>
+                  <Span text="
+                                                                                           
+5) Ask questions and meet our hackathon expert engineers
+
+6) Get " />
+                  <Span text=" FREE code" fontAttributes="Bold"/>
+                  <Span text=" licenses for 6 months!" />
+                  <Span text="
+                        
+Space is limited, so be sure to pick up your entry pass by stopping by at the Registration desk on Sunday between the hours of 4:00 p.m. - 6:00 p.m." 
+                        foregroundColor="#A17201" fontAttributes="Bold"/>
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
+
+        </StackLayout>
+
+        <!-- What's NEXT View -->
+        <GridLayout row="1" textWrap="true" visibility="{{ selectedViewIndex === 3 ? 'visible' : 'collapsed'}}" cssClass="content">
+          <Label cssClass="info-bigger" textWrap="true" text="What's NEXT" />
+        </GridLayout>
+
+        <!-- Sponsors -->
+        <GridLayout row="1" textWrap="true" visibility="{{ selectedViewIndex === 4 ? 'visible' : 'collapsed'}}" cssClass="content">
+          <Label cssClass="info-bigger" textWrap="true" text="Sponsors" />
         </GridLayout>
       </GridLayout>
     </tsb:SideBar.mainContent>
