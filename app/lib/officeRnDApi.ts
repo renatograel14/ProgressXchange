@@ -8,7 +8,6 @@ var officeRnDApi = "https://www.officernd.com/api/v1/";
 var cache = new imageCache.Cache();
 export var defaultNotFoundImageSource = imageSource.fromFile("~/images/no-map.png");
 
-cache.invalid = defaultNotFoundImageSource;
 cache.maxRequests = 5;
 
 function getImage(uri, done) {
