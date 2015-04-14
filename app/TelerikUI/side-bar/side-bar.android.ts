@@ -6,59 +6,25 @@ import utils = require("utils/utils");
 
 declare var com: any;
 
-function onMainContentPropertyChanged(data: dependencyObservable.PropertyChangeData) {
+function onContentPropertyChanged(data: dependencyObservable.PropertyChangeData) {
     var bar = <SideBar>data.object;
-    var newContent = <view.View> data.newValue;
+    console.log(data.property.name + " property changed data.newValue:" + data.newValue);
 
-    if (bar.android && newContent instanceof view.View) {
-        bar.android.setMainContent(newContent.android);
+    if (data.oldValue) {
+        bar._removeView(data.oldValue);
+    }
+    if (data.newValue) {
+        bar._addView(data.newValue);
     }
 }
-(<proxy.PropertyMetadata>common.SideBar.mainContentProperty.metadata).onSetNativeValue = onMainContentPropertyChanged;
 
-function onSlideContentPropertyChanged(data: dependencyObservable.PropertyChangeData) {
-    var bar = <SideBar>data.object;
-    var newContent = <view.View> data.newValue;
-
-    if (bar.android && newContent instanceof view.View) {
-        bar.android.setDrawerContent(newContent.android);
-    }
-}
-(<proxy.PropertyMetadata>common.SideBar.slideContentProperty.metadata).onSetNativeValue = onSlideContentPropertyChanged;
-
-function onSlideContentWidthPropertyChanged(data: dependencyObservable.PropertyChangeData) {
-    var bar = <SideBar>data.object;
-
-    if (bar.android) {
-        bar.android.setDrawerSize(utils.layout.getDisplayDensity() * data.newValue);
-    }
-}
-(<proxy.PropertyMetadata>common.SideBar.slideContentWidthProperty.metadata).onSetNativeValue = onSlideContentWidthPropertyChanged;
+common.SideBar.mainContentProperty.metadata.onValueChanged = onContentPropertyChanged;
+common.SideBar.slideContentProperty.metadata.onValueChanged = onContentPropertyChanged;
 
 export class SideBar extends common.SideBar {
     public _createUI() {
         this._android = new com.telerik.android.primitives.widget.sidedrawer.RadSideDrawer(this._context);
         this._android.setDrawerSize(utils.layout.getDisplayDensity() * 280);
-
-        if (this.mainContent instanceof view.View) {
-            this._addView(this.mainContent);
-        }
-
-        if (this.slideContent instanceof view.View) {
-            this._addView(this.slideContent);
-        }
-    }
-
-    public onUnloaded() {
-        super.onUnloaded();
-
-        if (this.mainContent instanceof view.View) {
-            this._removeView(this.mainContent);
-        }
-
-        if (this.slideContent instanceof view.View) {
-            this._removeView(this.slideContent);
-        }
     }
 
     private _android: any;
@@ -78,11 +44,45 @@ export class SideBar extends common.SideBar {
         }
     }
 
+    public _addViewToNativeVisualTree(child: view.View): boolean {
+        if (this._android && child.android) {
+            if (this.mainContent === child) {
+                this._android.setMainContent(child.android);
+                return true;
+            }
+
+            if (this.slideContent === child) {
+                this._android.setDrawerContent(child.android);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public _removeViewFromNativeVisualTree(child: view.View): void {
+        if (this._android && child.android) {
+            if (this.mainContent === child) {
+                this._android.setMainContent(null);
+                (<any>child)._isAddedToNativeVisualTree = false;
+            }
+
+            if (this.slideContent === child) {
+                this._android.setDrawerContent(null);
+                (<any>child)._isAddedToNativeVisualTree = false;
+            }
+        }
+    }
+
     public openSlideContent(): void {
-        this.android.setIsOpen(true);
+        if (this.android) {
+            this.android.setIsOpen(true);
+        }
     }
 
     public closeSlideContent(): void {
-        this.android.setIsOpen(false);
+        if (this.android) {
+            this.android.setIsOpen(false);
+        }
     }
 }
