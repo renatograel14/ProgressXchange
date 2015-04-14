@@ -47,3 +47,9 @@ export function showSlideout(args: gestures.GestureEventData) {
     var slideBar = <any>page.getViewById("sideBar");
     slideBar.openSlideContent();
 }
+
+export function goToUrl(args: gestures.GestureEventData) {
+    var url = (<any>args.view).tag;
+
+    console.log("url: " + url);
+}

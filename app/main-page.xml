@@ -129,14 +129,79 @@ Space is limited, so be sure to pick up your entry pass by stopping by at the Re
         </StackLayout>
 
         <!-- What's NEXT View -->
-        <GridLayout row="1" textWrap="true" visibility="{{ selectedViewIndex === 3 ? 'visible' : 'collapsed'}}" cssClass="content">
-          <Label cssClass="info-bigger" textWrap="true" text="What's NEXT" />
-        </GridLayout>
+        <StackLayout row="1" visibility="{{ selectedViewIndex === 3 ? 'visible' : 'collapsed'}}" cssClass="content-offset">
+          <Label cssClass="info-orange">
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="TAKE THE SURVEY" fontAttributes="Bold" />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
+          <Label cssClass="info"  marginBottom="16" tap="goToUrl" tag="https://www.surveymonkey.com/s/5NNJRM5">
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="TelerikNEXT EVENT SURVEY" fontAttributes="Bold" />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
+
+          <StackLayout cssClass="horizontal-line"/>
+          <Label cssClass="info-orange">
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="RAFFLE INFORMATION" fontAttributes="Bold" />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
+          <Label cssClass="info" textWrap="true" text="Some info here"  marginBottom="16"/>
+
+          <StackLayout cssClass="horizontal-line"/>
+          <Label cssClass="info-orange">
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="CERTIFICATION PROGRAM" fontAttributes="Bold" />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
+          <Label cssClass="info" textWrap="true" text="Some info here" marginBottom="16"/>
+
+          <StackLayout cssClass="horizontal-line"/>
+          <Label cssClass="info-orange">
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="FIND US HERE" fontAttributes="Bold" />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
+          <GridLayout columns="*,*,*,*" marginTop="12">
+            <Image src="res://facebook" stretch="none" col="0" tap="goToUrl" tag="https://www.facebook.com/Telerik"/>
+            <Image src="res://twitter" stretch="none" col="1" tap="goToUrl" tag="https://twitter.com/telerik"/>
+            <Image src="res://linkedin" stretch="none" col="2" tap="goToUrl" tag="https://www.linkedin.com/company/telerik"/>
+            <Image src="res://google" stretch="none" col="3" tap="goToUrl" tag="https://plus.google.com/+telerik/posts"/>
+          </GridLayout>
+        </StackLayout>
 
         <!-- Sponsors -->
-        <GridLayout row="1" textWrap="true" visibility="{{ selectedViewIndex === 4 ? 'visible' : 'collapsed'}}" cssClass="content">
-          <Label cssClass="info-bigger" textWrap="true" text="Sponsors" />
-        </GridLayout>
+        <StackLayout row="1" visibility="{{ selectedViewIndex === 4 ? 'visible' : 'collapsed'}}" cssClass="content-offset">
+
+          <Image src="res://sponsor_american_eagle" stretch="none"/>
+          <Label cssClass="info" textWrap="true" text="Americaneagle.com
+" />
+          <Image src="res://sponsor_theportal_connector" stretch="none"/>
+          <Label cssClass="info" textWrap="true" text="The Portal Connector
+for Dynamics CRM" />
+
+        </StackLayout>
       </GridLayout>
     </tsb:SideBar.mainContent>
   </tsb:SideBar>
