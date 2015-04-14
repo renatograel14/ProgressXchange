@@ -11,6 +11,11 @@ import appViewModel = require("./app-view-model");
 export function pageLoaded(args: observable.EventData) {
     var page = <pages.Page>args.object;
 
+    // Enable platform specific feature (in this case Android page caching)
+    if (frame.topmost().android) {
+        frame.topmost().android.cachePagesOnNavigate = true;
+    }
+
     var searchBar = <search.SearchBar>page.getViewById("search");
     if (searchBar.android) {
         // Prevent keyboard showing everytime the page loads.
