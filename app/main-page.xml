@@ -139,7 +139,7 @@ Space is limited, so be sure to pick up your entry pass by stopping by at the Re
               </FormattedString>
             </Label.formattedText>
           </Label>
-          <Label cssClass="info"  marginBottom="16" tap="goToUrl" tag="https://www.surveymonkey.com/s/5NNJRM5">
+          <Label cssClass="info" tap="goToUrl" tag="https://www.surveymonkey.com/s/5NNJRM5">
             <Label.formattedText>
               <FormattedString>
                 <FormattedString.spans>
@@ -159,7 +159,7 @@ Space is limited, so be sure to pick up your entry pass by stopping by at the Re
               </FormattedString>
             </Label.formattedText>
           </Label>
-          <Label cssClass="info" textWrap="true" text="{{ info_raffle }}"  marginBottom="16"/>
+          <Label cssClass="info" textWrap="true" text="{{ info_raffle }}"/>
 
           <StackLayout cssClass="horizontal-line"/>
           <Label cssClass="info-orange">
@@ -171,7 +171,7 @@ Space is limited, so be sure to pick up your entry pass by stopping by at the Re
               </FormattedString>
             </Label.formattedText>
           </Label>
-          <Label cssClass="info" textWrap="true"  text="{{ info_certification }}" marginBottom="16"/>
+          <Label cssClass="info" textWrap="true"  text="{{ info_certification }}" />
 
           <StackLayout cssClass="horizontal-line"/>
           <Label cssClass="info-orange">

@@ -52,13 +52,13 @@
         <Label cssClass="description" textWrap="true" col="1" id="txtDescription" text="{{ descriptionShort }}" />
 
         <!-- Button -->
-        <Button text="MORE" tap="toogleDescritpion"  cssClass="more-button" row="1" col="1"/>
+        <Button text="MORE" tap="toogleDescritpion" cssClass="more-button" row="1" col="1"/>
 
         <!-- Line -->
-        <StackLayout cssClass="horizontal-line" row="2" col="1"/>
+        <StackLayout cssClass="horizontal-line" row="2" col="1" margin="0 0 0 0"/>
 
         <!-- Speakers -->
-        <Label text="Speakers" cssClass="section-header" row="3" col="1" />
+        <Label text="SPEAKERS" cssClass="section-header" row="3" col="1" />
 
         <ListView id="sepakers-list" items="{{ speakers }}" row="4" colSpan="2" height="{{ speakers.length * 72 + 46 }}"
                   selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">

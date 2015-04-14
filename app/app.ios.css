@@ -124,7 +124,7 @@ SegmentedBar {
 }
 
 .more-button {
-    margin: 0 0 12 0;
+    margin: 6 0;
     font-size: 14;
     color: #05303F;
     horizontal-align: left;
@@ -132,13 +132,15 @@ SegmentedBar {
 }
 
 .section-header {
+    margin-top: 6;
     color: #A17201;
-    margin-top: 8;
 }
 
 .horizontal-line {
     height: 1;
     background-color: #FAC950;
+    vertical-align:center;
+    margin: 12 0 8 0;
 }
 
 /* List rows */
