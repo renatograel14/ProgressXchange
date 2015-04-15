@@ -480,7 +480,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="app-view-model.ts" />
     <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="everlive-upload.ts" />
+    <TypeScriptCompile Include="everlive\everlive-upload.ts" />
     <TypeScriptCompile Include="officeRnD\officeRnDApi.ts" />
     <TypeScriptCompile Include="main-page.ts" />
     <TypeScriptCompile Include="map-page.ts" />

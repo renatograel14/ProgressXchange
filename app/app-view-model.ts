@@ -2,7 +2,6 @@
 import dialogs = require("ui/dialogs");
 import view = require("ui/core/view");
 import localSettings = require("local-settings");
-import button = require("ui/button");
 import platform = require("platform");
 import appModule = require("application");
 import types = require("utils/types");
@@ -315,19 +314,13 @@ export class AppViewModel extends observable.Observable {
         this.filter();
     }
 
-    public selectView(args: observable.EventData) {
-        var btn = <button.Button>args.object;
-        var page = view.getAncestor(btn, "Page");
-        var slideBar = <any>page.getViewById("sideBar");
-        slideBar.closeSlideContent();
-
-
-        this.selectedViewIndex = parseInt((<any>btn).tag);
+    public selectView(index: number, titleText: string) {
+        this.selectedViewIndex = index;
         if (this.selectedViewIndex < 2) {
             this.filter();
         }
         this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "selectedViewIndex", value: this.selectedViewIndex });
-        this.set("actionBarTitle", btn.text);
+        this.set("actionBarTitle", titleText);
         this.set("isSessionsPage", this.selectedViewIndex < 2);
     }
 }
