@@ -50,7 +50,7 @@ SegmentedBar {
 }
 
 .page-header {
-    background-image: url('~/images/background.jpg');
+    background-image: url('res://background');
 }
 
 .page-title {

@@ -3,7 +3,7 @@
 
   <GridLayout rows="auto, *">
     <!-- HEADER -->
-    <GridLayout columns="auto, *" rows="auto, auto" style="background-image: url('~/images/background.jpg')">
+    <GridLayout columns="auto, *" rows="auto, auto" cssClass="page-header">
       <GridLayout cssClass="action-bar" colSpan="2">
         <StackLayout tap="backTap" orientation="horizontal" cssClass="action-wrap" horizontalAlignment="left">
           <Image stretch="none" cssClass="icon-image" src="res://ic_arrow_back"/>
