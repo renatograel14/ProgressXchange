@@ -1,4 +1,4 @@
-﻿var everlive = require("./lib/everlive");
+﻿var everlive = require("./everlive");
 var el = new everlive("mzacGkKPFlZUfbMq");
 var i = 0;
 

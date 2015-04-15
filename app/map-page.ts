@@ -4,7 +4,7 @@ import utils = require("utils/utils");
 import frame = require("ui/frame");
 import observable = require("data/observable");
 import appViewModel = require("./app-view-model");
-import rndApi = require("./lib/officeRnDApi");
+import rndApi = require("./officeRnD/officeRnDApi");
 
 export function pageNavigatedTo(args: observable.EventData) {
     var page = <pages.Page>args.object;

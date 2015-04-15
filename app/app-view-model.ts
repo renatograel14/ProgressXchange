@@ -7,7 +7,7 @@ import platform = require("platform");
 import appModule = require("application");
 import types = require("utils/types");
 
-var everlive = require("./lib/everlive");
+var everlive = require("./everlive/everlive");
 interface ConferenceDay {
     date: Date;
     title: string;

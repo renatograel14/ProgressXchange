@@ -47,7 +47,8 @@
     <Folder Include="App_Resources\iOS\" />
     <Folder Include="images\" />
     <Folder Include="images\speakers\" />
-    <Folder Include="lib\" />
+    <Folder Include="officeRnD\" />
+    <Folder Include="everlive\" />
     <Folder Include="TelerikUI\" />
     <Folder Include="TelerikUI\side-bar\" />
     <Folder Include="tns_modules\" />
@@ -303,7 +304,7 @@
     <Content Include="tns_modules\xml\package.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="lib\everlive.js" />
+    <Compile Include="everlive\everlive.js" />
     <Compile Include="tns_modules\application\application-common.js" />
     <Compile Include="tns_modules\application\application.android.js" />
     <Compile Include="tns_modules\application\application.ios.js" />
@@ -480,7 +481,7 @@
     <TypeScriptCompile Include="app-view-model.ts" />
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="everlive-upload.ts" />
-    <TypeScriptCompile Include="lib\officeRnDApi.ts" />
+    <TypeScriptCompile Include="officeRnD\officeRnDApi.ts" />
     <TypeScriptCompile Include="main-page.ts" />
     <TypeScriptCompile Include="map-page.ts" />
     <TypeScriptCompile Include="session-page.ts" />
