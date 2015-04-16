@@ -117,8 +117,8 @@ function addToFavourites(session: SessionModel) {
             values.put("eventLocation", session.room);
             var uri = contentResolver.insert(android.provider.CalendarContract.Events.CONTENT_URI, values);
 
-            session.calendarEventId = eventId;
             var eventId = uri.getLastPathSegment();
+            session.calendarEventId = eventId;
 
             var reminderValues = new android.content.ContentValues();
             reminderValues.put("event_id", java.lang.Long.valueOf(java.lang.Long.parseLong(eventId)));
