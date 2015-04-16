@@ -159,7 +159,15 @@ Space is limited, so be sure to pick up your entry pass by stopping by at the Re
               </FormattedString>
             </Label.formattedText>
           </Label>
-          <Label cssClass="info" textWrap="true" text="{{ info_raffle }}"/>
+          <Label cssClass="info" textWrap="true" tap="goToUrl" tag="{{ info_raffle_url }}">
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="{{ info_raffle }}" fontAttributes="Bold" />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
 
           <StackLayout cssClass="horizontal-line"/>
           <Label cssClass="info-orange">
@@ -171,7 +179,15 @@ Space is limited, so be sure to pick up your entry pass by stopping by at the Re
               </FormattedString>
             </Label.formattedText>
           </Label>
-          <Label cssClass="info" textWrap="true"  text="{{ info_certification }}" />
+          <Label cssClass="info" textWrap="true" tap="goToUrl" tag="{{ info_certification_url }}">
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="{{ info_certification }}" fontAttributes="Bold" />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
 
           <StackLayout cssClass="horizontal-line"/>
           <Label cssClass="info-orange">
