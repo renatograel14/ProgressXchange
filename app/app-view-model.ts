@@ -126,6 +126,8 @@ function addToFavourites(session: SessionModel) {
             reminderValues.put("minutes", java.lang.Long.valueOf(REMIDER_MINUTES));
             contentResolver.insert(android.provider.CalendarContract.Reminders.CONTENT_URI, reminderValues);
 
+            persistSessionToFavourites(session);
+
         } else if (platform.device.os === platform.platformNames.ios) {
             var store = EKEventStore.new()
             store.requestAccessToEntityTypeCompletion(EKEntityTypeEvent, (granted: boolean, error: NSError) => {
@@ -146,13 +148,16 @@ function addToFavourites(session: SessionModel) {
                 var result = store.saveEventSpanCommitError(event, EKSpan.EKSpanThisEvent, true, err);
 
                 session.calendarEventId = event.eventIdentifier;
+                persistSessionToFavourites(session);
             });
         }
     }
     catch (error) {
         console.log("Error while creating calendar event: " + error);
     }
+}
 
+function persistSessionToFavourites(session: SessionModel) {
     favourites.push({
         sessionId: session.Id,
         calendarEventId: session.calendarEventId
