@@ -107,3 +107,9 @@ export function showMapTap(args: gestures.GestureEventData) {
         context: session
     });
 }
+
+export function backSwipe(args: gestures.SwipeGestureEventData) {
+    if (args.direction === gestures.SwipeDirection.Right) {
+        frame.topmost().goBack();
+    }
+}

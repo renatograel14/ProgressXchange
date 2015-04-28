@@ -35,3 +35,9 @@ export function pageNavigatedTo(args: observable.EventData) {
 export function backTap(args: gestures.GestureEventData) {
     frame.topmost().goBack();
 }
+
+export function backSwipe(args: gestures.SwipeGestureEventData) {
+    if (args.direction === gestures.SwipeDirection.Right) {
+        frame.topmost().goBack();
+    }
+}

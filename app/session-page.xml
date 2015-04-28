@@ -1,7 +1,6 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
   navigatedTo="pageNavigatedTo">
 
-  <GridLayout rows="auto, *">
     <!-- HEADER -->
     <GridLayout columns="auto, *" rows="auto, auto" cssClass="page-header">
       <GridLayout cssClass="action-bar" colSpan="2">
@@ -46,7 +45,7 @@
     </GridLayout>
 
     <!-- Content -->
-    <ScrollView row="1" id="scroll">
+    <ScrollView row="1" id="scroll" >
       <GridLayout row="1" rows="auto, auto, auto, auto, *" columns="56, *" cssClass="content" >
         <!-- Description -->
         <Label cssClass="description" textWrap="true" col="1" id="txtDescription" text="{{ descriptionShort }}" />
@@ -61,9 +60,8 @@
         <Label text="SPEAKERS" cssClass="section-header" row="3" col="1" />
 
         <ListView id="sepakers-list" items="{{ speakers }}" row="4" colSpan="2" height="{{ speakers.length * 72 + 46 }}"
-                  selectedBackgroundColor="#fac950" separatorColor="#FFFFFF">
+                  selectedBackgroundColor="#fac950" separatorColor="#FFFFFF" >
           <ListView.itemTemplate>
-            <GridLayout columns="56, *" cssClass="speakers-row">
               <Image src="{{ picture }}" cssClass="speaker-image" stretch="aspectFit" rowSpan="2"/>
 
               <StackLayout col="1" >
