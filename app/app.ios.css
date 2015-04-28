@@ -15,12 +15,13 @@ SegmentedBar {
 }
 
 .slide-out-btn-about {
-    color: white;
+    color: #576a72;
     background-color: #053140;
     font-size: 12;
     text-align: left;
     margin: 12;
     font-weight: bold;
+    height: 44;
 }
 
 .slide-out-btn {

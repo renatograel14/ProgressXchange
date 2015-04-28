@@ -16,7 +16,8 @@
             <Label.formattedText>
               <FormattedString>
                 <FormattedString.spans>
-                  <Span text="Created with NativeScript" fontAttributes="Bold"  />
+                  <Span text="Created with " />
+                  <Span text="NativeScript" fontAttributes="Bold"  />
                 </FormattedString.spans>
               </FormattedString>
             </Label.formattedText>
