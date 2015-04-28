@@ -49,7 +49,7 @@ export function shareTap(args: gestures.GestureEventData) {
         var speakerNames = "";
         var byStr = item.speakers.forEach((sp, i, arr) => {
             if (sp.twitterName) {
-                speakerNames += sp.twitterName + " ";
+                speakerNames += "@" + sp.twitterName + " ";
             }
         });
 
@@ -57,6 +57,8 @@ export function shareTap(args: gestures.GestureEventData) {
             shareText += "by " + speakerNames;
         }
     }
+
+    shareText += " #TelerikNEXT";
 
     if (platform.device.os === platform.platformNames.android) {
         var intent = new android.content.Intent(android.content.Intent.ACTION_SEND);

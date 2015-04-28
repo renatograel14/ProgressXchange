@@ -13,7 +13,7 @@
           <GridLayout cssClass="action-wrap" tap="showMapTap" columns="auto" horizontalAlignment="right"  visibility="{{ room ? 'visible' : 'collapsed' }}">
             <Image stretch="none" cssClass="icon-image" src="res://ic_map"/>
           </GridLayout>
-        
+
           <GridLayout cssClass="action-wrap" tap="shareTap" columns="auto" horizontalAlignment="right">
             <Image stretch="none" cssClass="icon-image" src="res://ic_share"/>
           </GridLayout>
@@ -45,7 +45,7 @@
     </GridLayout>
 
     <!-- Content -->
-    <ScrollView row="1" id="scroll" >
+    <ScrollView row="1" id="scroll">
       <GridLayout row="1" rows="auto, auto, auto, auto, *" columns="56, *" cssClass="content" >
         <!-- Description -->
         <Label cssClass="description" textWrap="true" col="1" id="txtDescription" text="{{ descriptionShort }}" />
@@ -60,7 +60,7 @@
         <Label text="SPEAKERS" cssClass="section-header" row="3" col="1" />
 
         <ListView id="sepakers-list" items="{{ speakers }}" row="4" colSpan="2" height="{{ speakers.length * 72 + 46 }}"
-                  selectedBackgroundColor="#fac950" separatorColor="#FFFFFF" >
+            <GridLayout columns="56, *" cssClass="speakers-row">
           <ListView.itemTemplate>
               <Image src="{{ picture }}" cssClass="speaker-image" stretch="aspectFit" rowSpan="2"/>
 
@@ -85,7 +85,7 @@
                     </FormattedString>
                   </Label.formattedText>
                 </Label>
-                
+
               </StackLayout>
             </GridLayout>
           </ListView.itemTemplate>
