@@ -1,5 +1,14 @@
 ﻿import application = require("application");
 
+application.onLaunch = function (intent) {
+    console.log("onLaunch");
+    application.android.onActivityCreated = function (activity) {
+        console.log("onCreated");
+        var id = activity.getResources().getIdentifier("AppTheme", "style", activity.getPackageName());
+        activity.setTheme(id);
+    }
+}
+
 // Set the start module for the application
 application.mainModule = "main-page";
 
