@@ -31,6 +31,7 @@ function disableScroll(listView: list.ListView) {
     }
     if (listView.ios) {
         listView.ios.scrollEnabled = false;
+        listView.ios.allowsSelection = false;
     }
 }
 
