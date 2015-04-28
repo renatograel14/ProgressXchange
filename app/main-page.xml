@@ -86,7 +86,7 @@
 
         <!-- Workshop View -->
         <StackLayout row="1" visibility="{{ selectedViewIndex === 2 ? 'visible' : 'collapsed'}}" cssClass="content-offset">
-          <Label cssClass="info-page-header" textWrap="true" text="Come check out the TelerikNEXT Mobile Hackath" />
+          <Label cssClass="info-page-header" textWrap="true" text="Come check out the TelerikNEXT Mobile Hackathon" />
           <Label cssClass="info-orange" textWrap="true" >
             <Label.formattedText>
               <FormattedString>
