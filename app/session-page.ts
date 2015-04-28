@@ -22,6 +22,7 @@ export function pageNavigatedTo(args: observable.EventData) {
 
 function disableScroll(listView: list.ListView) {
     if (listView.android) {
+        listView.android.setSelector(new android.graphics.drawable.ColorDrawable(0));
         listView.android.setOnTouchListener(new android.view.View.OnTouchListener({
             onTouch: function (view: android.view.View, motionEvent: android.view.MotionEvent) {
                 return (motionEvent.getAction() === android.view.MotionEvent.ACTION_MOVE);
