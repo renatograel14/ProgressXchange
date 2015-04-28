@@ -2,14 +2,27 @@
   loaded="pageLoaded" xmlns:tsb="TelerikUI/side-bar">
   <tsb:SideBar id="sideBar">
     <tsb:SideBar.slideContent>
-      <StackLayout style="background-color: #053140;">
-        <Image src="res://logo" cssClass="slide-out-img" stretch="none" />
-        <Button tap="selectView" tag="0" cssClass="{{ selectedViewIndex === 0 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="My agenda" />
-        <Button tap="selectView" tag="1" cssClass="{{ selectedViewIndex === 1 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="All sessions" />
-        <Button tap="selectView" tag="2" cssClass="{{ selectedViewIndex === 2 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="Workshop Hackaton" />
-        <Button tap="selectView" tag="3" cssClass="{{ selectedViewIndex === 3 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="What's NEXT" />
-        <Button tap="selectView" tag="4" cssClass="{{ selectedViewIndex === 4 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="Sponsors" />
-      </StackLayout>
+      <GridLayout rows="*, auto">
+        <StackLayout style="background-color: #053140;">
+          <Image src="res://logo" cssClass="slide-out-img" stretch="none" />
+          <Button tap="selectView" tag="0" cssClass="{{ selectedViewIndex === 0 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="My agenda" />
+          <Button tap="selectView" tag="1" cssClass="{{ selectedViewIndex === 1 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="All sessions" />
+          <Button tap="selectView" tag="2" cssClass="{{ selectedViewIndex === 2 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="Workshop Hackaton" />
+          <Button tap="selectView" tag="3" cssClass="{{ selectedViewIndex === 3 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="What's NEXT" />
+          <Button tap="selectView" tag="4" cssClass="{{ selectedViewIndex === 4 ? 'slide-out-btn' : 'slide-out-btn-selected' }}" text="Sponsors" />
+        </StackLayout>
+        <StackLayout style="background-color: #053140;" row="1">
+          <Label tap="goToUrl" tag="http://www.nativescript.org" cssClass="slide-out-btn-about">
+            <Label.formattedText>
+              <FormattedString>
+                <FormattedString.spans>
+                  <Span text="Created with NativeScript" fontAttributes="Bold"  />
+                </FormattedString.spans>
+              </FormattedString>
+            </Label.formattedText>
+          </Label>
+        </StackLayout>
+      </GridLayout>
     </tsb:SideBar.slideContent>
 
     <tsb:SideBar.mainContent>
@@ -119,7 +132,7 @@ As always, we'll make it worth your while. You will:
                   <Span text=" licenses for 6 months!" />
                   <Span text="
                         
-Space is limited, so be sure to pick up your entry pass by stopping by at the Registration desk on Sunday between the hours of 4:00 p.m. - 6:00 p.m." 
+Space is limited, so be sure to pick up your entry pass by stopping by at the Registration desk on Sunday between the hours of 4:00 p.m. - 6:00 p.m."
                         foregroundColor="#A17201" fontAttributes="Bold"/>
                 </FormattedString.spans>
               </FormattedString>
