@@ -7,6 +7,14 @@ application.onLaunch = function (intent) {
         var id = activity.getResources().getIdentifier("AppTheme", "style", activity.getPackageName());
         activity.setTheme(id);
     }
+
+    application.android.onActivityStarted = function (activity) {
+        console.log("onStarted");
+        var window = activity.getWindow();
+        if (window) {
+            window.setBackgroundDrawable(null);
+        }
+    }
 }
 
 // Set the start module for the application
