@@ -6,6 +6,7 @@ import platform = require("platform");
 import appModule = require("application");
 import types = require("utils/types");
 
+var LOADING_ERROR = "Could not load sessions. Check your Internet connection and try again."; 
 var everlive = require("./everlive/everlive");
 interface ConferenceDay {
     date: Date;
@@ -227,7 +228,7 @@ function loadFirstChunk() {
             loadSecondChunk();
 
         }, function (error) {
-            console.log("Could not load sessions. Error: " + error);
+            dialogs.alert(LOADING_ERROR);
         });
 }
 
@@ -240,7 +241,7 @@ function loadSecondChunk() {
             pushSessions(<Array<Session>> data.result);
             appModel.onDataLoaded();
         }, function (error) {
-            console.log("Could not load sessions. Error: " + error);
+            dialogs.alert(LOADING_ERROR);
         });
 }
 
@@ -471,6 +472,7 @@ el.data('Info').get().then(
         }
     }, function (error) {
         console.log("Could not load Info. Error: " + error);
+        dialogs.alert(LOADING_ERROR);
     });
 
 
