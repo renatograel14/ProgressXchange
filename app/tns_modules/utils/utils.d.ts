@@ -1,5 +1,8 @@
 declare module "utils/utils" {
     import colorModule = require("color");
+    import view = require("ui/core/view");
+
+    export var RESOURCE_PREFIX: string;
 
     /**
      * Utility module related to layout.
@@ -118,6 +121,8 @@ declare module "utils/utils" {
          * Gets the iOS device major version (for 8.1 will return 8).
          */
         export var MajorVersion: number;
+
+        export function _layoutRootView(rootView: view.View): void;
     }
     /**
      * An utility function that copies properties from source object to target object.
@@ -129,4 +134,16 @@ declare module "utils/utils" {
      * An utility function that invokes garbage collection on the JavaScript side.
      */
     export function GC();
+
+    /**
+     * Returns true if the specified path points to a resource or local file.
+     * @param path The path.
+     */
+    export function isFileOrResourcePath(path: string): boolean
+
+    /**
+     * Returns true if the specified URI is data URI (http://en.wikipedia.org/wiki/Data_URI_scheme).
+     * @param uri The URI.
+     */
+    export function isDataURI(uri: string): boolean
 }

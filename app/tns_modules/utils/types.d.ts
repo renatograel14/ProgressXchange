@@ -28,11 +28,18 @@ declare module "utils/types" {
     export function isUndefined(value: any): boolean;
 
     /**
-     * A function that checks if something is defined (not null and not undefined).
+     * A function that checks if something is defined (not undefined).
      * @param value The value which will be checked.
      * Returns true if value is defined.
      */
     export function isDefined(value: any): boolean;
+
+    /**
+     * A function that checks if something is not defined (null or undefined).
+     * @param value The value which will be checked.
+     * Returns true if value is null or undefined.
+     */
+    export function isNullOrUndefined(value: any): boolean;
 
     /**
      * A function that checks if something is a valid function.
@@ -54,4 +61,26 @@ declare module "utils/types" {
      * Return an array of strings with the name of all classes.
      */
     export function getBaseClasses(object): Array<string>;
+
+    /**
+     * A function that gets the ClassInfo for an object.
+     * @param object The object for which the ClassInfo will be get.
+     * Returns a ClassInfo for the object.
+     */
+    export function getClassInfo(object: Object): ClassInfo;
+
+    /**
+     * A Class holding information about a class
+     */
+    export class ClassInfo {
+        /**
+         * Gets the name of the class.
+         */
+        name: string;
+
+        /**
+         * Gets the ClassInfo for the base class of the current info.
+         */
+        baseClassInfo: ClassInfo;
+    }
 }

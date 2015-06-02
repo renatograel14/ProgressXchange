@@ -1,7 +1,7 @@
 ﻿import observable = require("data/observable");
 import dialogs = require("ui/dialogs");
 import view = require("ui/core/view");
-import localSettings = require("local-settings");
+import applicationSettings = require("application-settings");
 import platform = require("platform");
 import appModule = require("application");
 import types = require("utils/types");
@@ -60,7 +60,7 @@ var REMIDER_MINUTES = 5;
 var FAVOURITES = "FAVOURITES";
 var favourites: Array<FavouriteSession>;
 try {
-    favourites = <Array<FavouriteSession>>JSON.parse(localSettings.getString(FAVOURITES, "[]"));
+    favourites = <Array<FavouriteSession>>JSON.parse(applicationSettings.getString(FAVOURITES, "[]"));
 }
 catch (error) {
     console.log("Error while retrieveing favourites: " + error);
@@ -198,7 +198,7 @@ function removeFromFavourites(session: SessionModel) {
 function updateFavourites() {
     var newValue = JSON.stringify(favourites);
     console.log("favourites: " + newValue);
-    localSettings.setString(FAVOURITES, newValue);
+    applicationSettings.setString(FAVOURITES, newValue);
 }
 
 var el = new everlive("mzacGkKPFlZUfbMq");
@@ -278,7 +278,7 @@ export class AppViewModel extends observable.Observable {
     set search(value: string) {
         if (this._search !== value) {
             this._search = value;
-            this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "search", value: value });
+            this.notify({ object: this, eventName: observable.Observable.propertyChangeEvent, propertyName: "search", value: value });
 
             this.filter();
         }
@@ -290,7 +290,7 @@ export class AppViewModel extends observable.Observable {
     set selectedIndex(value: number) {
         if (this._selectedIndex !== value) {
             this._selectedIndex = value;
-            this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "selectedIndex", value: value });
+            this.notify({ object: this, eventName: observable.Observable.propertyChangeEvent, propertyName: "selectedIndex", value: value });
 
             this.set("dayHeader", conferenceDays[value].title);
 
@@ -312,7 +312,7 @@ export class AppViewModel extends observable.Observable {
             this._sessions = this._sessions.filter(i=> { return i.favorite || i.isBreak; });
         }
 
-        this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "sessions", value: this._sessions });
+        this.notify({ object: this, eventName: observable.Observable.propertyChangeEvent, propertyName: "sessions", value: this._sessions });
     }
 
     public onDataLoaded() {
@@ -325,7 +325,7 @@ export class AppViewModel extends observable.Observable {
         if (this.selectedViewIndex < 2) {
             this.filter();
         }
-        this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "selectedViewIndex", value: this.selectedViewIndex });
+        this.notify({ object: this, eventName: observable.Observable.propertyChangeEvent, propertyName: "selectedViewIndex", value: this.selectedViewIndex });
         this.set("actionBarTitle", titleText);
         this.set("isSessionsPage", this.selectedViewIndex < 2);
     }
@@ -423,7 +423,7 @@ export class SessionModel extends observable.Observable implements Session {
     set favorite(value: boolean) {
         if (this._favorite !== value && !this._isBreak) {
             this._favorite = value;
-            this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "favorite", value: this._favorite });
+            this.notify({ object: this, eventName: observable.Observable.propertyChangeEvent, propertyName: "favorite", value: this._favorite });
         }
     }
 
@@ -456,7 +456,7 @@ export class SessionModel extends observable.Observable implements Session {
     set calendarEventId(value: string) {
         if (this._calendarEventId !== value) {
             this._calendarEventId = value;
-            this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: "calendarEventId", value: this._calendarEventId });
+            this.notify({ object: this, eventName: observable.Observable.propertyChangeEvent, propertyName: "calendarEventId", value: this._calendarEventId });
         }
     }
 }

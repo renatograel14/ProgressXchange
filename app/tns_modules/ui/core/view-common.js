@@ -58,11 +58,6 @@ function getAncestor(view, typeName) {
     return parent;
 }
 exports.getAncestor = getAncestor;
-var knownEvents;
-(function (knownEvents) {
-    knownEvents.loaded = "loaded";
-    knownEvents.unloaded = "unloaded";
-})(knownEvents = exports.knownEvents || (exports.knownEvents = {}));
 var viewIdCounter = 0;
 function onCssClassPropertyChanged(data) {
     var view = data.object;
@@ -93,14 +88,26 @@ var View = (function (_super) {
         this._isLayoutValid = false;
         this._isAddedToNativeVisualTree = false;
         this._cssClasses = [];
+        this._gestureObservers = {};
         this._options = options;
         this._style = new style.Style(this);
         this._domId = viewIdCounter++;
         this._visualState = visualStateConstants.Normal;
     }
-    View.prototype.observe = function (type, callback) {
-        this._gesturesObserver = gestures.observe(this, type, callback);
-        return this._gesturesObserver;
+    View.prototype.observe = function (type, callback, thisArg) {
+        var gesturesList = this._getGesturesList(type, true);
+        gesturesList.push(gestures.observe(this, type, callback, thisArg));
+    };
+    View.prototype._getGesturesList = function (gestureType, createIfNeeded) {
+        if (!gestureType) {
+            throw new Error("GestureType must be a valid gesture!");
+        }
+        var list = this._gestureObservers[gestureType];
+        if (!list && createIfNeeded) {
+            list = [];
+            this._gestureObservers[gestureType] = list;
+        }
+        return list;
     };
     View.prototype.getViewById = function (id) {
         return getViewById(this, id);
@@ -425,16 +432,34 @@ var View = (function (_super) {
     View.prototype._onPropertyChanged = function (property, oldValue, newValue) {
         _super.prototype._onPropertyChanged.call(this, property, oldValue, newValue);
         if (this._childrenCount > 0) {
-            var shouldUpdateInheritableProps = ((property.metadata && property.metadata.inheritable) && property.name !== "bindingContext" && !(property instanceof styling.Property));
+            var shouldUpdateInheritableProps = ((property.metadata && property.metadata.inheritable) &&
+                !(property instanceof styling.Property));
+            var that = this;
             if (shouldUpdateInheritableProps) {
                 var notifyEachChild = function (child) {
-                    child._setValue(property, newValue, dependencyObservable.ValueSource.Inherited);
+                    child._setValue(property, that._getValue(property), dependencyObservable.ValueSource.Inherited);
                     return true;
                 };
+                this._updatingInheritedProperties = true;
                 this._eachChildView(notifyEachChild);
+                this._updatingInheritedProperties = false;
             }
         }
         this._checkMetadataOnPropertyChanged(property.metadata);
+    };
+    View.prototype._isInheritedChange = function () {
+        if (this._updatingInheritedProperties) {
+            return true;
+        }
+        var parentView;
+        parentView = (this.parent);
+        while (parentView) {
+            if (parentView._updatingInheritedProperties) {
+                return true;
+            }
+            parentView = (parentView.parent);
+        }
+        return false;
     };
     View.prototype._checkMetadataOnPropertyChanged = function (metadata) {
         if (metadata.affectsLayout) {
@@ -509,7 +534,7 @@ var View = (function (_super) {
                 childTop = top + child.marginTop * density;
                 break;
             case enums.VerticalAlignment.center:
-                childTop = top + ((bottom - top - childHeight) / 2) + (child.marginTop - child.marginBottom) * density;
+                childTop = top + (bottom - top - childHeight + (child.marginTop - child.marginBottom) * density) / 2;
                 break;
             case enums.VerticalAlignment.bottom:
                 childTop = bottom - childHeight - (child.marginBottom * density);
@@ -532,7 +557,7 @@ var View = (function (_super) {
                 childLeft = left + child.marginLeft * density;
                 break;
             case enums.HorizontalAlignment.center:
-                childLeft = left + ((right - left - childWidth) / 2) + (child.marginLeft - child.marginRight) * density;
+                childLeft = left + (right - left - childWidth + (child.marginLeft - child.marginRight) * density) / 2;
                 break;
             case enums.HorizontalAlignment.right:
                 childLeft = right - childWidth - child.marginRight * density;
@@ -573,11 +598,11 @@ var View = (function (_super) {
     View.getMeasureSpec = function (view, parentLength, parentSpecMode, horizontal) {
         var density = utils.layout.getDisplayDensity();
         var margins = horizontal ? view.marginLeft + view.marginRight : view.marginTop + view.marginBottom;
-        margins = Math.round(margins * density);
+        margins = Math.floor(margins * density);
         var resultSize = 0;
         var resultMode = 0;
         var measureLength = Math.max(0, parentLength - margins);
-        var childLength = Math.round((horizontal ? view.width : view.height) * density);
+        var childLength = Math.floor((horizontal ? view.width : view.height) * density);
         if (!isNaN(childLength)) {
             if (parentSpecMode !== utils.layout.UNSPECIFIED) {
                 resultSize = Math.min(parentLength, childLength);
@@ -629,18 +654,6 @@ var View = (function (_super) {
         this._oldRight = right;
         this._oldBottom = bottom;
         return changed;
-    };
-    View.prototype._onBindingContextChanged = function (oldValue, newValue) {
-        _super.prototype._onBindingContextChanged.call(this, oldValue, newValue);
-        if (this._childrenCount === 0) {
-            return;
-        }
-        var thatContext = this.bindingContext;
-        var eachChild = function (child) {
-            child._setValue(bindable.Bindable.bindingContextProperty, thatContext, dependencyObservable.ValueSource.Inherited);
-            return true;
-        };
-        this._eachChildView(eachChild);
     };
     View.prototype._applyStyleFromScope = function () {
         var rootPage = getAncestor(this, "Page");
@@ -699,7 +712,7 @@ var View = (function (_super) {
     View.prototype._inheritProperties = function (parentView) {
         var that = this;
         var inheritablePropertySetCallback = function (property) {
-            if (property instanceof styling.Property || property.name === "bindingContext") {
+            if (property instanceof styling.Property) {
                 return true;
             }
             if (property.metadata && property.metadata.inheritable) {
@@ -727,7 +740,7 @@ var View = (function (_super) {
         }
         view._setValue(bindable.Bindable.bindingContextProperty, undefined, dependencyObservable.ValueSource.Inherited);
         var inheritablePropertiesSetCallback = function (property) {
-            if (property instanceof styling.Property || property.name === "bindingContext") {
+            if (property instanceof styling.Property) {
                 return true;
             }
             if (property.metadata && property.metadata.inheritable) {
@@ -778,6 +791,8 @@ var View = (function (_super) {
     View.prototype.focus = function () {
         return undefined;
     };
+    View.loadedEvent = "loaded";
+    View.unloadedEvent = "unloaded";
     View.idProperty = idProperty;
     View.cssClassProperty = cssClassProperty;
     View.isEnabledProperty = isEnabledProperty;

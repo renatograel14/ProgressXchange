@@ -69,7 +69,10 @@ var EditableTextBase = (function (_super) {
             onEditorAction: function (textView, actionId, event) {
                 var owner = that.get();
                 if (owner) {
-                    if (actionId === android.view.inputmethod.EditorInfo.IME_ACTION_DONE || actionId === android.view.inputmethod.EditorInfo.IME_ACTION_GO || actionId === android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH || actionId === android.view.inputmethod.EditorInfo.IME_ACTION_SEND) {
+                    if (actionId === android.view.inputmethod.EditorInfo.IME_ACTION_DONE ||
+                        actionId === android.view.inputmethod.EditorInfo.IME_ACTION_GO ||
+                        actionId === android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH ||
+                        actionId === android.view.inputmethod.EditorInfo.IME_ACTION_SEND) {
                         owner.dismissSoftInput();
                     }
                 }
@@ -89,6 +92,13 @@ var EditableTextBase = (function (_super) {
         if (this._imm) {
             this._imm.hideSoftInputFromWindow(this._android.getWindowToken(), 0);
         }
+    };
+    EditableTextBase.prototype.focus = function () {
+        var result = _super.prototype.focus.call(this);
+        if (result && this._nativeView) {
+            this._imm.showSoftInput(this._nativeView, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT);
+        }
+        return result;
     };
     EditableTextBase.prototype._onTextPropertyChanged = function (data) {
         if (this._android) {
@@ -206,6 +216,13 @@ var EditableTextBase = (function (_super) {
                 break;
         }
         editableTextBase.android.setInputType(inputType);
+    };
+    EditableTextBase.prototype._onHintPropertyChanged = function (data) {
+        var editableTextBase = data.object;
+        if (!editableTextBase.android) {
+            return;
+        }
+        editableTextBase.android.setHint(data.newValue);
     };
     return EditableTextBase;
 })(common.EditableTextBase);

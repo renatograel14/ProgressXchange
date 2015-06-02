@@ -11,31 +11,31 @@ declare module "ui/gestures" {
         /**
          * Denotes tap (click) gesture.
          */
-        Tap,
+        tap,
         /**
          * Denotes double tap gesture.
          */
-        DoubleTap,
+        doubleTap,
         /**
          * Denotes pinch gesture.
          */
-        Pinch,
+        pinch,
         /**
          * Denotes pan gesture.
          */
-        Pan,
+        pan,
         /**
          * Denotes swipe gesture.
          */
-        Swipe,
+        swipe,
         /**
          * Denotes rotation gesture.
          */
-        Rotation,
+        rotation,
         /**
          * Denotes long press gesture.
          */
-        LongPress
+        longPress
     }
 
     /**
@@ -45,19 +45,19 @@ declare module "ui/gestures" {
         /**
          * Denotes right direction for swipe gesture.
          */
-        Right,
+        right,
         /**
          * Denotes left direction for swipe gesture.
          */
-        Left,
+        left,
         /**
          * Denotes up direction for swipe gesture.
          */
-        Up,
+        up,
         /**
          * Denotes down direction for swipe gesture.
          */
-        Down
+        down
     }
 
     /**
@@ -126,12 +126,17 @@ declare module "ui/gestures" {
          * @param target - View which will be watched for originating a specific gesture.
          * @param type - Type of the gesture.
          */
-        observe(target: view.View, type: GestureTypes);
+        observe(target: view.View, type: GestureTypes, thisArg?: any);
 
         /**
          * Disconnects the gesture observer.
          */
         disconnect();
+
+        /**
+         * Gesture type attached to the observer.
+         */
+        type: GestureTypes;
     }
 
     /**
@@ -140,7 +145,7 @@ declare module "ui/gestures" {
      * @param type - Type of the gesture.
      * @param callback - A function that will be executed when a gesture is received.
      */
-    export function observe(target: view.View, type: GestureTypes, callback: (args: GestureEventData) => void): GesturesObserver;
+    export function observe(target: view.View, type: GestureTypes, callback: (args: GestureEventData) => void, thisArg?: any): GesturesObserver;
 
     /**
      * Returns a string representation of a gesture type.

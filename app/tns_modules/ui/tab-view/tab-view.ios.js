@@ -10,6 +10,7 @@ var trace = require("trace");
 var utils = require("utils/utils");
 var view = require("ui/core/view");
 var imageSource = require("image-source");
+var types = require("utils/types");
 require("utils/module-merge").merge(common, exports);
 var UITabBarControllerImpl = (function (_super) {
     __extends(UITabBarControllerImpl, _super);
@@ -22,11 +23,6 @@ var UITabBarControllerImpl = (function (_super) {
     UITabBarControllerImpl.prototype.initWithOwner = function (owner) {
         this._owner = owner;
         return this;
-    };
-    UITabBarControllerImpl.prototype.viewDidAppear = function (animated) {
-        trace.write("TabView.UITabBarControllerClass.viewDidAppear();", trace.categories.Debug);
-        _super.prototype.viewDidAppear.call(this, animated);
-        this._owner.onLoaded();
     };
     UITabBarControllerImpl.prototype.viewDidLayoutSubviews = function () {
         trace.write("TabView.UITabBarControllerClass.viewDidLayoutSubviews();", trace.categories.Debug);
@@ -181,11 +177,13 @@ var TabView = (function (_super) {
         _super.prototype._onSelectedIndexPropertyChangedSetNativeValue.call(this, data);
         var newIndex = data.newValue;
         trace.write("TabView._onSelectedIndexPropertyChangedSetNativeValue(" + newIndex + ")", trace.categories.Debug);
-        if (newIndex === undefined || newIndex === null) {
+        if (types.isNullOrUndefined(newIndex)) {
             return;
         }
         this._ios.selectedIndex = data.newValue;
         this.requestLayout();
+        var args = { eventName: TabView.selectedIndexChangedEvent, object: this, oldIndex: data.oldValue, newIndex: data.newValue };
+        this.notify(args);
     };
     TabView.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
         var nativeView = this._nativeView;

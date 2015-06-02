@@ -20,13 +20,17 @@ declare module "ui/image-cache" {
         /**
          * An optional function to be called when the download is complete.
          */
-        completed?: (result: imageSource.ImageSource, key: string) => void;
+        completed?: (image: any, key: string) => void;
     }
 
     /**
      * Represents a class that stores handles image download requests and caches the already downloaded images.
      */
     export class Cache extends observable.Observable {
+        /**
+         * String value used when hooking to downloaded event.
+         */
+        public static downloadedEvent: string;
         /**
          * The image to be used to notify for a pending download request - e.g. loading indicator.
          */
@@ -57,11 +61,11 @@ declare module "ui/image-cache" {
         /**
          * Gets the image for the specified key. May be undefined if the key is not present in the cache.
          */
-        get(key: string): imageSource.ImageSource;
+        get(key: string): any;
         /**
          * Sets the image for the specified key.
          */
-        set(key: string, source: imageSource.ImageSource): void;
+        set(key: string, image: any): void;
         /**
          * Removes the cache for the specified key.
          */
@@ -71,17 +75,20 @@ declare module "ui/image-cache" {
          */
         clear(): void;
 
-        
-    }
+        /**
+         * A basic method signature to hook an event listener (shortcut alias to the addEventListener method).
+         * @param eventNames - String corresponding to events (e.g. "propertyChange"). Optionally could be used more events separated by `,` (e.g. "propertyChange", "change"). 
+         * @param callback - Callback function which will be executed when event is raised.
+         * @param thisArg - An optional parameter which will be used as `this` context for callback execution.
+         */
+        on(eventNames: string, callback: (args: observable.EventData) => void , thisArg?: any);
 
-    /**
-     * Defines an enum with events specific for image-cache class.
-     */
-    export module knownEvents {
         /**
          * Raised when the image has been downloaded.
          */
-        export var downloaded: string;
+        on(event: "downloaded", callback: (args: DownloadedData) => void , thisArg?: any);
+
+        
     }
 
     /**

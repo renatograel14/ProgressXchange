@@ -46,9 +46,11 @@ function resolvePageFromEntry(entry) {
         var currentAppPath = fs.knownFolders.currentApp().path;
         var moduleNamePath = fs.path.join(currentAppPath, entry.moduleName);
         var moduleExports;
-        if (fs.File.exists(moduleNamePath + ".js")) {
-            trace.write("Loading JS file: " + moduleNamePath + ".js", trace.categories.Navigation);
-            moduleExports = require(moduleNamePath);
+        var moduleExportsResolvedPath = resolveFilePath(moduleNamePath, "js");
+        if (moduleExportsResolvedPath) {
+            trace.write("Loading JS file: " + moduleExportsResolvedPath, trace.categories.Navigation);
+            moduleExportsResolvedPath = moduleExportsResolvedPath.substr(0, moduleExportsResolvedPath.length - 3);
+            moduleExports = require(moduleExportsResolvedPath);
         }
         if (moduleExports && moduleExports.createPage) {
             trace.write("Calling createPage()", trace.categories.Navigation);
@@ -63,6 +65,7 @@ function resolvePageFromEntry(entry) {
     }
     return page;
 }
+exports.resolvePageFromEntry = resolvePageFromEntry;
 var fileNameResolver;
 function resolveFilePath(path, ext) {
     if (!fileNameResolver) {
@@ -92,13 +95,6 @@ function pageFromBuilder(moduleNamePath, moduleExports) {
     }
     return page;
 }
-var knownEvents;
-(function (knownEvents) {
-    var android;
-    (function (android) {
-        android.optionSelected = "optionSelected";
-    })(android = knownEvents.android || (knownEvents.android = {}));
-})(knownEvents = exports.knownEvents || (exports.knownEvents = {}));
 var Frame = (function (_super) {
     __extends(Frame, _super);
     function Frame() {
@@ -307,8 +303,7 @@ var Frame = (function (_super) {
     Frame.prototype._removeViewFromNativeVisualTree = function (child) {
         child._isAddedToNativeVisualTree = false;
     };
-    Frame.prototype._invalidateOptionsMenu = function () {
-    };
+    Frame.androidOptionSelectedEvent = "optionSelected";
     Frame.defaultAnimatedNavigation = true;
     return Frame;
 })(view.CustomLayoutView);

@@ -20,7 +20,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <TypeScriptSourceMap>False</TypeScriptSourceMap>
     <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
     <EnableTypeScript>true</EnableTypeScript>
@@ -52,6 +52,7 @@
     <Folder Include="TelerikUI\" />
     <Folder Include="TelerikUI\side-bar\" />
     <Folder Include="tns_modules\" />
+    <Folder Include="tns_modules\application-settings\" />
     <Folder Include="tns_modules\application\" />
     <Folder Include="tns_modules\camera\" />
     <Folder Include="tns_modules\color\" />
@@ -70,7 +71,6 @@
     <Folder Include="tns_modules\js-libs\esprima\" />
     <Folder Include="tns_modules\js-libs\polymer-expressions\" />
     <Folder Include="tns_modules\js-libs\reworkcss\" />
-    <Folder Include="tns_modules\local-settings\" />
     <Folder Include="tns_modules\location\" />
     <Folder Include="tns_modules\platform\" />
     <Folder Include="tns_modules\text\" />
@@ -101,7 +101,9 @@
     <Folder Include="tns_modules\ui\list-picker\" />
     <Folder Include="tns_modules\ui\list-view\" />
     <Folder Include="tns_modules\ui\page\" />
+    <Folder Include="tns_modules\ui\placeholder\" />
     <Folder Include="tns_modules\ui\progress\" />
+    <Folder Include="tns_modules\ui\repeater\" />
     <Folder Include="tns_modules\ui\scroll-view\" />
     <Folder Include="tns_modules\ui\search-bar\" />
     <Folder Include="tns_modules\ui\segmented-bar\" />
@@ -242,6 +244,7 @@
     <Content Include="package.json" />
     <Content Include="session-page.xml" />
     <Content Include="TelerikUI\side-bar\package.json" />
+    <Content Include="tns_modules\application-settings\package.json" />
     <Content Include="tns_modules\application\package.json" />
     <Content Include="tns_modules\camera\package.json" />
     <Content Include="tns_modules\color\package.json" />
@@ -258,7 +261,6 @@
     <Content Include="tns_modules\js-libs\esprima\package.json" />
     <Content Include="tns_modules\js-libs\polymer-expressions\package.json" />
     <Content Include="tns_modules\js-libs\reworkcss\package.json" />
-    <Content Include="tns_modules\local-settings\package.json" />
     <Content Include="tns_modules\location\package.json" />
     <Content Include="tns_modules\package.json" />
     <Content Include="tns_modules\platform\package.json" />
@@ -287,7 +289,9 @@
     <Content Include="tns_modules\ui\list-picker\package.json" />
     <Content Include="tns_modules\ui\list-view\package.json" />
     <Content Include="tns_modules\ui\page\package.json" />
+    <Content Include="tns_modules\ui\placeholder\package.json" />
     <Content Include="tns_modules\ui\progress\package.json" />
+    <Content Include="tns_modules\ui\repeater\package.json" />
     <Content Include="tns_modules\ui\scroll-view\package.json" />
     <Content Include="tns_modules\ui\search-bar\package.json" />
     <Content Include="tns_modules\ui\segmented-bar\package.json" />
@@ -305,9 +309,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="everlive\everlive.js" />
+    <Compile Include="tns_modules\application-settings\application-settings-common.js" />
+    <Compile Include="tns_modules\application-settings\application-settings.android.js" />
+    <Compile Include="tns_modules\application-settings\application-settings.ios.js" />
     <Compile Include="tns_modules\application\application-common.js" />
     <Compile Include="tns_modules\application\application.android.js" />
     <Compile Include="tns_modules\application\application.ios.js" />
+    <Compile Include="tns_modules\camera\camera-common.js" />
     <Compile Include="tns_modules\camera\camera.android.js" />
     <Compile Include="tns_modules\camera\camera.ios.js" />
     <Compile Include="tns_modules\color\color-common.js" />
@@ -339,9 +347,6 @@
     <Compile Include="tns_modules\js-libs\polymer-expressions\path-parser.js" />
     <Compile Include="tns_modules\js-libs\polymer-expressions\polymer-expressions.js" />
     <Compile Include="tns_modules\js-libs\reworkcss\reworkcss.js" />
-    <Compile Include="tns_modules\local-settings\local-settings-common.js" />
-    <Compile Include="tns_modules\local-settings\local-settings.android.js" />
-    <Compile Include="tns_modules\local-settings\local-settings.ios.js" />
     <Compile Include="tns_modules\location\location-common.js" />
     <Compile Include="tns_modules\location\location.android.js" />
     <Compile Include="tns_modules\location\location.ios.js" />
@@ -420,9 +425,13 @@
     <Compile Include="tns_modules\ui\page\page-common.js" />
     <Compile Include="tns_modules\ui\page\page.android.js" />
     <Compile Include="tns_modules\ui\page\page.ios.js" />
+    <Compile Include="tns_modules\ui\placeholder\placeholder-common.js" />
+    <Compile Include="tns_modules\ui\placeholder\placeholder.android.js" />
+    <Compile Include="tns_modules\ui\placeholder\placeholder.ios.js" />
     <Compile Include="tns_modules\ui\progress\progress-common.js" />
     <Compile Include="tns_modules\ui\progress\progress.android.js" />
     <Compile Include="tns_modules\ui\progress\progress.ios.js" />
+    <Compile Include="tns_modules\ui\repeater\repeater.js" />
     <Compile Include="tns_modules\ui\scroll-view\scroll-view-common.js" />
     <Compile Include="tns_modules\ui\scroll-view\scroll-view.android.js" />
     <Compile Include="tns_modules\ui\scroll-view\scroll-view.ios.js" />
@@ -490,6 +499,7 @@
     <TypeScriptCompile Include="TelerikUI\side-bar\side-bar.d.ts" />
     <TypeScriptCompile Include="TelerikUI\side-bar\side-bar.ios.ts" />
     <TypeScriptCompile Include="tns_modules\android17.d.ts" />
+    <TypeScriptCompile Include="tns_modules\application-settings\application-settings.d.ts" />
     <TypeScriptCompile Include="tns_modules\application\application.d.ts" />
     <TypeScriptCompile Include="tns_modules\camera\camera.d.ts" />
     <TypeScriptCompile Include="tns_modules\color\color.d.ts" />
@@ -511,7 +521,6 @@
     <TypeScriptCompile Include="tns_modules\js-libs\esprima\esprima.d.ts" />
     <TypeScriptCompile Include="tns_modules\js-libs\reworkcss\reworkcss.d.ts" />
     <TypeScriptCompile Include="tns_modules\libjs.d.ts" />
-    <TypeScriptCompile Include="tns_modules\local-settings\local-settings.d.ts" />
     <TypeScriptCompile Include="tns_modules\location\location.d.ts" />
     <TypeScriptCompile Include="tns_modules\platform\platform.d.ts" />
     <TypeScriptCompile Include="tns_modules\text\formatted-string.d.ts" />
@@ -547,7 +556,9 @@
     <TypeScriptCompile Include="tns_modules\ui\list-picker\list-picker.d.ts" />
     <TypeScriptCompile Include="tns_modules\ui\list-view\list-view.d.ts" />
     <TypeScriptCompile Include="tns_modules\ui\page\page.d.ts" />
+    <TypeScriptCompile Include="tns_modules\ui\placeholder\placeholder.d.ts" />
     <TypeScriptCompile Include="tns_modules\ui\progress\progress.d.ts" />
+    <TypeScriptCompile Include="tns_modules\ui\repeater\repeater.d.ts" />
     <TypeScriptCompile Include="tns_modules\ui\scroll-view\scroll-view.d.ts" />
     <TypeScriptCompile Include="tns_modules\ui\search-bar\search-bar.d.ts" />
     <TypeScriptCompile Include="tns_modules\ui\segmented-bar\segmented-bar.d.ts" />

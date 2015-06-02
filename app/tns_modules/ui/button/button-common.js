@@ -8,11 +8,7 @@ var dependencyObservable = require("ui/core/dependency-observable");
 var view = require("ui/core/view");
 var proxy = require("ui/core/proxy");
 var observable = require("data/observable");
-var weakEventListener = require("ui/core/weak-event-listener");
-var knownEvents;
-(function (knownEvents) {
-    knownEvents.tap = "tap";
-})(knownEvents = exports.knownEvents || (exports.knownEvents = {}));
+var weakEvents = require("ui/core/weak-event-listener");
 var textProperty = new dependencyObservable.Property("text", "Button", new proxy.PropertyMetadata("", dependencyObservable.PropertyMetadataSettings.AffectsLayout));
 var formattedTextProperty = new dependencyObservable.Property("formattedText", "Button", new proxy.PropertyMetadata("", dependencyObservable.PropertyMetadataSettings.AffectsLayout));
 function onTextPropertyChanged(data) {
@@ -52,20 +48,12 @@ var Button = (function (_super) {
         },
         set: function (value) {
             if (this.formattedText !== value) {
-                var weakEventOptions = {
-                    targetWeakRef: new WeakRef(this),
-                    eventName: observable.knownEvents.propertyChange,
-                    sourceWeakRef: new WeakRef(value),
-                    handler: this.onFormattedTextChanged,
-                    handlerContext: this,
-                    key: "formattedText"
-                };
                 if (this.formattedText) {
-                    weakEventListener.WeakEventListener.removeWeakEventListener(weakEventOptions);
+                    weakEvents.removeWeakEventListener(this.formattedText, observable.Observable.propertyChangeEvent, this.onFormattedTextChanged, this);
                 }
                 this._setValue(Button.formattedTextProperty, value);
                 if (value) {
-                    weakEventListener.WeakEventListener.addWeakEventListener(weakEventOptions);
+                    weakEvents.addWeakEventListener(value, observable.Observable.propertyChangeEvent, this.onFormattedTextChanged, this);
                 }
             }
         },
@@ -97,6 +85,7 @@ var Button = (function (_super) {
         }
         this.setFormattedTextPropertyToNative(data.newValue);
     };
+    Button.tapEvent = "tap";
     Button.textProperty = textProperty;
     Button.formattedTextProperty = formattedTextProperty;
     return Button;
