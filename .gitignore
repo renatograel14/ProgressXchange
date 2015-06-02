@@ -5,7 +5,6 @@
 *.dat
 *.suo
 
-!*/tns_modules/*.*
 !bootstrap.js
 !everlive.js
 
