@@ -13,9 +13,7 @@
 /.metadata/
 /.tscache
 /node_modules
-
-/platforms/android/*
-!platforms/android/AndroidManifest.xml
+/platforms
 
 platforms/ios/*
 !platforms/ios/Sample-TelerikNext
