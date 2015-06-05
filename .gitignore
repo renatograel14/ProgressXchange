@@ -8,6 +8,7 @@
 !*/tns_modules/*.*
 !bootstrap.js
 !everlive.js
+!gruntfile.js
 
 /lib/
 /.metadata/
