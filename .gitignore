@@ -11,6 +11,8 @@
 
 /lib/
 /.metadata/
+/.tscache
+/node_modules
 
 /platforms/android/*
 !platforms/android/AndroidManifest.xml
