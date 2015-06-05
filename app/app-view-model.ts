@@ -1,12 +1,12 @@
 ﻿import observable = require("data/observable");
 import dialogs = require("ui/dialogs");
 import view = require("ui/core/view");
-import applicationSettings = require("application-settings");
+import localSettings = require("application-settings");
 import platform = require("platform");
 import appModule = require("application");
 import types = require("utils/types");
 
-var LOADING_ERROR = "Could not load sessions. Check your Internet connection and try again."; 
+var LOADING_ERROR = "Could not load sessions. Check your Internet connection and try again.";
 var everlive = require("./everlive/everlive");
 interface ConferenceDay {
     date: Date;
@@ -60,7 +60,7 @@ var REMIDER_MINUTES = 5;
 var FAVOURITES = "FAVOURITES";
 var favourites: Array<FavouriteSession>;
 try {
-    favourites = <Array<FavouriteSession>>JSON.parse(applicationSettings.getString(FAVOURITES, "[]"));
+    favourites = <Array<FavouriteSession>>JSON.parse(localSettings.getString(FAVOURITES, "[]"));
 }
 catch (error) {
     console.log("Error while retrieveing favourites: " + error);
@@ -198,7 +198,7 @@ function removeFromFavourites(session: SessionModel) {
 function updateFavourites() {
     var newValue = JSON.stringify(favourites);
     console.log("favourites: " + newValue);
-    applicationSettings.setString(FAVOURITES, newValue);
+    localSettings.setString(FAVOURITES, newValue);
 }
 
 var el = new everlive("mzacGkKPFlZUfbMq");
@@ -474,5 +474,3 @@ el.data('Info').get().then(
         console.log("Could not load Info. Error: " + error);
         dialogs.alert(LOADING_ERROR);
     });
-
-

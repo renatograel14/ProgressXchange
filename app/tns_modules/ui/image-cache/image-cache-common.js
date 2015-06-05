@@ -95,9 +95,7 @@ var Cache = (function (_super) {
     };
     Cache.prototype._onDownloadCompleted = function (key, image) {
         var request = this._pendingDownloads[key];
-        if (request.key && image) {
-            this.set(request.key, image);
-        }
+        this.set(request.key, image);
         this._currentDownloads--;
         if (request.completed) {
             request.completed(image, request.key);

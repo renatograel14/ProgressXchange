@@ -1,10 +1,10 @@
 {
 	"name": "tns-definitions",
 	"description": "NativeScript Module definitions",
-	"version": "1.0.0",
+	"version": "1.0.0-2015.5.4.2",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/NativeScript/NativeScript/commit/812db046b38d227873a0b578a4f59a39059ed1e2"
+		"url": "https://github.com/NativeScript/NativeScript/commit/e5eb374d2c9d10089f05b90668d728c87f3ae965"
 	},
 	"files": [
 		"**/*.*",

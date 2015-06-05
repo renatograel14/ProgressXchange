@@ -6,7 +6,6 @@ var types = require("utils/types");
 var fs = require("file-system");
 var gestures = require("ui/gestures");
 var bindingBuilder = require("ui/builder/binding-builder");
-var platform = require("platform");
 var EVENT = "Event";
 var UI_PATH = "ui/";
 var MODULES = {
@@ -60,15 +59,6 @@ function getComponentModule(elementName, namespace, attributes, exports) {
         var bindings = new Array();
         for (var attr in attributes) {
             var attrValue = attributes[attr];
-            if (attr.indexOf(":") !== -1) {
-                var platformName = attr.split(":")[0].trim();
-                if (platformName.toLowerCase() === platform.device.os.toLowerCase()) {
-                    attr = attr.split(":")[1].trim();
-                }
-                else {
-                    continue;
-                }
-            }
             if (attr.indexOf(".") !== -1) {
                 var subObj = instance;
                 var properties = attr.split(".");
@@ -93,13 +83,9 @@ function getComponentModule(elementName, namespace, attributes, exports) {
 }
 exports.getComponentModule = getComponentModule;
 function setPropertyValue(instance, instanceModule, exports, propertyName, propertyValue) {
-    var isEvent = instanceModule && isKnownEvent(propertyName, instanceModule[instance.typeName]);
     if (isBinding(propertyValue) && instance.bind) {
-        if (isEvent) {
+        if (isKnownEvent(propertyName, instanceModule[instance.typeName])) {
             attachEventBinding(instance, propertyName, propertyValue);
-        }
-        else if (isGesture(propertyName, instance)) {
-            attachGestureBinding(instance, propertyName, propertyValue);
         }
         else {
             var bindOptions = bindingBuilder.getBindingOptions(propertyName, getBindingExpressionFromAttribute(propertyValue));
@@ -111,7 +97,7 @@ function setPropertyValue(instance, instanceModule, exports, propertyName, prope
             }, bindOptions[bindingBuilder.bindingConstants.source]);
         }
     }
-    else if (isEvent) {
+    else if (isKnownEvent(propertyName, instanceModule[instance.typeName])) {
         var handler = exports && exports[propertyValue];
         if (types.isFunction(handler)) {
             instance.on(propertyName, handler);
@@ -170,18 +156,6 @@ function attachEventBinding(instance, eventName, value) {
             var handler = instance.bindingContext && instance.bindingContext[getBindingExpressionFromAttribute(value)];
             if (types.isFunction(handler)) {
                 instance.on(eventName, handler, instance.bindingContext);
-            }
-            instance.off(observable.Observable.propertyChangeEvent, propertyChangeHandler);
-        }
-    };
-    instance.on(observable.Observable.propertyChangeEvent, propertyChangeHandler);
-}
-function attachGestureBinding(instance, gestureName, value) {
-    var propertyChangeHandler = function (args) {
-        if (args.propertyName === "bindingContext") {
-            var handler = instance.bindingContext && instance.bindingContext[getBindingExpressionFromAttribute(value)];
-            if (types.isFunction(handler)) {
-                instance.observe(gestures.fromString(gestureName.toLowerCase()), handler, instance.bindingContext);
             }
             instance.off(observable.Observable.propertyChangeEvent, propertyChangeHandler);
         }

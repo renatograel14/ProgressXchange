@@ -12,7 +12,6 @@ var fileSystemAccess = require("file-system/file-system-access");
 var bindable = require("ui/core/bindable");
 var dependencyObservable = require("ui/core/dependency-observable");
 var enums = require("ui/enums");
-var frameCommon = require("ui/frame/frame-common");
 var OPTIONS_MENU = "optionsMenu";
 var knownCollections;
 (function (knownCollections) {
@@ -95,59 +94,22 @@ var Page = (function (_super) {
     });
     Page.prototype.onNavigatingTo = function (context) {
         this._navigationContext = context;
-        this.notify({
-            eventName: Page.navigatingToEvent,
-            object: this,
-            context: this.navigationContext
-        });
     };
-    Page.prototype.onNavigatedTo = function () {
+    Page.prototype.onNavigatedTo = function (context) {
+        this._navigationContext = context;
         this.notify({
             eventName: Page.navigatedToEvent,
             object: this,
-            context: this.navigationContext
+            context: context
         });
     };
     Page.prototype.onNavigatingFrom = function () {
-        this.notify({
-            eventName: Page.navigatingFromEvent,
-            object: this,
-            context: this.navigationContext
-        });
     };
     Page.prototype.onNavigatedFrom = function (isBackNavigation) {
-        this.notify({
-            eventName: Page.navigatedFromEvent,
-            object: this,
-            context: this.navigationContext
-        });
         this._navigationContext = undefined;
-    };
-    Page.prototype.showModal = function (moduleName, context, closeCallback) {
-        var page = frameCommon.resolvePageFromEntry({ moduleName: moduleName });
-        page._showNativeModalView(this, context, closeCallback);
-    };
-    Page.prototype._showNativeModalView = function (parent, context, closeCallback) {
-    };
-    Page.prototype._hideNativeModalView = function (parent) {
-    };
-    Page.prototype._raiseShownModallyEvent = function (parent, context, closeCallback) {
-        var that = this;
-        var closeProxy = function () {
-            that._hideNativeModalView(parent);
-            closeCallback.apply(undefined, arguments);
-        };
-        this.notify({
-            eventName: Page.shownModallyEvent,
-            object: this,
-            context: context,
-            closeCallback: closeProxy
-        });
     };
     Page.prototype._getStyleScope = function () {
         return this._styleScope;
-    };
-    Page.prototype._invalidateOptionsMenu = function () {
     };
     Page.prototype._applyCss = function () {
         if (this._cssApplied) {
@@ -176,11 +138,7 @@ var Page = (function (_super) {
             this.optionsMenu.setItems(value);
         }
     };
-    Page.navigatingToEvent = "navigatingTo";
     Page.navigatedToEvent = "navigatedTo";
-    Page.navigatingFromEvent = "navigatingFrom";
-    Page.navigatedFromEvent = "navigatedFrom";
-    Page.shownModallyEvent = "shownModally";
     return Page;
 })(contentView.ContentView);
 exports.Page = Page;
@@ -230,8 +188,8 @@ var OptionsMenu = (function () {
         this.invalidate();
     };
     OptionsMenu.prototype.invalidate = function () {
-        if (this._page) {
-            this._page._invalidateOptionsMenu();
+        if (this._page.frame) {
+            this._page.frame._invalidateOptionsMenu();
         }
     };
     return OptionsMenu;

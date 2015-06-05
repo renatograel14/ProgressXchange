@@ -7,7 +7,6 @@ var __extends = this.__extends || function (d, b) {
 var viewCommon = require("ui/core/view-common");
 var trace = require("trace");
 var utils = require("utils/utils");
-var gestures = require("ui/gestures");
 require("utils/module-merge").merge(viewCommon, exports);
 var ANDROID = "_android";
 var NATIVE_VIEW = "_nativeView";
@@ -71,69 +70,6 @@ var View = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    View.prototype.onLoaded = function () {
-        _super.prototype.onLoaded.call(this);
-        this.setOnTouchListener();
-    };
-    View.prototype.onUnloaded = function () {
-        _super.prototype.onUnloaded.call(this);
-        if (this._nativeView && this._nativeView.setOnTouchListener) {
-            this._nativeView.setOnTouchListener(null);
-        }
-    };
-    View.prototype.setOnTouchListener = function () {
-        if (this._nativeView && this._nativeView.setOnTouchListener && Object.keys(this._gestureObservers).length > 0) {
-            var that = new WeakRef(this);
-            if (this._nativeView.setClickable) {
-                this._nativeView.setClickable(true);
-            }
-            this._nativeView.setOnTouchListener(new android.view.View.OnTouchListener({
-                onTouch: function (view, motionEvent) {
-                    var owner = that.get();
-                    if (!owner) {
-                        return false;
-                    }
-                    var i;
-                    for (var prop in owner._gestureObservers) {
-                        if (owner._gestureObservers.hasOwnProperty(prop)) {
-                            for (i = 0; i < owner._gestureObservers[prop].length; i++) {
-                                var gestureObserver = owner._gestureObservers[prop][i];
-                                if (gestureObserver._simpleGestureDetector) {
-                                    gestureObserver._simpleGestureDetector.onTouchEvent(motionEvent);
-                                }
-                                if (gestureObserver._scaleGestureDetector) {
-                                    gestureObserver._scaleGestureDetector.onTouchEvent(motionEvent);
-                                }
-                                if (gestureObserver._swipeGestureDetector) {
-                                    gestureObserver._swipeGestureDetector.onTouchEvent(motionEvent);
-                                }
-                                if (gestureObserver._panGestureDetector) {
-                                    gestureObserver._panGestureDetector.onTouchEvent(motionEvent);
-                                }
-                                if (gestureObserver.type & gestures.GestureTypes.rotation && motionEvent.getPointerCount() === 2) {
-                                    var deltaX = motionEvent.getX(0) - motionEvent.getX(1);
-                                    var deltaY = motionEvent.getY(0) - motionEvent.getY(1);
-                                    var radians = Math.atan(deltaY / deltaX);
-                                    var degrees = radians * (180 / Math.PI);
-                                    var args = {
-                                        type: gestures.GestureTypes.rotation,
-                                        view: owner,
-                                        android: motionEvent,
-                                        rotation: degrees,
-                                        ios: null
-                                    };
-                                    if (gestureObserver.callback) {
-                                        gestureObserver.callback.call(gestureObserver._context, args);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    return owner._nativeView.onTouchEvent(motionEvent);
-                }
-            }));
-        }
-    };
     View.prototype._addViewCore = function (view) {
         if (this._context) {
             view._onAttached(this._context);

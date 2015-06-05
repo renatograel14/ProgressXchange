@@ -1,7 +1,10 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
-  loaded="pageLoaded" xmlns:tsb="TelerikUI/side-bar">
-  <tsb:SideBar id="sideBar">
-    <tsb:SideBar.slideContent>
+  loaded="pageLoaded" xmlns:tsb="TelerikUI/sidedrawer">
+  <tsb:SideDrawer id="SideDrawer" >
+      <tsb:SideDrawer.drawerTransition>
+          <tsb:SlideInOnTopTransition/>
+      </tsb:SideDrawer.drawerTransition>
+    <tsb:SideDrawer.drawerContent >
       <GridLayout rows="*, auto">
         <StackLayout style="background-color: #053140;">
           <Image src="res://logo" cssClass="slide-out-img" stretch="none" />
@@ -24,9 +27,9 @@
           </Label>
         </StackLayout>
       </GridLayout>
-    </tsb:SideBar.slideContent>
+  </tsb:SideDrawer.drawerContent>
 
-    <tsb:SideBar.mainContent>
+    <tsb:SideDrawer.mainContent>
       <GridLayout rows="auto, *">
         <!-- Header -->
         <StackLayout cssClass="page-header">
@@ -63,7 +66,7 @@
           <SearchBar text="{{ search }}" hint="Search" cssClass="search" textFieldBackgroundColor="white" id="search"/>
 
           <!-- List -->
-          <ListView items="{{ sessions }}" row="1" separatorColor="#fac950" itemTap="selectSession">
+          <ListView items="{{ sessions }}" row="1" separatorColor="#fac950" itemTap="selectSession" cssClass="listView">
             <ListView.itemTemplate>
               <GridLayout columns="auto, *" cssClass="{{ isBreak ? 'break-row' : 'list-view-row' }}">
 
@@ -117,7 +120,7 @@
                 <FormattedString.spans>
                   <Span text="
 As always, we'll make it worth your while. You will:
-                        
+
 1) Build your first (or tenth) mobile app and have fun doing it
 
 2) Enjoy free food, drinks and software licenses, all while learning new skills
@@ -125,14 +128,14 @@ As always, we'll make it worth your while. You will:
 3) Get prizes, with" />
                   <Span text=" winners every 20 minutes" fontAttributes="Bold"/>
                   <Span text="
-                                                                                           
+
 5) Ask questions and meet our hackathon expert engineers
 
 6) Get " />
                   <Span text=" FREE code" fontAttributes="Bold"/>
                   <Span text=" licenses for 6 months!" />
                   <Span text="
-                        
+
 Space is limited, so be sure to pick up your entry pass by stopping by at the Registration desk on Sunday between the hours of 4:00 p.m. - 6:00 p.m."
                         foregroundColor="#A17201" fontAttributes="Bold"/>
                 </FormattedString.spans>
@@ -233,6 +236,6 @@ for Dynamics CRM" />
 
         </StackLayout>
       </GridLayout>
-    </tsb:SideBar.mainContent>
-  </tsb:SideBar>
+    </tsb:SideDrawer.mainContent>
+  </tsb:SideDrawer>
 </Page>

@@ -21,10 +21,8 @@ var ListPicker = (function (_super) {
     });
     ListPicker.prototype._createUI = function () {
         this._android = new android.widget.NumberPicker(this._context);
-        this._android.setDescendantFocusability(android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         this._android.setMinValue(0);
-        this._android.setMaxValue(0);
-        this._android.setValue(0);
+        this._android.setDescendantFocusability(android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         var that = new WeakRef(this);
         this._formatter = new android.widget.NumberPicker.Formatter({
             get owner() {
@@ -34,7 +32,7 @@ var ListPicker = (function (_super) {
                 if (this.owner) {
                     return this.owner._getItemAsString(index);
                 }
-                return " ";
+                return index.toString();
             }
         });
         this._android.setFormatter(this._formatter);
@@ -49,42 +47,36 @@ var ListPicker = (function (_super) {
             }
         });
         this._android.setOnValueChangedListener(this._valueChangedListener);
-        var mInputTextField = java.lang.Class.forName("android.widget.NumberPicker").getDeclaredField("mInputText");
-        mInputTextField.setAccessible(true);
-        this._editText = mInputTextField.get(this._android);
-        this._editText.setFilters([]);
-        this._editText.setText(" ", android.widget.TextView.BufferType.NORMAL);
+        this._fixDisappearingSelectedItem();
     };
     ListPicker.prototype._onSelectedIndexPropertyChanged = function (data) {
         _super.prototype._onSelectedIndexPropertyChanged.call(this, data);
         if (this.android && types.isNumber(data.newValue)) {
+            if (types.isDefined(this.items) && types.isNumber(this.items.length)) {
+                this.android.setMaxValue(this.items.length - 1);
+            }
             this.android.setValue(data.newValue);
         }
     };
     ListPicker.prototype._onItemsPropertyChanged = function (data) {
         if (this.android) {
+            var maxValue;
             if (!data.newValue || !data.newValue.length) {
-                this.android.setMaxValue(0);
+                maxValue = 0;
             }
             else {
-                this.android.setMaxValue(data.newValue.length - 1);
+                maxValue = data.newValue.length;
             }
+            this.android.setMaxValue(maxValue);
             this.android.setWrapSelectorWheel(false);
         }
         this._updateSelectedIndexOnItemsPropertyChanged(data.newValue);
-        this._fixNumberPickerRendering();
     };
-    ListPicker.prototype._fixNumberPickerRendering = function () {
-        if (!this.android) {
-            return;
-        }
-        this.android.setFormatter(null);
-        this.android.setFormatter(this._formatter);
-        if (this._editText) {
-            this._editText.setFilters([]);
-        }
-        this._editText.invalidate();
-        this.android.invalidate();
+    ListPicker.prototype._fixDisappearingSelectedItem = function () {
+        var mInputTextField = java.lang.Class.forName("android.widget.NumberPicker").getDeclaredField("mInputText");
+        mInputTextField.setAccessible(true);
+        var mInputText = mInputTextField.get(this._android);
+        mInputText.setFilters([]);
     };
     return ListPicker;
 })(common.ListPicker);

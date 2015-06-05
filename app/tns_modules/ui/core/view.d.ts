@@ -355,7 +355,7 @@ declare module "ui/core/view" {
          */
         public focus(): boolean;
 
-        observe(type: number, callback: (args: gestures.GestureEventData) => void, thisArg?: any);
+        observe(type: number, callback: (args: gestures.GestureEventData) => void): gestures.GesturesObserver;
 
         /**
          * A basic method signature to hook an event listener (shortcut alias to the addEventListener method).

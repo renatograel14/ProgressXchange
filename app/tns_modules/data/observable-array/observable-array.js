@@ -5,7 +5,6 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var observable = require("data/observable");
-var types = require("utils/types");
 var ChangeType = (function () {
     function ChangeType() {
     }
@@ -58,12 +57,6 @@ var ObservableArray = (function (_super) {
     Object.defineProperty(ObservableArray.prototype, "length", {
         get: function () {
             return this._array.length;
-        },
-        set: function (value) {
-            if (types.isNumber(value) && this._array && this._array.length !== value) {
-                this._array = this._array.slice(0, value);
-                this._notifyLengthChange();
-            }
         },
         enumerable: true,
         configurable: true

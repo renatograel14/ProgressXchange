@@ -45,8 +45,8 @@ export function selectSession(args: listView.ItemEventData) {
 export function selectView(args: observable.EventData) {
     var btn = <button.Button>args.object;
     var page = view.getAncestor(btn, "Page");
-    var slideBar = <any>page.getViewById("sideBar");
-    slideBar.closeSlideContent();
+    var slideBar = <any>page.getViewById("SideDrawer");
+    slideBar.closeDrawer();
 
     appViewModel.appModel.selectView(parseInt((<any>btn).tag), btn.text);
     hideSearchKeyboard(page);
@@ -58,9 +58,10 @@ export function toggleFavorite(args: gestures.GestureEventData) {
 }
 
 export function showSlideout(args: gestures.GestureEventData) {
+    console.log("show slideout");
     var page = view.getAncestor(args.view, "Page");
-    var slideBar = <any>page.getViewById("sideBar");
-    slideBar.openSlideContent();
+    var slideBar = <any>page.getViewById("SideDrawer");
+    slideBar.showDrawer();
     hideSearchKeyboard(page);
 }
 

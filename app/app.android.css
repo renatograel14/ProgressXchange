@@ -177,5 +177,10 @@ SegmentedBar {
 }
 
 .content-offset {
-    margin: 16 16 16 72;
+    padding: 16 16 16 72;
+    background-color: #ffffff;
+}
+
+.listView{
+  background-color: #ffffff;
 }

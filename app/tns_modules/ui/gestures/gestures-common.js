@@ -26,9 +26,9 @@ var GestureStateTypes = exports.GestureStateTypes;
     SwipeDirection[SwipeDirection["down"] = 8] = "down";
 })(exports.SwipeDirection || (exports.SwipeDirection = {}));
 var SwipeDirection = exports.SwipeDirection;
-function observe(target, type, callback, thisArg) {
+function observe(target, type, callback) {
     var observer = new definition.GesturesObserver(callback);
-    observer.observe(target, type, thisArg);
+    observer.observe(target, type);
     return observer;
 }
 exports.observe = observe;

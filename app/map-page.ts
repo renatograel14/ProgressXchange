@@ -37,7 +37,7 @@ export function backTap(args: gestures.GestureEventData) {
 }
 
 export function backSwipe(args: gestures.SwipeGestureEventData) {
-    if (args.direction === gestures.SwipeDirection.right) {
+    if (args.direction === gestures.SwipeDirection.Right) {
         frame.topmost().goBack();
     }
 }

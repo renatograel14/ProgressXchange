@@ -5,17 +5,17 @@
 *.dat
 *.suo
 
-!*/tns_modules/**/*
+!*/tns_modules/*.*
 !bootstrap.js
 !everlive.js
 
 /lib/
 /.metadata/
 
-/platforms/android/**/*
+/platforms/android/*
 !platforms/android/AndroidManifest.xml
 
-platforms/ios/**/*
+platforms/ios/*
 !platforms/ios/Sample-TelerikNext
 platforms/ios/Sample-TelerikNext/*
 !platforms/ios/Sample-TelerikNext/Images.xcassets

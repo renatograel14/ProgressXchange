@@ -8,7 +8,7 @@ var view = require("ui/core/view");
 var observable = require("data/observable");
 var dependencyObservable = require("ui/core/dependency-observable");
 var proxy = require("ui/core/proxy");
-var weakEvents = require("ui/core/weak-event-listener");
+var weakEventListener = require("ui/core/weak-event-listener");
 var utils = require("utils/utils");
 var trace = require("trace");
 var textProperty = new dependencyObservable.Property("text", "TextBase", new proxy.PropertyMetadata("", dependencyObservable.PropertyMetadataSettings.AffectsLayout));
@@ -70,12 +70,20 @@ var TextBase = (function (_super) {
         },
         set: function (value) {
             if (this.formattedText !== value) {
+                var weakEventOptions = {
+                    targetWeakRef: new WeakRef(this),
+                    eventName: observable.Observable.propertyChangeEvent,
+                    sourceWeakRef: new WeakRef(value),
+                    handler: this.onFormattedTextChanged,
+                    handlerContext: this,
+                    key: "formattedText"
+                };
                 if (this.formattedText) {
-                    weakEvents.removeWeakEventListener(this.formattedText, observable.Observable.propertyChangeEvent, this.onFormattedTextChanged, this);
+                    weakEventListener.WeakEventListener.removeWeakEventListener(weakEventOptions);
                 }
                 this._setValue(TextBase.formattedTextProperty, value);
                 if (value) {
-                    weakEvents.addWeakEventListener(value, observable.Observable.propertyChangeEvent, this.onFormattedTextChanged, this);
+                    weakEventListener.WeakEventListener.addWeakEventListener(weakEventOptions);
                 }
             }
         },

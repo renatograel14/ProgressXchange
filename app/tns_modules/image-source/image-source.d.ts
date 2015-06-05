@@ -45,12 +45,6 @@ declare module "image-source" {
         */
         loadFromData(data: any): boolean;
 
-        /**
-         * Loads this instance from the specified native image data.
-         * @param source The Base64 string to load the image from.
-         */
-        loadFromBase64(source: string): boolean;
-
        /**
         * Sets the provided native source object (typically a Bitmap).
         * This will update either the android or ios properties, depending on the target os.
@@ -92,12 +86,6 @@ declare module "image-source" {
     */
     export function fromData(data: any): ImageSource;
 
-    /**
-     * Creates a new ImageSource instance and loads it from the specified resource name.
-     * @param source The Base64 string to load the image from.
-     */
-    export function fromBase64(source: string): ImageSource;
-
    /**
     * Creates a new ImageSource instance and sets the provided native source object (typically a Bitmap).
     * The native source object will update either the android or ios properties, depending on the target os.
@@ -118,7 +106,7 @@ declare module "image-source" {
     export function fromFileOrResource(path: string): ImageSource;
 
     /**
-     * [Obsolete. Please use utils.isFileOrResourcePath instead!] Returns true if the specified path points to a resource or local file.
+     * Returns true if the specified path points to a resource or local file.
      * @param path The path.
      */
     export function isFileOrResourcePath(path: string): boolean

@@ -20,11 +20,11 @@ function request(options) {
                     urlRequest.setValueForHTTPHeaderField(options.headers[header] + "", header);
                 }
             }
+            if (types.isNumber(options.timeout)) {
+                urlRequest.timeoutInterval = options.timeout * 1000;
+            }
             if (types.isString(options.content)) {
                 urlRequest.HTTPBody = NSString.alloc().initWithString(options.content).dataUsingEncoding(4);
-            }
-            if (types.isNumber(options.timeout)) {
-                urlRequest.timeoutInterval = options.timeout / 1000;
             }
             var dataTask = session.dataTaskWithRequestCompletionHandler(urlRequest, function (data, response, error) {
                 if (error) {

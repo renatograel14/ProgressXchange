@@ -206,9 +206,6 @@ var TabView = (function (_super) {
         trace.write("TabView.onLoaded(); selectedIndex: " + this.selectedIndex + "; items: " + this.items + ";", common.traceCategory);
         _super.prototype.onLoaded.call(this);
         if (this.android && this.android.isShown()) {
-            if (!this._pagerAdapter && this.items) {
-                this._setAdapter(this.items);
-            }
             this._addTabsIfNeeded();
             this._setNativeSelectedIndex(this.selectedIndex);
         }
@@ -216,7 +213,6 @@ var TabView = (function (_super) {
     TabView.prototype.onUnloaded = function () {
         trace.write("TabView.onUnloaded();", common.traceCategory);
         this._removeTabsIfNeeded();
-        this._unsetAdapter();
         _super.prototype.onUnloaded.call(this);
     };
     TabView.prototype._addTabsIfNeeded = function () {
@@ -347,8 +343,6 @@ var TabView = (function (_super) {
         trace.write("TabView._onSelectedIndexPropertyChangedSetNativeValue(" + data.oldValue + " ---> " + data.newValue + ");", common.traceCategory);
         _super.prototype._onSelectedIndexPropertyChangedSetNativeValue.call(this, data);
         this._setNativeSelectedIndex(data.newValue);
-        var args = { eventName: TabView.selectedIndexChangedEvent, object: this, oldIndex: data.oldValue, newIndex: data.newValue };
-        this.notify(args);
     };
     TabView.prototype._setNativeSelectedIndex = function (index) {
         if (types.isNullOrUndefined(index)) {

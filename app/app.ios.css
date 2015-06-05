@@ -71,6 +71,8 @@ SegmentedBar {
 .session-page-title {
     font-size: 17;
     color: #fac950;
+    background-color:"ff0000";
+
 }
 
 .info-page-header {
@@ -178,5 +180,6 @@ SegmentedBar {
 }
 
 .content-offset {
-    margin: 12;
+    padding: 12;
+    background-color: #ffffff;
 }

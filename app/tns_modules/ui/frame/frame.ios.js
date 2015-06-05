@@ -6,6 +6,7 @@ var __extends = this.__extends || function (d, b) {
 };
 var frameCommon = require("ui/frame/frame-common");
 var trace = require("trace");
+var imageSource = require("image-source");
 var enums = require("ui/enums");
 var utils = require("utils/utils");
 var view = require("ui/core/view");
@@ -57,24 +58,17 @@ var Frame = (function (_super) {
         }
     };
     Frame.prototype.updateNavigationBar = function (page) {
-        var previousValue = !!this._ios.showNavigationBar;
-        var newValue = false;
         switch (this._ios.navBarVisibility) {
             case enums.NavigationBarVisibility.always:
-                newValue = true;
+                this._ios.showNavigationBar = true;
                 break;
             case enums.NavigationBarVisibility.never:
-                newValue = false;
+                this._ios.showNavigationBar = false;
                 break;
             case enums.NavigationBarVisibility.auto:
                 var pageInstance = page || this.currentPage;
-                newValue = this.backStack.length > 0 || (pageInstance && pageInstance.optionsMenu.getItems().length > 0);
-                newValue = !!newValue;
+                this._ios.showNavigationBar = this.backStack.length > 0 || (pageInstance && pageInstance.optionsMenu.getItems().length > 0);
                 break;
-        }
-        this._ios.showNavigationBar = newValue;
-        if (previousValue !== newValue) {
-            this.requestLayout();
         }
     };
     Object.defineProperty(Frame.prototype, "ios", {
@@ -127,6 +121,23 @@ var Frame = (function (_super) {
             view.View.layoutChild(this, this._navigateToEntry.resolvedPage, 0, this.navigationBarHeight, right - left, bottom - top);
         }
     };
+    Frame.prototype.layoutNativeView = function (left, top, right, bottom) {
+        // We don't call super here because we set frame on our first subview.
+        // This is done because when rotated in iOS7 there is rotation applied on the first subview on the Window which is our frame.nativeView.view.
+        // If we set it it should be transformed so it is correct. 
+        var frame = CGRectMake(left, top, right - left, bottom - top);
+        var nativeView;
+        if (!this.parent && this._nativeView.subviews.count > 0) {
+            nativeView = this._nativeView.subviews[0];
+        }
+        else {
+            nativeView = this._nativeView;
+        }
+        if (!CGRectEqualToRect(nativeView.frame, frame)) {
+            trace.write(this + ", Native setFrame: " + NSStringFromCGRect(frame), trace.categories.Layout);
+            nativeView.frame = frame;
+        }
+    };
     Object.defineProperty(Frame.prototype, "navigationBarHeight", {
         get: function () {
             var navigationBar = this._ios.controller.navigationBar;
@@ -135,6 +146,31 @@ var Frame = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Frame.prototype._invalidateOptionsMenu = function () {
+        this.populateMenuItems(this.currentPage);
+    };
+    Frame.prototype.populateMenuItems = function (page) {
+        var items = page.optionsMenu.getItems();
+        var navigationItem = page.ios.navigationItem;
+        var array = items.length > 0 ? NSMutableArray.new() : null;
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var tapHandler = TapBarItemHandlerImpl.new().initWithOwner(item);
+            item.handler = tapHandler;
+            var barButtonItem;
+            if (item.icon) {
+                var img = imageSource.fromResource(item.icon);
+                barButtonItem = UIBarButtonItem.alloc().initWithImageStyleTargetAction(img.ios, UIBarButtonItemStyle.UIBarButtonItemStylePlain, tapHandler, "tap");
+            }
+            else {
+                barButtonItem = UIBarButtonItem.alloc().initWithTitleStyleTargetAction(item.text, UIBarButtonItemStyle.UIBarButtonItemStylePlain, tapHandler, "tap");
+            }
+            array.addObject(barButtonItem);
+        }
+        if (array) {
+            navigationItem.setRightBarButtonItemsAnimated(array, true);
+        }
+    };
     return Frame;
 })(frameCommon.Frame);
 exports.Frame = Frame;
@@ -171,7 +207,7 @@ var UINavigationControllerImpl = (function (_super) {
                 frame._navigateToEntry = newEntry;
             }
             frame._addView(newPage);
-            newPage._invalidateOptionsMenu();
+            frame.populateMenuItems(newPage);
         }
         else if (newPage.parent !== frame) {
             throw new Error("Page is already shown on another frame.");
@@ -200,7 +236,7 @@ var UINavigationControllerImpl = (function (_super) {
         frame._currentEntry = newEntry;
         frame.updateNavigationBar();
         var newPage = newEntry.resolvedPage;
-        newPage.onNavigatedTo();
+        newPage.onNavigatedTo(newEntry.entry.context);
         frame._processNavigationQueue(newPage);
     };
     UINavigationControllerImpl.prototype.supportedInterfaceOrientation = function () {
@@ -247,3 +283,23 @@ var iOSFrame = (function () {
     });
     return iOSFrame;
 })();
+var TapBarItemHandlerImpl = (function (_super) {
+    __extends(TapBarItemHandlerImpl, _super);
+    function TapBarItemHandlerImpl() {
+        _super.apply(this, arguments);
+    }
+    TapBarItemHandlerImpl.new = function () {
+        return _super.new.call(this);
+    };
+    TapBarItemHandlerImpl.prototype.initWithOwner = function (owner) {
+        this._owner = owner;
+        return this;
+    };
+    TapBarItemHandlerImpl.prototype.tap = function (args) {
+        this._owner._raiseTap();
+    };
+    TapBarItemHandlerImpl.ObjCExposedMethods = {
+        "tap": { returns: interop.types.void, params: [interop.types.id] }
+    };
+    return TapBarItemHandlerImpl;
+})(NSObject);

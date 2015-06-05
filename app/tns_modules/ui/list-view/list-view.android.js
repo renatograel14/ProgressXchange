@@ -155,11 +155,7 @@ var ListViewAdapter = (function (_super) {
             return null;
         }
         var view = this._listView._getRealizedView(convertView, index);
-        var args = {
-            eventName: ITEMLOADING, object: this._listView, index: index, view: view,
-            android: parent,
-            ios: undefined
-        };
+        var args = { eventName: ITEMLOADING, object: this._listView, index: index, view: view };
         this._listView.notify(args);
         if (!args.view) {
             args.view = this._listView._getDefaultItemContent(index);
