@@ -111,7 +111,7 @@ export function showMapTap(args: gestures.GestureEventData) {
 }
 
 export function backSwipe(args: gestures.SwipeGestureEventData) {
-    if (args.direction === gestures.SwipeDirection.Right) {
+    if (args.direction === gestures.SwipeDirection.right) {
         frame.topmost().goBack();
     }
 }
