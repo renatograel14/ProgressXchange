@@ -11,7 +11,7 @@ module.exports = function(grunt) {
                     declaration: false,
                     removeComments: true,
                     compiler: "node_modules/typescript/bin/tsc",
-                    noEmitOnError: true
+                    noEmitOnError: false
                 }
             }
         },
