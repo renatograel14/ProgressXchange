@@ -42,7 +42,7 @@ function onSrcPropertyChanged(data) {
         image.imageSource = value;
     }
     else {
-        image._setNativeImage(value);
+        image.imageSource = imageSource.fromNativeSource(value);
     }
 }
 var Image = (function (_super) {
