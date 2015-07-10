@@ -13,7 +13,16 @@ var bindable = require("ui/core/bindable");
 var dependencyObservable = require("ui/core/dependency-observable");
 var enums = require("ui/enums");
 var frameCommon = require("ui/frame/frame-common");
+var proxy = require("ui/core/proxy");
 var OPTIONS_MENU = "optionsMenu";
+var navigationBarHiddenProperty = new dependencyObservable.Property("navigationBarHidden", "Page", new proxy.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsLayout));
+function onNavigationBarHiddenPropertyChanged(data) {
+    var page = data.object;
+    if (page.isLoaded) {
+        page._updateNavigationBar(data.newValue);
+    }
+}
+navigationBarHiddenProperty.metadata.onSetNativeValue = onNavigationBarHiddenPropertyChanged;
 var knownCollections;
 (function (knownCollections) {
     knownCollections.optionsMenu = "optionsMenu";
@@ -23,11 +32,27 @@ var Page = (function (_super) {
     function Page(options) {
         _super.call(this, options);
         this._styleScope = new styleScope.StyleScope();
+        this._cssFiles = {};
         this._optionsMenu = new OptionsMenu(this);
     }
     Page.prototype.onLoaded = function () {
         this._applyCss();
+        if (this.navigationBarHidden !== undefined) {
+            this._updateNavigationBar(this.navigationBarHidden);
+        }
         _super.prototype.onLoaded.call(this);
+    };
+    Object.defineProperty(Page.prototype, "navigationBarHidden", {
+        get: function () {
+            return this._getValue(Page.navigationBarHiddenProperty);
+        },
+        set: function (value) {
+            this._setValue(Page.navigationBarHiddenProperty, value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Page.prototype._updateNavigationBar = function (hidden) {
     };
     Object.defineProperty(Page.prototype, "navigationContext", {
         get: function () {
@@ -77,13 +102,17 @@ var Page = (function (_super) {
         this._refreshCss();
     };
     Page.prototype.addCssFile = function (cssFileName) {
-        if (cssFileName.indexOf(fs.knownFolders.currentApp().path) !== 0) {
-            cssFileName = fs.path.join(fs.knownFolders.currentApp().path, cssFileName);
+        var _this = this;
+        if (cssFileName.indexOf("~/") === 0) {
+            cssFileName = fs.path.join(fs.knownFolders.currentApp().path, cssFileName.replace("~/", ""));
         }
-        var cssString;
-        if (fs.File.exists(cssFileName)) {
-            new fileSystemAccess.FileSystemAccess().readText(cssFileName, function (r) { cssString = r; });
-            this._addCssInternal(cssString, cssFileName);
+        if (!this._cssFiles[cssFileName]) {
+            if (fs.File.exists(cssFileName)) {
+                new fileSystemAccess.FileSystemAccess().readText(cssFileName, function (r) {
+                    _this._addCssInternal(r, cssFileName);
+                    _this._cssFiles[cssFileName] = true;
+                });
+            }
         }
     };
     Object.defineProperty(Page.prototype, "frame", {
@@ -123,11 +152,11 @@ var Page = (function (_super) {
         });
         this._navigationContext = undefined;
     };
-    Page.prototype.showModal = function (moduleName, context, closeCallback) {
+    Page.prototype.showModal = function (moduleName, context, closeCallback, fullscreen) {
         var page = frameCommon.resolvePageFromEntry({ moduleName: moduleName });
-        page._showNativeModalView(this, context, closeCallback);
+        page._showNativeModalView(this, context, closeCallback, fullscreen);
     };
-    Page.prototype._showNativeModalView = function (parent, context, closeCallback) {
+    Page.prototype._showNativeModalView = function (parent, context, closeCallback, fullscreen) {
     };
     Page.prototype._hideNativeModalView = function (parent) {
     };
@@ -176,6 +205,7 @@ var Page = (function (_super) {
             this.optionsMenu.setItems(value);
         }
     };
+    Page.navigationBarHiddenProperty = navigationBarHiddenProperty;
     Page.navigatingToEvent = "navigatingTo";
     Page.navigatedToEvent = "navigatedTo";
     Page.navigatingFromEvent = "navigatingFrom";

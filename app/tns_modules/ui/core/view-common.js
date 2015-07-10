@@ -126,6 +126,36 @@ var View = (function (_super) {
     View.prototype.getViewById = function (id) {
         return getViewById(this, id);
     };
+    Object.defineProperty(View.prototype, "borderRadius", {
+        get: function () {
+            return this.style.borderRadius;
+        },
+        set: function (value) {
+            this.style.borderRadius = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "borderWidth", {
+        get: function () {
+            return this.style.borderWidth;
+        },
+        set: function (value) {
+            this.style.borderWidth = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "borderColor", {
+        get: function () {
+            return this.style.borderColor;
+        },
+        set: function (value) {
+            this.style.borderColor = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(View.prototype, "color", {
         get: function () {
             return this.style.color;
@@ -142,6 +172,16 @@ var View = (function (_super) {
         },
         set: function (value) {
             this.style.backgroundColor = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(View.prototype, "backgroundImage", {
+        get: function () {
+            return this.style.backgroundImage;
+        },
+        set: function (value) {
+            this.style.backgroundImage = value;
         },
         enumerable: true,
         configurable: true
@@ -371,7 +411,7 @@ var View = (function (_super) {
             return this._style;
         },
         set: function (value) {
-            this._applyInlineStyle(value);
+            throw new Error("View.style property is read-only.");
         },
         enumerable: true,
         configurable: true
@@ -679,7 +719,13 @@ var View = (function (_super) {
     };
     View.prototype._applyInlineStyle = function (inlineStyle) {
         if (types.isString(inlineStyle)) {
-            styleScope.applyInlineSyle(this, inlineStyle);
+            try {
+                this.style._beginUpdate();
+                styleScope.applyInlineSyle(this, inlineStyle);
+            }
+            finally {
+                this.style._endUpdate();
+            }
         }
     };
     View.prototype._onAttached = function (context) {
@@ -785,6 +831,13 @@ var View = (function (_super) {
         var vsm = require("ui/styling/visual-state");
         this._visualState = vsm.goToState(this, state);
         this._requestedVisualState = state;
+    };
+    View.prototype._applyXmlAttribute = function (attribute, value) {
+        if (attribute === "style") {
+            this._applyInlineStyle(value);
+            return true;
+        }
+        return false;
     };
     View.prototype._updateLayout = function () {
     };

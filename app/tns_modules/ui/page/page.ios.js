@@ -25,7 +25,8 @@ var UIViewControllerImpl = (function (_super) {
     UIViewControllerImpl.prototype.didRotateFromInterfaceOrientation = function (fromInterfaceOrientation) {
         trace.write(this._owner + " didRotateFromInterfaceOrientation(" + fromInterfaceOrientation + ")", trace.categories.ViewHierarchy);
         if (this._owner._isModal) {
-            utils.ios._layoutRootView(this._owner);
+            var parentBounds = this._owner._UIModalPresentationFormSheet ? this._owner._nativeView.superview.bounds : UIScreen.mainScreen().bounds;
+            utils.ios._layoutRootView(this._owner, parentBounds);
         }
     };
     UIViewControllerImpl.prototype.viewDidLoad = function () {
@@ -55,7 +56,6 @@ var Page = (function (_super) {
     __extends(Page, _super);
     function Page(options) {
         _super.call(this, options);
-        this._isModal = false;
         this._ios = UIViewControllerImpl.new().initWithOwner(this);
     }
     Page.prototype._onContentChanged = function (oldView, newView) {
@@ -134,17 +134,34 @@ var Page = (function (_super) {
         }
         navigationItem.setRightBarButtonItemsAnimated(array, true);
     };
-    Page.prototype._showNativeModalView = function (parent, context, closeCallback) {
+    Page.prototype._showNativeModalView = function (parent, context, closeCallback, fullscreen) {
         this._isModal = true;
-        utils.ios._layoutRootView(this);
+        if (fullscreen) {
+            this._ios.modalPresentationStyle = UIModalPresentationStyle.UIModalPresentationFullScreen;
+            utils.ios._layoutRootView(this, UIScreen.mainScreen().bounds);
+        }
+        else {
+            this._ios.modalPresentationStyle = UIModalPresentationStyle.UIModalPresentationFormSheet;
+            this._UIModalPresentationFormSheet = true;
+        }
         var that = this;
         parent.ios.presentViewControllerAnimatedCompletion(this._ios, false, function completion() {
+            if (!fullscreen) {
+                utils.ios._layoutRootView(that, that._nativeView.superview.bounds);
+            }
             that._raiseShownModallyEvent(parent, context, closeCallback);
         });
     };
     Page.prototype._hideNativeModalView = function (parent) {
         parent._ios.dismissModalViewControllerAnimated(false);
         this._isModal = false;
+        this._UIModalPresentationFormSheet = false;
+    };
+    Page.prototype._updateNavigationBar = function (hidden) {
+        if (this.ios.navigationController.navigationBarHidden !== hidden) {
+            this.ios.navigationController.navigationBarHidden = hidden;
+            this.requestLayout();
+        }
     };
     return Page;
 })(pageCommon.Page);

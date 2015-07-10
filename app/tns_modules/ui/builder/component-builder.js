@@ -49,7 +49,16 @@ function getComponentModule(elementName, namespace, attributes, exports) {
     var componentModule;
     var moduleId = MODULES[elementName] || UI_PATH + elementName.toLowerCase();
     try {
-        instanceModule = require(types.isString(namespace) && fs.path.join(fs.knownFolders.currentApp().path, namespace) || moduleId);
+        if (types.isString(namespace)) {
+            var pathInsideTNSModules = fs.path.join(fs.knownFolders.currentApp().path, "tns_modules", namespace);
+            if (fs.Folder.exists(pathInsideTNSModules)) {
+                moduleId = pathInsideTNSModules;
+            }
+            else {
+                moduleId = fs.path.join(fs.knownFolders.currentApp().path, namespace);
+            }
+        }
+        instanceModule = require(moduleId);
         var instanceType = instanceModule[elementName] || Object;
         instance = new instanceType();
     }
@@ -146,8 +155,8 @@ function setPropertyValue(instance, instanceModule, exports, propertyName, prope
     }
     else {
         var attrHandled = false;
-        if (instance.applyXmlAttribute) {
-            attrHandled = instance.applyXmlAttribute(propertyName, propertyValue);
+        if (instance._applyXmlAttribute) {
+            attrHandled = instance._applyXmlAttribute(propertyName, propertyValue);
         }
         if (!attrHandled) {
             var valueAsNumber = +propertyValue;

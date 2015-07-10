@@ -337,6 +337,14 @@ var NativeActivity = {
         if (result) {
             result(requestCode, resultCode, data);
         }
+        application.android.notify({
+            eventName: "activityResult",
+            object: application.android,
+            activity: this,
+            requestCode: requestCode,
+            resultCode: resultCode,
+            intent: data
+        });
     },
     onAttachFragment: function (fragment) {
         trace.write("NativeScriptActivity.onAttachFragment() : " + fragment.getTag(), trace.categories.NativeLifecycle);
@@ -380,6 +388,16 @@ var NativeActivity = {
     },
     onBackPressed: function () {
         trace.write("NativeScriptActivity.onBackPressed;", trace.categories.NativeLifecycle);
+        var args = {
+            eventName: "activityBackPressed",
+            object: application.android,
+            activity: this,
+            cancel: false,
+        };
+        application.android.notify(args);
+        if (args.cancel) {
+            return;
+        }
         if (!frameCommon.goBack()) {
             this.super.onBackPressed();
         }
