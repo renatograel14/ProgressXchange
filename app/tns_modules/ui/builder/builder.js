@@ -147,7 +147,7 @@ function loadCustomComponent(componentPath, componentName, attributes, context, 
     var result;
     componentPath = componentPath.replace("~/", "");
     var fullComponentPathFilePathWithoutExt = componentPath;
-    if (!fs.File.exists(componentPath)) {
+    if (!fs.File.exists(componentPath) || componentPath === "." || componentPath === "./") {
         fullComponentPathFilePathWithoutExt = fs.path.join(fs.knownFolders.currentApp().path, componentPath, componentName);
     }
     var xmlFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "xml");
