@@ -27,9 +27,6 @@ function visibilityConverter(value) {
     if (value.toLowerCase() === enums.Visibility.collapsed) {
         return enums.Visibility.collapsed;
     }
-    else if (value.toLowerCase() === enums.Visibility.collapse) {
-        return enums.Visibility.collapse;
-    }
     return enums.Visibility.visible;
 }
 exports.visibilityConverter = visibilityConverter;

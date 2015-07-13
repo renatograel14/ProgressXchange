@@ -49,7 +49,6 @@ var Stretch;
 var Visibility;
 (function (Visibility) {
     Visibility.visible = "visible";
-    Visibility.collapse = "collapse";
     Visibility.collapsed = "collapsed";
 })(Visibility = exports.Visibility || (exports.Visibility = {}));
 var FontAttributes;
@@ -104,20 +103,3 @@ var ImageFormat;
     ImageFormat.png = "png";
     ImageFormat.jpeg = "jpeg";
 })(ImageFormat = exports.ImageFormat || (exports.ImageFormat = {}));
-var FontStyle;
-(function (FontStyle) {
-    FontStyle.normal = "normal";
-    FontStyle.italic = "italic";
-})(FontStyle = exports.FontStyle || (exports.FontStyle = {}));
-var FontWeight;
-(function (FontWeight) {
-    FontWeight.normal = "normal";
-    FontWeight.bold = "bold";
-})(FontWeight = exports.FontWeight || (exports.FontWeight = {}));
-var BackgroundRepeat;
-(function (BackgroundRepeat) {
-    BackgroundRepeat.repeat = "repeat";
-    BackgroundRepeat.repeatX = "repeat-x";
-    BackgroundRepeat.repeatY = "repeat-y";
-    BackgroundRepeat.noRepeat = "no-repeat";
-})(BackgroundRepeat = exports.BackgroundRepeat || (exports.BackgroundRepeat = {}));

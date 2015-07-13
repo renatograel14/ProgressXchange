@@ -1,24 +1,42 @@
 var style = require("ui/styling/style");
 var stylersCommon = require("ui/styling/stylers-common");
 var enums = require("ui/enums");
-var background = require("ui/styling/background");
 require("utils/module-merge").merge(stylersCommon, exports);
 var DefaultStyler = (function () {
     function DefaultStyler() {
     }
-    DefaultStyler.setBackgroundInternalProperty = function (view, newValue) {
+    DefaultStyler.setBackgroundProperty = function (view, newValue) {
         var nativeView = view._nativeView;
         if (nativeView) {
-            nativeView.backgroundColor = background.ios.createBackgroundUIColor(view);
+            nativeView.backgroundColor = newValue;
         }
     };
-    DefaultStyler.resetBackgroundInternalProperty = function (view, nativeValue) {
+    DefaultStyler.resetBackgroundProperty = function (view, nativeValue) {
         var nativeView = view._nativeView;
         if (nativeView) {
             nativeView.backgroundColor = nativeValue;
         }
     };
-    DefaultStyler.getNativeBackgroundInternalValue = function (view) {
+    DefaultStyler.getNativeBackgroundValue = function (view) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            return nativeView.backgroundColor;
+        }
+        return undefined;
+    };
+    DefaultStyler.setBackgroundImageSourceProperty = function (view, newValue) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            nativeView.backgroundColor = UIColor.alloc().initWithPatternImage(newValue);
+        }
+    };
+    DefaultStyler.resetBackgroundImageSourceProperty = function (view, nativeValue) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            nativeView.backgroundColor = nativeValue;
+        }
+    };
+    DefaultStyler.getNativeBackgroundImageSourceValue = function (view) {
         var nativeView = view._nativeView;
         if (nativeView) {
             return nativeView.backgroundColor;
@@ -49,61 +67,11 @@ var DefaultStyler = (function () {
             return nativeView.alpha = 1.0;
         }
     };
-    DefaultStyler.setBorderWidthProperty = function (view, newValue) {
-        if (view._nativeView instanceof UIView) {
-            view._nativeView.layer.borderWidth = newValue;
-        }
-    };
-    DefaultStyler.resetBorderWidthProperty = function (view, nativeValue) {
-        if (view._nativeView instanceof UIView) {
-            view._nativeView.layer.borderWidth = nativeValue;
-        }
-    };
-    DefaultStyler.getBorderWidthProperty = function (view) {
-        if (view._nativeView instanceof UIView) {
-            return view._nativeView.layer.borderWidth;
-        }
-        return 0;
-    };
-    DefaultStyler.setBorderColorProperty = function (view, newValue) {
-        if (view._nativeView instanceof UIView && newValue instanceof UIColor) {
-            view._nativeView.layer.borderColor = newValue.CGColor;
-        }
-    };
-    DefaultStyler.resetBorderColorProperty = function (view, nativeValue) {
-        if (view._nativeView instanceof UIView && nativeValue instanceof UIColor) {
-            view._nativeView.layer.borderColor = nativeValue;
-        }
-    };
-    DefaultStyler.getBorderColorProperty = function (view) {
-        if (view._nativeView instanceof UIView) {
-            return view._nativeView.layer.borderColor;
-        }
-        return undefined;
-    };
-    DefaultStyler.setBorderRadiusProperty = function (view, newValue) {
-        if (view._nativeView instanceof UIView) {
-            view._nativeView.layer.cornerRadius = newValue;
-        }
-    };
-    DefaultStyler.resetBorderRadiusProperty = function (view, nativeValue) {
-        if (view._nativeView instanceof UIView) {
-            view._nativeView.layer.cornerRadius = nativeValue;
-        }
-    };
-    DefaultStyler.getBorderRadiusProperty = function (view) {
-        if (view._nativeView instanceof UIView) {
-            return view._nativeView.layer.cornerRadius;
-        }
-        return 0;
-    };
     DefaultStyler.registerHandlers = function () {
-        style.registerHandler(style.backgroundInternalProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setBackgroundInternalProperty, DefaultStyler.resetBackgroundInternalProperty, DefaultStyler.getNativeBackgroundInternalValue));
+        style.registerHandler(style.backgroundColorProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setBackgroundProperty, DefaultStyler.resetBackgroundProperty, DefaultStyler.getNativeBackgroundValue));
+        style.registerHandler(style.backgroundImageSourceProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setBackgroundImageSourceProperty, DefaultStyler.resetBackgroundImageSourceProperty, DefaultStyler.getNativeBackgroundImageSourceValue));
         style.registerHandler(style.visibilityProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setVisibilityProperty, DefaultStyler.resetVisibilityProperty));
         style.registerHandler(style.opacityProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setOpacityProperty, DefaultStyler.resetOpacityProperty));
-        style.registerHandler(style.borderWidthProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setBorderWidthProperty, DefaultStyler.resetBorderWidthProperty, DefaultStyler.getBorderWidthProperty));
-        style.registerHandler(style.borderColorProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setBorderColorProperty, DefaultStyler.resetBorderColorProperty, DefaultStyler.getBorderColorProperty));
-        style.registerHandler(style.borderRadiusProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setBorderRadiusProperty, DefaultStyler.resetBorderRadiusProperty, DefaultStyler.getBorderRadiusProperty));
     };
     return DefaultStyler;
 })();
@@ -113,121 +81,253 @@ var ButtonStyler = (function () {
     }
     ButtonStyler.setColorProperty = function (view, newValue) {
         var btn = view._nativeView;
-        btn.setTitleColorForState(newValue, UIControlState.UIControlStateNormal);
+        if (btn) {
+            btn.setTitleColorForState(newValue, UIControlState.UIControlStateNormal);
+        }
     };
     ButtonStyler.resetColorProperty = function (view, nativeValue) {
         var btn = view._nativeView;
-        btn.setTitleColorForState(nativeValue, UIControlState.UIControlStateNormal);
+        if (btn) {
+            btn.setTitleColorForState(nativeValue, UIControlState.UIControlStateNormal);
+        }
     };
     ButtonStyler.getNativeColorValue = function (view) {
         var btn = view._nativeView;
-        return btn.titleColorForState(UIControlState.UIControlStateNormal);
+        if (btn) {
+            return btn.titleColorForState(UIControlState.UIControlStateNormal);
+        }
     };
-    ButtonStyler.setFontInternalProperty = function (view, newValue, nativeValue) {
+    ButtonStyler.setFontSizeProperty = function (view, newValue) {
         var btn = view._nativeView;
-        btn.titleLabel.font = newValue.getUIFont(nativeValue);
+        if (btn) {
+            btn.titleLabel.font = btn.titleLabel.font.fontWithSize(newValue);
+        }
     };
-    ButtonStyler.resetFontInternalProperty = function (view, nativeValue) {
+    ButtonStyler.resetFontSizeProperty = function (view, nativeValue) {
         var btn = view._nativeView;
-        btn.titleLabel.font = nativeValue;
+        if (btn) {
+            btn.font = btn.titleLabel.font.fontWithSize(nativeValue);
+        }
     };
-    ButtonStyler.getNativeFontInternalValue = function (view) {
+    ButtonStyler.getNativeFontSizeValue = function (view) {
         var btn = view._nativeView;
-        return btn.titleLabel.font;
+        if (btn) {
+            return btn.titleLabel.font.pointSize;
+        }
     };
     ButtonStyler.setTextAlignmentProperty = function (view, newValue) {
-        var btn = view._nativeView;
-        setTextAlignment(btn.titleLabel, newValue);
-        switch (newValue) {
-            case enums.TextAlignment.left:
-                btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.UIControlContentHorizontalAlignmentLeft;
-                break;
-            case enums.TextAlignment.center:
-                btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.UIControlContentHorizontalAlignmentCenter;
-                break;
-            case enums.TextAlignment.right:
-                btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.UIControlContentHorizontalAlignmentRight;
-                break;
-            default:
-                break;
+        var ios = view._nativeView;
+        if (ios) {
+            switch (newValue) {
+                case enums.TextAlignment.left:
+                    ios.titleLabel.textAlignment = NSTextAlignment.NSTextAlignmentLeft;
+                    ios.contentHorizontalAlignment = UIControlContentHorizontalAlignment.UIControlContentHorizontalAlignmentLeft;
+                    break;
+                case enums.TextAlignment.center:
+                    ios.titleLabel.textAlignment = NSTextAlignment.NSTextAlignmentCenter;
+                    ios.contentHorizontalAlignment = UIControlContentHorizontalAlignment.UIControlContentHorizontalAlignmentCenter;
+                    break;
+                case enums.TextAlignment.right:
+                    ios.titleLabel.textAlignment = NSTextAlignment.NSTextAlignmentRight;
+                    ios.contentHorizontalAlignment = UIControlContentHorizontalAlignment.UIControlContentHorizontalAlignmentRight;
+                    break;
+                default:
+                    break;
+            }
         }
     };
     ButtonStyler.resetTextAlignmentProperty = function (view, nativeValue) {
-        var btn = view._nativeView;
-        btn.titleLabel.textAlignment = nativeValue.textAlign;
-        btn.contentHorizontalAlignment = nativeValue.contentAlign;
+        var ios = view._nativeView;
+        if (ios) {
+            ios.titleLabel.textAlignment = nativeValue.textAlign;
+            ios.contentHorizontalAlignment = nativeValue.contentAlign;
+        }
     };
     ButtonStyler.getNativeTextAlignmentValue = function (view) {
-        var btn = view._nativeView;
-        return {
-            textAlign: btn.titleLabel.textAlignment,
-            contentAlign: btn.contentHorizontalAlignment
-        };
+        var ios = view._nativeView;
+        if (ios) {
+            return {
+                textAlign: ios.titleLabel.textAlignment,
+                contentAlign: ios.contentHorizontalAlignment
+            };
+        }
     };
     ButtonStyler.registerHandlers = function () {
         style.registerHandler(style.colorProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setColorProperty, ButtonStyler.resetColorProperty, ButtonStyler.getNativeColorValue), "Button");
-        style.registerHandler(style.fontInternalProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setFontInternalProperty, ButtonStyler.resetFontInternalProperty, ButtonStyler.getNativeFontInternalValue), "Button");
+        style.registerHandler(style.fontSizeProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setFontSizeProperty, ButtonStyler.resetFontSizeProperty, ButtonStyler.getNativeFontSizeValue), "Button");
         style.registerHandler(style.textAlignmentProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setTextAlignmentProperty, ButtonStyler.resetTextAlignmentProperty, ButtonStyler.getNativeTextAlignmentValue), "Button");
     };
     return ButtonStyler;
 })();
 exports.ButtonStyler = ButtonStyler;
-var TextBaseStyler = (function () {
-    function TextBaseStyler() {
+var LabelStyler = (function () {
+    function LabelStyler() {
     }
-    TextBaseStyler.setFontInternalProperty = function (view, newValue, nativeValue) {
+    LabelStyler.setColorProperty = function (view, newValue) {
+        var label = view._nativeView;
+        if (label) {
+            label.textColor = newValue;
+        }
+    };
+    LabelStyler.resetColorProperty = function (view, nativeValue) {
+        var label = view._nativeView;
+        if (label) {
+            label.textColor = nativeValue;
+        }
+    };
+    LabelStyler.getNativeColorValue = function (view) {
+        var label = view._nativeView;
+        if (label) {
+            return label.textColor;
+        }
+    };
+    LabelStyler.setFontSizeProperty = function (view, newValue) {
+        var label = view._nativeView;
+        if (label) {
+            label.font = label.font.fontWithSize(newValue);
+        }
+    };
+    LabelStyler.resetFontSizeProperty = function (view, nativeValue) {
+        var label = view._nativeView;
+        if (label) {
+            label.font = label.font.fontWithSize(nativeValue);
+        }
+    };
+    LabelStyler.getNativeFontSizeValue = function (view) {
+        var label = view._nativeView;
+        if (label) {
+            return label.font.pointSize;
+        }
+    };
+    LabelStyler.setTextAlignmentProperty = function (view, newValue) {
         var ios = view._nativeView;
-        ios.font = newValue.getUIFont(nativeValue);
+        if (ios) {
+            switch (newValue) {
+                case enums.TextAlignment.left:
+                    ios.textAlignment = NSTextAlignment.NSTextAlignmentLeft;
+                    break;
+                case enums.TextAlignment.center:
+                    ios.textAlignment = NSTextAlignment.NSTextAlignmentCenter;
+                    break;
+                case enums.TextAlignment.right:
+                    ios.textAlignment = NSTextAlignment.NSTextAlignmentRight;
+                    break;
+                default:
+                    break;
+            }
+        }
     };
-    TextBaseStyler.resetFontInternalProperty = function (view, nativeValue) {
+    LabelStyler.resetTextAlignmentProperty = function (view, nativeValue) {
         var ios = view._nativeView;
-        ios.font = nativeValue;
+        if (ios) {
+            ios.textAlignment = nativeValue;
+        }
     };
-    TextBaseStyler.getNativeFontInternalValue = function (view) {
+    LabelStyler.getNativeTextAlignmentValue = function (view) {
         var ios = view._nativeView;
-        return ios.font;
+        if (ios) {
+            return ios.textAlignment;
+        }
     };
-    TextBaseStyler.setTextAlignmentProperty = function (view, newValue) {
-        setTextAlignment(view._nativeView, newValue);
+    LabelStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new stylersCommon.StylePropertyChangedHandler(LabelStyler.setColorProperty, LabelStyler.resetColorProperty, LabelStyler.getNativeColorValue), "Label");
+        style.registerHandler(style.fontSizeProperty, new stylersCommon.StylePropertyChangedHandler(LabelStyler.setFontSizeProperty, LabelStyler.resetFontSizeProperty, LabelStyler.getNativeFontSizeValue), "Label");
+        style.registerHandler(style.textAlignmentProperty, new stylersCommon.StylePropertyChangedHandler(LabelStyler.setTextAlignmentProperty, LabelStyler.resetTextAlignmentProperty, LabelStyler.getNativeTextAlignmentValue), "Label");
     };
-    TextBaseStyler.resetTextAlignmentProperty = function (view, nativeValue) {
-        var ios = view._nativeView;
-        ios.textAlignment = nativeValue;
-    };
-    TextBaseStyler.getNativeTextAlignmentValue = function (view) {
-        var ios = view._nativeView;
-        return ios.textAlignment;
-    };
-    TextBaseStyler.setColorProperty = function (view, newValue) {
-        var ios = view._nativeView;
-        ios.textColor = newValue;
-    };
-    TextBaseStyler.resetColorProperty = function (view, nativeValue) {
-        var ios = view._nativeView;
-        ios.textColor = nativeValue;
-    };
-    TextBaseStyler.getNativeColorValue = function (view) {
-        var ios = view._nativeView;
-        return ios.textColor;
-    };
-    TextBaseStyler.registerHandlers = function () {
-        style.registerHandler(style.fontInternalProperty, new stylersCommon.StylePropertyChangedHandler(TextBaseStyler.setFontInternalProperty, TextBaseStyler.resetFontInternalProperty, TextBaseStyler.getNativeFontInternalValue), "TextBase");
-        style.registerHandler(style.textAlignmentProperty, new stylersCommon.StylePropertyChangedHandler(TextBaseStyler.setTextAlignmentProperty, TextBaseStyler.resetTextAlignmentProperty, TextBaseStyler.getNativeTextAlignmentValue), "TextBase");
-        style.registerHandler(style.colorProperty, new stylersCommon.StylePropertyChangedHandler(TextBaseStyler.setColorProperty, TextBaseStyler.resetColorProperty, TextBaseStyler.getNativeColorValue), "TextBase");
-    };
-    return TextBaseStyler;
+    return LabelStyler;
 })();
-exports.TextBaseStyler = TextBaseStyler;
+exports.LabelStyler = LabelStyler;
+var TextFieldStyler = (function () {
+    function TextFieldStyler() {
+    }
+    TextFieldStyler.setColorProperty = function (view, newValue) {
+        var textField = view._nativeView;
+        if (textField) {
+            textField.textColor = newValue;
+        }
+    };
+    TextFieldStyler.resetColorProperty = function (view, nativeValue) {
+        var textField = view._nativeView;
+        if (textField) {
+            textField.textColor = nativeValue;
+        }
+    };
+    TextFieldStyler.getNativeColorValue = function (view) {
+        var textField = view._nativeView;
+        if (textField) {
+            return textField.textColor;
+        }
+    };
+    TextFieldStyler.setFontSizeProperty = function (view, newValue) {
+        var textField = view._nativeView;
+        if (textField) {
+            textField.font = textField.font.fontWithSize(newValue);
+        }
+    };
+    TextFieldStyler.resetFontSizeProperty = function (view, nativeValue) {
+        var textField = view._nativeView;
+        if (textField) {
+            textField.font = textField.font.fontWithSize(nativeValue);
+        }
+    };
+    TextFieldStyler.getNativeFontSizeValue = function (view) {
+        var textField = view._nativeView;
+        if (textField) {
+            return textField.font.pointSize;
+        }
+    };
+    TextFieldStyler.setTextAlignmentProperty = function (view, newValue) {
+        var ios = view._nativeView;
+        if (ios) {
+            switch (newValue) {
+                case enums.TextAlignment.left:
+                    ios.textAlignment = NSTextAlignment.NSTextAlignmentLeft;
+                    break;
+                case enums.TextAlignment.center:
+                    ios.textAlignment = NSTextAlignment.NSTextAlignmentCenter;
+                    break;
+                case enums.TextAlignment.right:
+                    ios.textAlignment = NSTextAlignment.NSTextAlignmentRight;
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    TextFieldStyler.resetTextAlignmentProperty = function (view, nativeValue) {
+        var ios = view._nativeView;
+        if (ios) {
+            ios.textAlignment = nativeValue;
+        }
+    };
+    TextFieldStyler.getNativeTextAlignmentValue = function (view) {
+        var ios = view._nativeView;
+        if (ios) {
+            return ios.textAlignment;
+        }
+    };
+    TextFieldStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new stylersCommon.StylePropertyChangedHandler(TextFieldStyler.setColorProperty, TextFieldStyler.resetColorProperty, TextFieldStyler.getNativeColorValue), "TextField");
+        style.registerHandler(style.fontSizeProperty, new stylersCommon.StylePropertyChangedHandler(TextFieldStyler.setFontSizeProperty, TextFieldStyler.resetFontSizeProperty, TextFieldStyler.getNativeFontSizeValue), "TextField");
+        style.registerHandler(style.textAlignmentProperty, new stylersCommon.StylePropertyChangedHandler(TextFieldStyler.setTextAlignmentProperty, TextFieldStyler.resetTextAlignmentProperty, TextFieldStyler.getNativeTextAlignmentValue), "TextField");
+    };
+    return TextFieldStyler;
+})();
+exports.TextFieldStyler = TextFieldStyler;
 var TextViewStyler = (function () {
     function TextViewStyler() {
     }
     TextViewStyler.setColorProperty = function (view, newValue) {
         var textView = view._nativeView;
-        TextViewStyler._setTextViewColor(textView, newValue);
+        if (textView) {
+            TextViewStyler._setTextViewColor(textView, newValue);
+        }
     };
     TextViewStyler.resetColorProperty = function (view, nativeValue) {
         var textView = view._nativeView;
-        TextViewStyler._setTextViewColor(textView, nativeValue);
+        if (textView) {
+            TextViewStyler._setTextViewColor(textView, nativeValue);
+        }
     };
     TextViewStyler._setTextViewColor = function (textView, newValue) {
         var color = newValue;
@@ -240,15 +340,67 @@ var TextViewStyler = (function () {
     };
     TextViewStyler.getNativeColorValue = function (view) {
         var textView = view._nativeView;
-        if (textView.isShowingHint && textView.textColor) {
-            return textView.textColor.colorWithAlphaComponent(1);
+        if (textView) {
+            if (textView.isShowingHint && textView.textColor) {
+                return textView.textColor.colorWithAlphaComponent(1);
+            }
+            else {
+                return textView.textColor;
+            }
         }
-        else {
-            return textView.textColor;
+    };
+    TextViewStyler.setFontSizeProperty = function (view, newValue) {
+        var textView = view._nativeView;
+        if (textView) {
+            textView.font = textView.font.fontWithSize(newValue);
+        }
+    };
+    TextViewStyler.resetFontSizeProperty = function (view, nativeValue) {
+        var textView = view._nativeView;
+        if (textView) {
+            textView.font = textView.font.fontWithSize(nativeValue);
+        }
+    };
+    TextViewStyler.getNativeFontSizeValue = function (view) {
+        var textView = view._nativeView;
+        if (textView) {
+            return textView.font.pointSize;
+        }
+    };
+    TextViewStyler.setTextAlignmentProperty = function (view, newValue) {
+        var ios = view._nativeView;
+        if (ios) {
+            switch (newValue) {
+                case enums.TextAlignment.left:
+                    ios.textAlignment = NSTextAlignment.NSTextAlignmentLeft;
+                    break;
+                case enums.TextAlignment.center:
+                    ios.textAlignment = NSTextAlignment.NSTextAlignmentCenter;
+                    break;
+                case enums.TextAlignment.right:
+                    ios.textAlignment = NSTextAlignment.NSTextAlignmentRight;
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    TextViewStyler.resetTextAlignmentProperty = function (view, nativeValue) {
+        var ios = view._nativeView;
+        if (ios) {
+            ios.textAlignment = nativeValue;
+        }
+    };
+    TextViewStyler.getNativeTextAlignmentValue = function (view) {
+        var ios = view._nativeView;
+        if (ios) {
+            return ios.textAlignment;
         }
     };
     TextViewStyler.registerHandlers = function () {
         style.registerHandler(style.colorProperty, new stylersCommon.StylePropertyChangedHandler(TextViewStyler.setColorProperty, TextViewStyler.resetColorProperty, TextViewStyler.getNativeColorValue), "TextView");
+        style.registerHandler(style.fontSizeProperty, new stylersCommon.StylePropertyChangedHandler(TextViewStyler.setFontSizeProperty, TextViewStyler.resetFontSizeProperty, TextViewStyler.getNativeFontSizeValue), "TextView");
+        style.registerHandler(style.textAlignmentProperty, new stylersCommon.StylePropertyChangedHandler(TextViewStyler.setTextAlignmentProperty, TextViewStyler.resetTextAlignmentProperty, TextViewStyler.getNativeTextAlignmentValue), "TextView");
     };
     return TextViewStyler;
 })();
@@ -318,26 +470,12 @@ var SearchBarStyler = (function () {
     return SearchBarStyler;
 })();
 exports.SearchBarStyler = SearchBarStyler;
-function setTextAlignment(view, value) {
-    switch (value) {
-        case enums.TextAlignment.left:
-            view.textAlignment = NSTextAlignment.NSTextAlignmentLeft;
-            break;
-        case enums.TextAlignment.center:
-            view.textAlignment = NSTextAlignment.NSTextAlignmentCenter;
-            break;
-        case enums.TextAlignment.right:
-            view.textAlignment = NSTextAlignment.NSTextAlignmentRight;
-            break;
-        default:
-            break;
-    }
-}
 function _registerDefaultStylers() {
     style.registerNoStylingClass("Frame");
     DefaultStyler.registerHandlers();
-    TextBaseStyler.registerHandlers();
     ButtonStyler.registerHandlers();
+    LabelStyler.registerHandlers();
+    TextFieldStyler.registerHandlers();
     TextViewStyler.registerHandlers();
     SegmentedBarStyler.registerHandlers();
     SearchBarStyler.registerHandlers();

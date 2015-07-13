@@ -191,14 +191,9 @@ declare module "ui/enums" {
         export var visible: string;
 
         /**
-         * Obsolete. Please use 'collapse' instead!
-         */
-        export var collapsed: string;
-
-        /**
          * The view is not visible and won't take place in the layout.
          */
-        export var collapse: string;
+        export var collapsed: string;
     }
 
     /**
@@ -369,47 +364,5 @@ declare module "ui/enums" {
          * Never show this item as a button in an Action Bar.
          */
         export var popup: string;
-    }
-    
-    /**
-     * Specifies different font styles.
-     */
-    export module FontStyle {
-        /**
-         * Normal font style.
-         */
-        export var normal: string;
-        
-        /**
-         * Italic font style.
-         */
-        export var italic: string;
-    }
-    
-    
-    /**
-     * Specifies different font weights.
-     */
-    export module FontWeight {
-        /**
-         * Normal font weight.
-         */
-        export var normal: string;
-        
-        /**
-         * Bold font weight.
-         */
-        export var bold: string;
-    }
-    
-    
-    /**
-     * Specifies background repeat.
-     */
-    export module BackgroundRepeat {
-        export var repeat: string;
-        export var repeatX: string;
-        export var repeatY: string;
-        export var noRepeat: string;
     }
 }

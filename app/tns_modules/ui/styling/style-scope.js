@@ -29,14 +29,18 @@ var StyleScope = (function () {
         configurable: true
     });
     StyleScope.prototype.addCss = function (cssString, cssFileName) {
-        this._css = this._css ? this._css + cssString : cssString;
+        if (this._css === undefined) {
+            this._css = cssString;
+        }
+        else {
+            this._css += cssString;
+        }
         this._cssFileName = cssFileName;
         this._reset();
-        if (!this._cssSelectors) {
-            this._cssSelectors = new Array();
+        if (this._cssSelectors) {
+            var addedSelectors = StyleScope.createSelectorsFromCss(cssString, cssFileName);
+            this._cssSelectors = StyleScope._joinCssSelectorsArrays([this._cssSelectors, addedSelectors]);
         }
-        var selectorsFromFile = StyleScope.createSelectorsFromCss(cssString, cssFileName);
-        this._cssSelectors = StyleScope._joinCssSelectorsArrays([this._cssSelectors, selectorsFromFile]);
     };
     StyleScope.createSelectorsFromCss = function (css, cssFileName) {
         try {
@@ -97,7 +101,6 @@ var StyleScope = (function () {
         if (!this._cssSelectors) {
             return;
         }
-        view.style._beginUpdate();
         var i, selector, matchedStateSelectors = new Array();
         for (i = 0; i < this._cssSelectors.length; i++) {
             selector = this._cssSelectors[i];
@@ -118,7 +121,6 @@ var StyleScope = (function () {
                 this._createVisualsStatesForSelectors(key, matchedStateSelectors);
             }
         }
-        view.style._endUpdate();
     };
     StyleScope.prototype.getVisualStates = function (view) {
         var key = this._viewIdToKey[view._domId];

@@ -7,7 +7,6 @@ var __extends = this.__extends || function (d, b) {
 var viewCommon = require("ui/core/view-common");
 var trace = require("trace");
 var utils = require("utils/utils");
-var background = require("ui/styling/background");
 require("utils/module-merge").merge(viewCommon, exports);
 function onIdPropertyChanged(data) {
     var view = data.object;
@@ -93,7 +92,6 @@ var View = (function (_super) {
         if (changed || (this._privateFlags & PFLAG_LAYOUT_REQUIRED) === PFLAG_LAYOUT_REQUIRED) {
             this.onLayout(left, top, right, bottom);
             this._privateFlags &= ~PFLAG_LAYOUT_REQUIRED;
-            this._onBoundsChanged();
         }
         this._privateFlags &= ~PFLAG_FORCE_LAYOUT;
     };
@@ -150,12 +148,6 @@ var View = (function (_super) {
             return this.ios.becomeFirstResponder();
         }
         return false;
-    };
-    View.prototype._onBoundsChanged = function () {
-        var bgColor = background.ios.createBackgroundUIColor(this);
-        if (bgColor) {
-            this._nativeView.backgroundColor = bgColor;
-        }
     };
     return View;
 })(viewCommon.View);

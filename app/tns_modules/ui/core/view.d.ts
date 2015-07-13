@@ -94,22 +94,7 @@ declare module "ui/core/view" {
      * This class is the base class for all UI components. 
      * A View occupies a rectangular area on the screen and is responsible for drawing and layouting of all UI components within. 
      */
-    export class View extends proxy.ProxyObject implements ApplyXmlAttributes {
-        /**
-         * Gets or sets the corner radius of the view.
-         */
-        borderRadius: number;
-
-        /**
-         * Gets or sets the border width of the view.
-         */
-        borderWidth: number;
-
-        /**
-         * Gets or sets the border color of the view.
-         */
-        borderColor: color.Color;
-
+    export class View extends proxy.ProxyObject {
         /**
          * String value used when hooking to loaded event.
          */
@@ -153,12 +138,7 @@ declare module "ui/core/view" {
          * Gets or sets the background color of the view.
          */
         backgroundColor: color.Color;
-
-        /**
-         * Gets or sets the background image of the view.
-         */
-        backgroundImage: string;
-                
+        
         /**
          * Gets or sets the minimum width the view may grow to.
          */
@@ -459,6 +439,6 @@ declare module "ui/core/view" {
          * @param attrValue - the value of the attribute (bold)
          * Should return true if this attribute is handled and there is no need default handler to process it.
          */
-        _applyXmlAttribute(attributeName: string, attrValue: any): boolean;
+        applyXmlAttribute(attributeName: string, attrValue: any): boolean;
     }
 }

@@ -108,9 +108,6 @@ var Color = (function () {
         return this.argb === value.argb;
     };
     Color.equals = function (value1, value2) {
-        if (!value1 && !value2) {
-            return true;
-        }
         if (!value1 || !value2) {
             return false;
         }

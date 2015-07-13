@@ -45,11 +45,6 @@ declare module "ui/page" {
      */
     export class Page extends contentView.ContentView implements view.AddArrayFromBuilder {
         /**
-         * Dependency property used to hide the Navigation Bar in iOS and the Action Bar in Android.
-         */
-        public static navigationBarHiddenProperty: dependencyObservable.Property;
-
-        /**
          * String value used when hooking to shownModally event.
          */
         public static shownModallyEvent: string;
@@ -75,11 +70,6 @@ declare module "ui/page" {
         public static navigatedFromEvent: string;
 
         constructor(options?: Options)
-
-        /**
-         * Used to hide the Navigation Bar in iOS and the Action Bar in Android.
-         */
-        navigationBarHidden: boolean;
 
         /**
          * A valid css string which will be applied for all nested UI components (based on css rules).
@@ -151,9 +141,8 @@ declare module "ui/page" {
          * @param moduleName - The name of the page module to load starting from the application root.
          * @param context - Any context you want to pass to the modally shown page. This same context will be available in the arguments of the Page.shownModally event handler.
          * @param closeCallback - A function that will be called when the page is closed. Any arguments provided when calling ShownModallyData.closeCallback will be available here.
-         * @param fullscreen - An optional parameter specifying whether to show the modal page in full-screen mode.
          */
-        showModal(moduleName: string, context: any, closeCallback: Function, fullscreen?: boolean);
+        showModal(moduleName: string, context: any, closeCallback: Function);
 
         _addArrayFromBuilder(name: string, value: Array<any>): void;
 

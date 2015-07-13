@@ -5,56 +5,25 @@ var file_access_module = require("file-system/file-system-access");
 var types = require("utils/types");
 var componentBuilder = require("ui/builder/component-builder");
 var templateBuilderDef = require("ui/builder/template-builder");
-var platform = require("platform");
-var page = require("ui/page");
-var fileResolverModule = require("file-system/file-name-resolver");
-var trace = require("trace");
 var KNOWNCOLLECTIONS = "knownCollections";
-function isPlatform(value) {
-    return value && (value.toLowerCase() === platform.platformNames.android.toLowerCase()
-        || value.toLowerCase() === platform.platformNames.ios.toLowerCase());
-}
-function isCurentPlatform(value) {
-    return value && value.toLowerCase() === platform.device.os.toLowerCase();
-}
-function parse(value, context) {
+function parse(value, exports) {
     var viewToReturn;
-    if (context instanceof view.View) {
-        context = getExports(context);
+    if (exports instanceof view.View) {
+        exports = getExports(exports);
     }
-    var componentModule = parseInternal(value, context);
+    var componentModule = parseInternal(value, exports);
     if (componentModule) {
         viewToReturn = componentModule.component;
     }
     return viewToReturn;
 }
 exports.parse = parse;
-function parseInternal(value, context) {
-    var currentPage;
+function parseInternal(value, exports) {
     var rootComponentModule;
     var parents = new Array();
     var complexProperties = new Array();
     var templateBuilder;
-    var currentPlatformContext;
     var xmlParser = new xml.XmlParser(function (args) {
-        if (args.eventType === xml.ParserEventType.StartElement) {
-            if (isPlatform(args.elementName)) {
-                if (currentPlatformContext) {
-                    throw new Error("Already in '" + currentPlatformContext + "' platform context and cannot switch to '" + args.elementName + "' platform! Platform tags cannot be nested.");
-                }
-                currentPlatformContext = args.elementName;
-                return;
-            }
-        }
-        if (args.eventType === xml.ParserEventType.EndElement) {
-            if (isPlatform(args.elementName)) {
-                currentPlatformContext = undefined;
-                return;
-            }
-        }
-        if (currentPlatformContext && !isCurentPlatform(currentPlatformContext)) {
-            return;
-        }
         if (templateBuilder) {
             if (args.eventType === xml.ParserEventType.StartElement) {
                 templateBuilder.addStartElement(args.prefix, args.namespace, args.elementName, args.attributes);
@@ -90,11 +59,31 @@ function parseInternal(value, context) {
             }
             else {
                 var componentModule;
-                if (args.prefix && args.namespace) {
-                    componentModule = loadCustomComponent(args.namespace, args.elementName, args.attributes, context, currentPage);
+                if (args.prefix) {
+                    var ns = args.namespace;
+                    if (ns) {
+                        var xmlPath = fs.path.join(fs.knownFolders.currentApp().path, ns, args.elementName) + ".xml";
+                        if (fs.File.exists(xmlPath)) {
+                            var jsPath = xmlPath.replace(".xml", ".js");
+                            var subExports;
+                            if (fs.File.exists(jsPath)) {
+                                subExports = require(jsPath.replace(".js", ""));
+                            }
+                            componentModule = loadInternal(xmlPath, subExports);
+                            if (types.isDefined(componentModule) && types.isDefined(componentModule.component)) {
+                                var attr;
+                                for (attr in args.attributes) {
+                                    componentBuilder.setPropertyValue(componentModule.component, subExports, exports, attr, args.attributes[attr]);
+                                }
+                            }
+                        }
+                        else {
+                            componentModule = componentBuilder.getComponentModule(args.elementName, ns, args.attributes, exports);
+                        }
+                    }
                 }
                 else {
-                    componentModule = componentBuilder.getComponentModule(args.elementName, args.namespace, args.attributes, context);
+                    componentModule = componentBuilder.getComponentModule(args.elementName, ns, args.attributes, exports);
                 }
                 if (componentModule) {
                     if (parent) {
@@ -112,9 +101,6 @@ function parseInternal(value, context) {
                     }
                     else if (parents.length === 0) {
                         rootComponentModule = componentModule;
-                        if (rootComponentModule && rootComponentModule.component instanceof page.Page) {
-                            currentPage = rootComponentModule.component;
-                        }
                     }
                     parents.push(componentModule);
                 }
@@ -143,89 +129,27 @@ function parseInternal(value, context) {
     }
     return rootComponentModule;
 }
-function loadCustomComponent(componentPath, componentName, attributes, context, parentPage) {
-    var result;
-    componentPath = componentPath.replace("~/", "");
-    var fullComponentPathFilePathWithoutExt = componentPath;
-    if (!fs.File.exists(componentPath) || componentPath === "." || componentPath === "./") {
-        fullComponentPathFilePathWithoutExt = fs.path.join(fs.knownFolders.currentApp().path, componentPath, componentName);
-    }
-    var xmlFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "xml");
-    if (xmlFilePath) {
-        var jsFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "js");
-        var subExports;
-        if (jsFilePath) {
-            subExports = require(jsFilePath);
-        }
-        result = loadInternal(xmlFilePath, subExports);
-        if (types.isDefined(result) && types.isDefined(result.component) && types.isDefined(attributes)) {
-            var attr;
-            for (attr in attributes) {
-                componentBuilder.setPropertyValue(result.component, subExports, context, attr, attributes[attr]);
-            }
-        }
-    }
-    else {
-        result = componentBuilder.getComponentModule(componentName, componentPath, attributes, context);
-    }
-    var cssFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "css");
-    if (cssFilePath) {
-        if (parentPage) {
-            parentPage.addCssFile(cssFilePath);
-        }
-        else {
-            trace.write("CSS file found but no page specified. Please specify page in the options!", trace.categories.Error, trace.messageType.error);
-        }
-    }
-    return result;
-}
-var fileNameResolver;
-function resolveFilePath(path, ext) {
-    if (!fileNameResolver) {
-        fileNameResolver = new fileResolverModule.FileNameResolver({
-            width: platform.screen.mainScreen.widthDIPs,
-            height: platform.screen.mainScreen.heightDIPs,
-            os: platform.device.os,
-            deviceType: platform.device.deviceType
-        });
-    }
-    return fileNameResolver.resolveFileName(path, ext);
-}
-function load(pathOrOptions, context) {
+function load(fileName, exports) {
     var viewToReturn;
-    var componentModule;
-    if (!context) {
-        if (!types.isString(pathOrOptions)) {
-            var options = pathOrOptions;
-            componentModule = loadCustomComponent(options.path, options.name, undefined, options.exports, options.page);
-        }
-        else {
-            var path = pathOrOptions;
-            componentModule = loadInternal(path);
-        }
-    }
-    else {
-        var path = pathOrOptions;
-        componentModule = loadInternal(path, context);
-    }
+    var componentModule = loadInternal(fileName, exports);
     if (componentModule) {
         viewToReturn = componentModule.component;
     }
     return viewToReturn;
 }
 exports.load = load;
-function loadInternal(fileName, context) {
+function loadInternal(fileName, exports) {
     var componentModule;
-    if (fs.File.exists(fileName)) {
+    if (fileName && fs.File.exists(fileName)) {
         var fileAccess = new file_access_module.FileSystemAccess();
         fileAccess.readText(fileName, function (result) {
-            componentModule = parseInternal(result, context);
+            componentModule = parseInternal(result, exports);
         }, function (e) {
             throw new Error("Error loading file " + fileName + " :" + e.message);
         });
     }
     if (componentModule && componentModule.component) {
-        componentModule.component.exports = context;
+        componentModule.component.exports = exports;
     }
     return componentModule;
 }
@@ -240,8 +164,8 @@ function getComplexProperty(fullName) {
     }
     return name;
 }
-function isKnownCollection(name, context) {
-    return KNOWNCOLLECTIONS in context && context[KNOWNCOLLECTIONS] && name in context[KNOWNCOLLECTIONS];
+function isKnownCollection(name, exports) {
+    return KNOWNCOLLECTIONS in exports && exports[KNOWNCOLLECTIONS] && name in exports[KNOWNCOLLECTIONS];
 }
 function addToComplexProperty(parent, complexProperty, elementModule) {
     var parentComponent = parent.component;
