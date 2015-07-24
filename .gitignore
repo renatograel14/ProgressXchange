@@ -1,11 +1,14 @@
 */bin
 */obj
 
-*.js
 *.dat
 *.suo
 
-!*/tns_modules/*.*
+/app/*.js
+/app/everlive/*.js
+/app/officeRnD/*.js
+/app/TelerikUI/**/*.js
+
 !bootstrap.js
 !everlive.js
 !gruntfile.js
