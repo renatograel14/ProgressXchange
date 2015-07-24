@@ -146,7 +146,7 @@ function addToFavourites(session: SessionModel) {
                 event.addAlarm(EKAlarm.alarmWithRelativeOffset(-REMIDER_MINUTES * 60));
 
                 var err: NSError;
-                var result = store.saveEventSpanCommitError(event, EKSpan.EKSpanThisEvent, true, err);
+                var result = store.saveEventSpanCommitError(event, EKSpan.EKSpanThisEvent, true);
 
                 session.calendarEventId = event.eventIdentifier;
                 persistSessionToFavourites(session);
@@ -186,8 +186,7 @@ function removeFromFavourites(session: SessionModel) {
 
                 var eventToRemove = store.eventWithIdentifier(session.calendarEventId);
                 if (eventToRemove) {
-                    var err: NSError;
-                    store.removeEventSpanCommitError(eventToRemove, EKSpan.EKSpanThisEvent, true, err);
+                    store.removeEventSpanCommitError(eventToRemove, EKSpan.EKSpanThisEvent, true);
                     session.calendarEventId = undefined;
                 }
             });
