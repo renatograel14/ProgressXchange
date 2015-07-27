@@ -1,4 +1,4 @@
-# TelerikNEXT app - sample code
+# TelerikNEXT conference app - sample code
 Open source cross-platform [TelerikNEXT conference](http://www.teleriknext.com) app built with NativeScript.
 
 ![Telerik Next cross-platform mobile app - all sessions view](https://www.nativescript.org/images/default-source/default-album/telerik-next-all-sessions.png)
