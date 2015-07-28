@@ -19,6 +19,7 @@ To get started with NativeScript apps please use our [getting started with Nativ
 2. Clone and install npm dependencies
   ```
   git clone https://github.com/NativeScript/sample-TelerikNEXT.git
+  cd sample-TelerikNEXT
   npm install
   ```
 
