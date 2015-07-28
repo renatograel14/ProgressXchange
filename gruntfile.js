@@ -92,7 +92,7 @@ module.exports = function (grunt) {
                     'echo Adding platform...',
                     'tns platform add ios',
                     'echo Adding Telerik UI for Android libs...',
-                    'tns library add ios "' + ios_UI,
+                    'tns library add ios "' + ios_UI + '"',
                 ].join('&&')
             }
 
