@@ -11,3 +11,30 @@ Use this application to find-out how to implement common mobile scenarios with N
 This application is using the drawer component from Telerik UI for [iOS](http://www.telerik.com/ios-ui/sidedrawer) and [Android](http://www.telerik.com/android-ui/sidedrawer). You can add drawer libraries to NativeScript app using our [CLI library add command](https://github.com/NativeScript/nativescript-cli#the-commands).
 
 To get started with NativeScript apps please use our [getting started with NativeScript guide](http://docs.nativescript.org/getting-started).
+
+## Running the sample
+
+1. Make sure you have the [NativeScript Command-line Interface](https://www.npmjs.com/package/nativescript) and (grunt-cli)[https://github.com/gruntjs/grunt-cli] installed as well as all the prerequisites for the NativeScript development.
+
+2. Clone and install npm dependencies
+  ```
+  git clone https://github.com/NativeScript/sample-TelerikNEXT.git
+  npm install
+  ```
+
+3. Compile the TypeScript code to JavaScript
+  ```
+  grunt ts:build
+  ```
+
+4. Add TelerikUI libraries
+  
+  4.1. For Adnroid
+  ```
+  grunt init-android
+  ```
+
+  4.2. For iOS
+  ```
+  grunt init-ios
+  ```
