@@ -30,12 +30,12 @@ To get started with NativeScript apps please use our [getting started with Nativ
 
 4. Add TelerikUI libraries
   
-  4.1. For Adnroid
+  4.1. For Adnroid - extract you distribution of Telerik UI for Android inside `\install\lib\Telerik_UI_for_Android` folder and then run:
   ```
   grunt init-android
   ```
 
-  4.2. For iOS
+  4.2. For iOS- extract you distribution of Telerik UI for iOS inside `\install\lib\Telerik_UI_for_iOS` folder and then run:
   ```
   grunt init-ios
   ```
