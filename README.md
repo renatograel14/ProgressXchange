@@ -12,7 +12,7 @@ This application is using the drawer component from Telerik UI for [iOS](http://
 
 To get started with NativeScript apps please use our [getting started with NativeScript guide](http://docs.nativescript.org/getting-started).
 
-## Running the sample
+## Installing the sample
 
 1. Make sure you have the [NativeScript Command-line Interface](https://www.npmjs.com/package/nativescript) and (grunt-cli)[https://github.com/gruntjs/grunt-cli] installed as well as all the prerequisites for the NativeScript development.
 
@@ -23,19 +23,19 @@ To get started with NativeScript apps please use our [getting started with Nativ
   npm install
   ```
 
-3. Compile the TypeScript code to JavaScript
-  ```
-  grunt ts:build
-  ```
-
-4. Add TelerikUI libraries
+3. Add TelerikUI libraries
   
-  4.1. For Adnroid - extract you distribution of Telerik UI for Android inside `\install\lib\Telerik_UI_for_Android` folder and then run:
+  3.1. For Adnroid - extract you distribution of Telerik UI for Android inside `\install\lib\Telerik_UI_for_Android` folder and then run:
   ```
   grunt init-android
   ```
 
-  4.2. For iOS- extract you distribution of Telerik UI for iOS inside `\install\lib\Telerik_UI_for_iOS` folder and then run:
+  3.2. For iOS- extract you distribution of Telerik UI for iOS inside `\install\lib\Telerik_UI_for_iOS` folder and then run:
   ```
   grunt init-ios
   ```
+
+## Developer workflow:
+1. Make some changes to the app
+2. Run the TypeScript compiler: `grunt ts:build`
+3. Run in emulator `tns run android/ios`
