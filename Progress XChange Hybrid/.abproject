@@ -1,0 +1,48 @@
+{
+  "ProjectName": "Progress XChange Hybrid",
+  "ProjectGuid": "d355d742-85b7-44e5-a637-83b66c7e36df",
+  "projectVersion": 1,
+  "AppIdentifier": "com.telerik.ProgressXChangeHybrid",
+  "DisplayName": "Progress XChange Hybrid",
+  "Author": "",
+  "Description": "Progress XChange Hybrid",
+  "BundleVersion": "1.0",
+  "AndroidVersionCode": "1",
+  "iOSDeviceFamily": [
+    "1",
+    "2"
+  ],
+  "iOSBackgroundMode": [],
+  "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
+  "FrameworkVersion": "3.7.0",
+  "AndroidPermissions": [
+    "android.permission.INTERNET"
+  ],
+  "DeviceOrientations": [
+    "Portrait",
+    "Landscape"
+  ],
+  "AndroidHardwareAcceleration": "false",
+  "iOSStatusBarStyle": "Default",
+  "Framework": "Cordova",
+  "WP8TileTitle": "",
+  "WP8Publisher": "",
+  "WP8Capabilities": [
+    "ID_CAP_NETWORKING",
+    "ID_CAP_WEBBROWSERCOMPONENT"
+  ],
+  "WP8Requirements": [],
+  "WP8PublisherID": "{840dcf01-ace0-4f0d-9b39-3a6f1638f862}",
+  "WP8ProductID": "{822665a1-9928-4d95-beb8-11e2ee98f1e0}",
+  "WPSdk": "8.0",
+  "WP8PackageIdentityName": "1234Telerik.ProgressXChangeHybrid",
+  "WP8WindowsPublisherName": "CN=Telerik",
+  "WP8SupportedResolutions": [
+    "ID_RESOLUTION_WVGA",
+    "ID_RESOLUTION_WXGA",
+    "ID_RESOLUTION_HD720P"
+  ],
+  "CorePlugins": [
+    "org.apache.cordova.network-information"
+  ]
+}
