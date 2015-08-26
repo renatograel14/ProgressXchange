@@ -50,14 +50,6 @@ app.workshops = kendo.observable({
                             field: 'name',
                             defaultValue: ''
                         },
-                        'date': {
-                            field: 'date',
-                            defaultValue: ''
-                        },
-                    },
-                    icon: function() {
-                        var i = 'globe';
-                        return kendo.format('km-icon km-{0}', i);
                     }
                 }
             },
@@ -75,8 +67,8 @@ app.workshops = kendo.observable({
                 var item = e.view.params.uid,
                     dataSource = workshopsModel.get('dataSource'),
                     itemModel = dataSource.getByUid(item);
-                if (!itemModel.name) {
-                    itemModel.name = String.fromCharCode(160);
+                if (!itemModel.date) {
+                    itemModel.date = String.fromCharCode(160);
                 }
                 workshopsModel.set('currentItem', itemModel);
             },

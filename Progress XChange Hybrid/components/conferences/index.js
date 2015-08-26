@@ -50,10 +50,6 @@ app.conferences = kendo.observable({
                             field: 'name',
                             defaultValue: ''
                         },
-                        'date': {
-                            field: 'date',
-                            defaultValue: ''
-                        },
                     }
                 }
             },
@@ -71,8 +67,8 @@ app.conferences = kendo.observable({
                 var item = e.view.params.uid,
                     dataSource = conferencesModel.get('dataSource'),
                     itemModel = dataSource.getByUid(item);
-                if (!itemModel.name) {
-                    itemModel.name = String.fromCharCode(160);
+                if (!itemModel.date) {
+                    itemModel.date = String.fromCharCode(160);
                 }
                 conferencesModel.set('currentItem', itemModel);
             },
