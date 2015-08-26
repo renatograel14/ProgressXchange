@@ -1,15 +1,72 @@
 {
   "type": "kendo-ui-mobile",
-  "isNew": true,
+  "views": [
+    {
+      "type": "view",
+      "components": [],
+      "name": "home",
+      "title": "Progress Exchange CALA 2015",
+      "addToNavigation": true,
+      "icon": "home"
+    },
+    {
+      "type": "view",
+      "components": [
+        {
+          "type": "list",
+          "name": "workshopsModel",
+          "dataProvider": "defaultProvider",
+          "collection": "Workshops",
+          "iconField": true,
+          "headerField": "name",
+          "subHeaderField": "date",
+          "masterDetails": true,
+          "detailDescriptionField": "description",
+          "pullToRefresh": true,
+          "endlessScroll": true
+        }
+      ],
+      "name": "workshops",
+      "title": "Workshops",
+      "addToNavigation": true,
+      "icon": "organize"
+    },
+    {
+      "type": "view",
+      "components": [
+        {
+          "type": "list",
+          "name": "conferencesModel",
+          "dataProvider": "defaultProvider",
+          "collection": "Conference",
+          "headerField": "name",
+          "subHeaderField": "date",
+          "masterDetails": true,
+          "detailDescriptionField": "description",
+          "pullToRefresh": true,
+          "endlessScroll": true
+        }
+      ],
+      "name": "conferences",
+      "title": "Conferences",
+      "addToNavigation": true,
+      "icon": "organize"
+    }
+  ],
   "dataProviders": [
     {
       "type": "dataProvider",
-      "title": "DefaultProvider",
+      "everliveUrl": "//platform.telerik.com/bs-api/v1/",
       "name": "defaultProvider",
+      "title": "DefaultProvider",
       "source": "everlive",
-      "offlineStorage": true,
       "everliveKey": "7RdaQT8Mej77w11z",
-      "everliveUrl": ""
+      "offlineStorage": true
     }
-  ]
+  ],
+  "name": "kendoUiMobileApp",
+  "navigation": "tabstrip",
+  "view": "home",
+  "transition": "slide",
+  "skin": "flat"
 }

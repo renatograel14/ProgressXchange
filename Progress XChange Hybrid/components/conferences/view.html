@@ -1,0 +1,15 @@
+<div data-role="view" data-title="Conferences" data-layout="main" data-model="app.conferences" data-show="app.conferences.onShow" data-after-show="app.conferences.afterShow">
+    <!-- START_CUSTOM_CODE_conferences -->
+    <!-- END_CUSTOM_CODE_conferences -->
+    <!--  Certain features like grouping and inset styling are not supported when endless scroll is enabled. -->
+    <ul data-role="listview" data-style="" data-template="conferencesModelTemplate" data-bind="{ source: conferencesModel.dataSource, events: {click: conferencesModel.itemClick}}" data-pull-to-refresh="true" data-endless-scroll="true">
+    </ul>
+    <!-- START_CUSTOM_CODE_conferencesModel -->
+    <!-- END_CUSTOM_CODE_conferencesModel -->
+    <script type="text/x-kendo-template" id="conferencesModelTemplate">
+        <div class="image-with-text">
+            <h3>#: data['name'] #</h3>
+            <p>#: data['date'] #</p>
+        </div>
+    </script>
+</div>

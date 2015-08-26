@@ -1,0 +1,14 @@
+<div data-role="view" data-title="Details" data-model="app.conferences.conferencesModel" data-bind="events: { show: detailsShow }">
+    <header data-role="header">
+        <div data-role="navbar" class="header-text">
+            <a data-role="backbutton" data-align="left">Back</a>
+            <span data-bind="text: currentItem.name" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin-left: 70px; margin-right: 70px;"></span>
+        </div>
+    </header>
+
+
+    <p data-bind="text: currentItem.description"></p>
+
+    <!-- START_CUSTOM_CODE_conferencesModel -->
+    <!-- END_CUSTOM_CODE_conferencesModel -->
+</div>

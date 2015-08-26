@@ -1,0 +1,15 @@
+<div data-role="view" data-title="Workshops" data-layout="main" data-model="app.workshops" data-show="app.workshops.onShow" data-after-show="app.workshops.afterShow">
+    <!-- START_CUSTOM_CODE_workshops -->
+    <!-- END_CUSTOM_CODE_workshops -->
+    <!--  Certain features like grouping and inset styling are not supported when endless scroll is enabled. -->
+    <ul data-role="listview" data-style="" data-template="workshopsModelTemplate" data-bind="{ source: workshopsModel.dataSource, events: {click: workshopsModel.itemClick}}" data-pull-to-refresh="true" data-endless-scroll="true">
+    </ul>
+    <!-- START_CUSTOM_CODE_workshopsModel -->
+    <!-- END_CUSTOM_CODE_workshopsModel -->
+    <script type="text/x-kendo-template" id="workshopsModelTemplate">
+        <div class="image-with-text">
+            <h3><span class="#: data.icon() #"></span>#: data['name'] #</h3>
+            <p>#: data['date'] #</p>
+        </div>
+    </script>
+</div>
